@@ -42,7 +42,7 @@ const ReviewSlider = () => {
           {reviews.map((review, index) => (
             <div
               key={review.id}
-              className={`min-w-[33.33%]  p-4 flex-shrink-0 ${index === currentIndex + middleIndex ? 'transition-transform duration-1000 transform translate-y-[-50px] scale-105' : ''
+              className={`min-w-[33.33%]  p-4 flex-shrink-0 ${index === currentIndex + middleIndex ? 'transition-transform duration-1000 transform translate-y-[-50px] scale-110' : ''
                 }`}
             >
               <div className="">
