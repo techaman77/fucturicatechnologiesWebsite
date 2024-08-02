@@ -1,0 +1,6 @@
+.bgimg{
+    background-image: url('./assets/s1.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat; 
+}
