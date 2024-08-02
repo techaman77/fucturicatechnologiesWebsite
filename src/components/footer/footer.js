@@ -10,11 +10,11 @@ const Footer = () => {
   return (
     <div className="w-full h-[439px] bg-white flex flex-col">
       <div className="flex flex-row justify-between w-full px-[100px] pt-[67px]">
-        <img src={logo} alt="Fucturica Tech Logo" className="w-[400px] h-[86.45px]" />
+        <img src={logo} alt="Fucturica Tech Logo" className="w-[250px] h-[86.45px] pt-0 px-2" />
         
         <div className="flex flex-col items-start w-[193px]">
           <h3 className="text-lg font-semibold mb-[32px]">Links</h3>
-          <ul className="space-y-[16px]">
+          <ul className="space-y-[10px]">
             <li>About Us</li>
             <li>Services</li>
             <li>Courses</li>
