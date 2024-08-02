@@ -1,12 +1,12 @@
 
 import './App.css';
-import ComingSoon from './ComingSoon';
+import Homepage from './components/Homepage/homepage';
 
 
 function App() {
   return (
     <div>
-      <ComingSoon/>
+      <Homepage/>
     </div>
   );
 }
