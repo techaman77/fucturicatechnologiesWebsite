@@ -2,7 +2,6 @@ import React from 'react';
 import Welcome from './welcome';
 import Mission from './Mission';
 import Choose from './choose';
-import Navbar from '../navbar/Navbar'
 import Footer from '../footer/footer';
 import Featured from './Featured';
 import ReviewSlider from './Success';
