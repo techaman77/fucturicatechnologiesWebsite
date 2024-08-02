@@ -8,7 +8,7 @@ import youtubeLogo from './assets/youtube.svg';
 
 const Footer = () => {
   return (
-    <div className="w-full py-5 bg-white flex flex-col gap-5">
+    <div className="w-full py-5 bg-[#000] text-[#fff] flex flex-col gap-5">
       <div className="flex flex-row justify-between w-full px-[100px] pt-10">
         <img src={logo} alt="Fucturica Tech Logo" className="" />
         
@@ -58,7 +58,7 @@ const Footer = () => {
       
       <div className="border-t w-[90%] mt-[20px] mx-auto" />
       
-      <div className="flex justify-between w-full px-[100px] mt-[12px] text-[#666666]">
+      <div className="flex justify-between w-full px-[100px] mt-[12px]">
         <div className="text-left font-montserrat text-[16px] font-[400] leading-[32px]">
           Copyright © 2024 Fucturica Technologies, All rights reserved
         </div>

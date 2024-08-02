@@ -31,7 +31,7 @@ function Navbar() {
                     <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover text-center max-sm:mb-5'>Blogs</li>
                 </Link>
                 <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] text-[#007BFF] border border-[#007BFF] rounded-[40px] px-5 py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover px-2 text-center '>Login</li>
+                    <li className='text-[18px] text-[#fff] bg-[#007BFF] border border-[#007BFF] rounded-[40px] px-5 py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold px-2 text-center '>Contact Us</li>
                 </Link>
             </ul>
             <div onClick={() => setOpen(!open)} className='block sm:hidden absolute right-[5%] z-[6] flex '>

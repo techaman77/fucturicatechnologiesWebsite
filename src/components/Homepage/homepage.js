@@ -5,6 +5,8 @@ import Choose from './choose';
 import Footer from '../footer/footer';
 import Featured from './Featured';
 import ReviewSlider from './Success';
+import Blogs from './Blogs';
+import GetTouch from './GetTouch';
 
 const Homepage = () => {
     return (
@@ -14,7 +16,10 @@ const Homepage = () => {
             <Choose />
             <Featured/>
             <ReviewSlider/>
+            <Blogs/>
+            <GetTouch/>
             <Footer/>
+            
         </div>
     );
 }
