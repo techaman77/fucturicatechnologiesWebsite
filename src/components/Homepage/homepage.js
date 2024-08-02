@@ -3,6 +3,7 @@ import Welcome from './welcome';
 import Mission from './Mission';
 import Choose from './choose';
 import Navbar from '../navbar/Navbar'
+import Footer from '../footer/footer';
 
 const Homepage = () => {
     return (
@@ -11,6 +12,7 @@ const Homepage = () => {
             <Welcome />
             <Mission />
             <Choose />
+            <Footer/>
         </div>
     );
 }
