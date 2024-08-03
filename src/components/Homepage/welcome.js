@@ -3,7 +3,7 @@ import welcomeImage from './assets/welcome.svg';
 
 const Welcome = () => {
     return (
-        <div className="w-full flex justify-center py-10 max-md:py-5 overflow-x-hidden font-Montserrat bg-white">
+        <div className="w-full flex justify-center py-10 max-md:py-5 overflow-x-hidden font-Montserrat">
             <div className="flex justify-between items-center w-[90%] max-md:flex-col">
                 <div className="flex flex-col justify-center max-md:w-full">
                     <h1 className="text-[52px] max-xl:text-[40px] max-lg:text-[32px] max-sm:text-[24px] text-[#666666] font-bold tracking-tight leading-tight">

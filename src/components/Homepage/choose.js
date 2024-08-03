@@ -3,7 +3,7 @@ import laptopImage from './assets/laptop.svg';
 
 const Choose = () => {
     return (
-        <div className="w-full flex justify-center py-24 bg-white font-Montserrat">
+        <div className="w-full flex justify-center py-24 font-Montserrat">
             <div className="w-[90%] flex flex-col items-center">
                 <h2 className="text-[48px] text-center mb-6">Why Choose Us?</h2>
                 <p className="text-[20px] text-center mb-12">Lorem ipsum dolor sit amet consectetur. Neque gravida purus proin sagittis sem tellus cras consectetur pellentesque.</p>

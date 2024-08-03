@@ -2,7 +2,7 @@ import React from 'react';
 
 const Mission = () => {
     return (
-        <div className="w-full flex justify-center py-24 bg-[#F9F9F9] font-Montserrat">
+        <div className="w-full flex justify-center py-24 font-Montserrat">
             <div className="w-[90%] flex justify-between">
                 <div className="w-[45%] bg-white shadow-lg rounded-3xl p-8 text-center">
                     <h2 className="text-[30px] text-[#FB861E] font-bold mb-4">Our Mission</h2>
