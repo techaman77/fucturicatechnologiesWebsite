@@ -2,7 +2,6 @@ import React from 'react';
 import Welcome from './welcome';
 import Mission from './Mission';
 import Choose from './choose';
-import Footer from '../footer/footer';
 import Featured from './Featured';
 import ReviewSlider from './Success';
 import Blogs from './Blogs';
@@ -18,8 +17,6 @@ const Homepage = () => {
             <ReviewSlider/>
             <Blogs/>
             <GetTouch/>
-            <Footer/>
-            
         </div>
     );
 }
