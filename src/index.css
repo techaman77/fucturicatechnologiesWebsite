@@ -8,3 +8,8 @@ html, body {
 :root{
     background-color: #F2F7FD;
 }
+.text-gradient {
+    @apply bg-gradient-to-r from-gradient-start to-gradient-end;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }

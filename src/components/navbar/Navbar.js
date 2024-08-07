@@ -1,45 +1,72 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/auth';
 import logo from './assets/logo.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaXmark } from 'react-icons/fa6';
+import { IoLogOutOutline } from "react-icons/io5";
 import './navbar.css';
 
 function Navbar() {
-    let [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const username = localStorage.getItem('name');  // Assuming user is a string
+
+    const handleToggleMenu = () => setOpen(!open);
+
+    const handleLogout = () => {
+        dispatch(logout());
+        localStorage.clear();
+        navigate('/admin-login');
+    };
 
     return (
         <div className='w-full flex justify-center py-5 border-b border-[#000]'>
             <div className='h-full w-[90%] text-[#666666] flex items-center justify-between max-sm:items-center'>
-            <Link to="/">
-                <img className='max-md:w-[200px] max-sm:w-[150px]' src={logo} alt='logo' />
-            </Link>
-            <ul className={`w-full gap-5 max-lg:gap-3 justify-end flex items-center max-sm:flex-col max-sm:justify-center max-sm:gap-10 max-sm:absolute max-sm:bg-black max-sm:bg-opacity-95 z-[5] max-sm:w-[100%] max-sm:h-screen ${open ? 'top-[0%]' : 'top-[-1490px]'}`}>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover text-center max-sm:mb-5'>About Us</li>
+                <Link to="/">
+                    <img className='max-md:w-[200px] max-sm:w-[150px]' src={logo} alt='logo' />
                 </Link>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5'>Services</li>
-                </Link>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover text-center max-sm:mb-5'>Career</li>
-                </Link>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover text-center max-sm:mb-5'>Courses</li>
-                </Link>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold hover text-center max-sm:mb-5'>Blogs</li>
-                </Link>
-                <Link to="/" onClick={() => setOpen(!open)}>
-                    <li className='text-[18px] text-[#fff] bg-[#007BFF] borde rounded-[40px] py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold px-2 text-center '>Contact Us</li>
-                </Link>
-            </ul>
-            <div onClick={() => setOpen(!open)} className='block sm:hidden absolute right-[5%] z-[6]  '>
-                {
-                    open ? <FaXmark className='w-[30px] h-[30px]' /> : <GiHamburgerMenu className='w-[25px] h-[25px]' />
-                }
+                <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'hidden' : ''}`}>
+                    <ul className={`w-full gap-5 max-lg:gap-3 justify-end flex items-center max-sm:flex-col max-sm:justify-center max-sm:gap-10 max-sm:absolute max-sm:bg-black max-sm:bg-opacity-95 z-[5] max-sm:w-[100%] max-sm:h-screen ${open ? 'top-[0%]' : 'top-[-1490px]'}`}>
+                        <Link to="/" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/' ? 'active' : ''}`}>About Us</li>
+                        </Link>
+                        <Link to="/services" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/services' ? 'active' : ''}`}>Services</li>
+                        </Link>
+                        <Link to="/career" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/career' ? 'active' : ''}`}>Career</li>
+                        </Link>
+                        <Link to="/courses" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/courses' ? 'active' : ''}`}>Courses</li>
+                        </Link>
+                        <Link to="/blogs" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/blogs' ? 'active' : ''}`}>Blogs</li>
+                        </Link>
+                        <Link to="/contact" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] text-[#fff] bg-[#007BFF] borde rounded-[40px] py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold px-2 text-center ${currentPath === '/contact' ? 'active' : ''}`}>Contact Us</li>
+                        </Link>
+                    </ul>
+                    <div onClick={handleToggleMenu} className='block sm:hidden absolute right-[5%] z-[6]'>
+                        {open ? <FaXmark className='w-[30px] h-[30px]' /> : <GiHamburgerMenu className='w-[25px] h-[25px]' />}
+                    </div>
+                </div>
+                <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'flex' : 'hidden'} gap-5`}>
+                    <h2 className='border-2 border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold'>{username}</h2>
+                    <button
+                        onClick={handleLogout}
+                        className='flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]'
+                    >
+                        <IoLogOutOutline className='text-[24px] max-xl:text-[20px] max-lg:text-[18px]' />
+                        Log Out
+                    </button>
+                </div>
             </div>
-        </div>
         </div>
     );
 }

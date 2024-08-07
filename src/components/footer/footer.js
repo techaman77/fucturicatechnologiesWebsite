@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './assets/logo.svg';
+import { Link } from 'react-router-dom';
 import facebookLogo from './assets/facebook.svg';
 import instagramLogo from './assets/Instagram.svg';
 import linkedinLogo from './assets/linkedin.svg';
@@ -15,7 +16,7 @@ const Footer = () => {
         <div className="flex flex-col items-start">
           <h3 className="text-lg font-semibold mb-[32px]">Links</h3>
           <ul className="space-y-[16px]">
-            <li className='font-bold'>Admin Login</li>
+            <Link to='/admin-login'><li className='font-bold'>Admin Login</li></Link>
             <li>About Us</li>
             <li>Services</li>
             <li>Courses</li>
@@ -26,7 +27,7 @@ const Footer = () => {
         <div className="flex flex-col items-start">
           <h3 className="text-lg font-semibold mb-[32px]">Office</h3>
           <address className="not-italic space-y-[16px]">
-            <div>123 Fucturica Lane,<br />Tech Park, Bengaluru,<br />Karnataka 560001</div>
+            <div>32/A New Alipore,<br />Kolkata South, Kolkata<br />Nearby Metro Station, Bus Stand.</div>
           </address>
         </div>
         
@@ -34,7 +35,7 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-[32px]">Reach Us</h3>
           <div className="space-y-[16px]">
             <div>Phone: +91-9876543210</div>
-            <div>Email: contact@fucturicatech.com</div>
+            <div>Email: hr@fucturicatechnologies.com</div>
             <div className="flex space-x-[12px] mt-[16px]">
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
                 <img src={youtubeLogo} alt="YouTube" className="w-[36px] h-[36px]" />

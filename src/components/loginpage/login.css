@@ -1,0 +1,19 @@
+.bgimage{
+    background-image: url('./assets/l1.svg');
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 0;
+}
+.bgimage::before{
+    content: '';
+    z-index: 5;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    bottom: 0%;
+    background-color: #007BFF;
+    opacity: 0.4;
+
+}
