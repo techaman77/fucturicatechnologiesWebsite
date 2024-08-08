@@ -5,7 +5,7 @@ import Choose from './choose';
 import Featured from './Featured';
 import ReviewSlider from './Success';
 import Blogs from './Blogs';
-import GetTouch from './GetTouch';
+// import GetTouch from './GetTouch';
 
 const Homepage = () => {
     return (
@@ -16,7 +16,7 @@ const Homepage = () => {
             <Featured/>
             <ReviewSlider/>
             <Blogs/>
-            <GetTouch/>
+            {/* <GetTouch/> */}
         </div>
     );
 }

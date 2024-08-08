@@ -1,0 +1,37 @@
+.curved-top {
+    /* Adjust height as needed */
+
+    border-top-left-radius: 100% 80%;
+    border-top-right-radius: 100% 80%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    /* Creates the top curve */
+    /* Adjust spacing from top */
+}
+
+@media (max-width: 1280px){
+    .curved-top {
+        border-top-left-radius: 100% 40%;
+        border-top-right-radius: 100% 40%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+@media (max-width: 1024px){
+    .curved-top {
+        border-top-left-radius: 100% 30%;
+        border-top-right-radius: 100% 30%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+@media (max-width: 640px){
+    .curved-top {
+        border-top-left-radius: 100% 10%;
+        border-top-right-radius: 100% 10%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}

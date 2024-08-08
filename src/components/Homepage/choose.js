@@ -1,28 +1,52 @@
 import React from 'react';
-import laptopImage from './assets/laptop.svg';
+import img1 from './assets/c1.svg';
+import img2 from './assets/c2.svg';
+import img3 from './assets/c3.svg';
+import img4 from './assets/c4.svg';
+
+const features = [
+    {
+        img: img1,
+        bgColor: 'bg-[#FB861E]',
+        title: 'Innovative Approach',
+        description: 'Focus on practical, real-world skills and continuous learning.'
+    },
+    {
+        img: img2,
+        bgColor: 'bg-[#007BFF]',
+        title: 'Commitment to Quality',
+        description: 'We adhere to the highest standards of quality in all our projects.'
+    },
+    {
+        img: img3,
+        bgColor: 'bg-[#666666]',
+        title: 'Experienced Team',
+        description: 'Our team consists of industry experts with years of experience.'
+    },
+    {
+        img: img4,
+        bgColor: 'bg-[#749B32]',
+        title: 'Ongoing Support',
+        description: 'We provide continuous support to ensure your success.'
+    }
+];
 
 const Choose = () => {
     return (
-        <div className="w-full flex justify-center py-24 font-Montserrat">
+        <div className="w-full flex justify-center py-20 max-sm:py-10 font-Montserrat">
             <div className="w-[90%] flex flex-col items-center">
-                <h2 className="text-[48px] text-center mb-6">Why Choose Us?</h2>
-                <p className="text-[20px] text-center mb-12">Lorem ipsum dolor sit amet consectetur. Neque gravida purus proin sagittis sem tellus cras consectetur pellentesque.</p>
-                <div className="flex w-full justify-between max-md:flex-col">
-                    <img src={laptopImage} alt="Laptop" className="w-[45%] h-auto rounded-[33.33px] max-md:mb-8" />
-                    <div className="flex flex-col justify-between w-[45%] space-y-6 max-md:w-full max-md:space-y-4">
-                        <div className="p-6 bg-white shadow-lg rounded-lg hover:bg-blue-500 hover:text-white transition duration-300">
-                            <h3 className="text-[30px] mb-4">Innovative Approach</h3>
-                            <p className="text-[20px]">Focus on practical, real-world skills and continuous learning.</p>
+                <h2 className="text-[48px] max-xl:text-[35px] max-lg:text-[28px] max-md:text-[24px] text-[#666666] font-semibold text-center mb-6">Why <span className='text-[#FB861E]'>Choose Us?</span></h2>
+                <p className="text-[20px] max-xl:text-[18px] max-lg:text-[16px] max-md:text-[14px] font-light text-[#666666] text-center mb-12">Our dedicated team and innovative solutions set us apart in the industry. Here&apos;s why you should choose us</p>
+                <div className='text-[#666666] grid grid-cols-2 max-sm:grid-cols-1 gap-10 mx-40 max-xl:mx-10 max-lg:mx-0 max-md:gap-5'>
+                    {features.map((feature, index) => (
+                        <div key={index} className={`p-8 max-xl:p-4 rounded-3xl max-md:rounded-xl ${feature.bgColor} bg-opacity-[0.1] flex gap-5`}>
+                            <img src={feature.img} alt={feature.title} className='w-[60px] max-md:w-[40px]'/>
+                            <h2 className='text-[24px] max-xl:text-[22px] max-lg:text-[20px] max-md:text-[18px] max-md:leading-5 font-semibold'>
+                                {feature.title} <br/>
+                                <span className='text-[20px] max-xl:text-[18px] max-lg:text-[16px] max-md:text-[14px] font-light'>{feature.description}</span>
+                            </h2>
                         </div>
-                        <div className="p-6 bg-white shadow-lg rounded-lg hover:bg-blue-500 hover:text-white transition duration-300">
-                            <h3 className="text-[30px] mb-4">Experienced Team</h3>
-                            <p className="text-[20px]">Learn from industry veterans dedicated to providing the best learning experience.</p>
-                        </div>
-                        <div className="p-6 bg-white shadow-lg rounded-lg hover:bg-blue-500 hover:text-white transition duration-300">
-                            <h3 className="text-[30px] mb-4">Cutting-Edge Curriculum</h3>
-                            <p className="text-[20px]">Programs that are up-to-date with the latest trends and technologies.</p>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>
