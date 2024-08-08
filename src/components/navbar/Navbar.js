@@ -57,7 +57,7 @@ function Navbar() {
                     </div>
                 </div>
                 <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'flex' : 'hidden'} gap-5`}>
-                    <h2 className='border-2 border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold'>{username}</h2>
+                    <h2 className='border-2 border-opacity-[0.6] border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold'>{username}</h2>
                     <button
                         onClick={handleLogout}
                         className='flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]'

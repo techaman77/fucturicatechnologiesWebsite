@@ -34,7 +34,8 @@ const Footer = () => {
         <div className="flex flex-col items-start">
           <h3 className="text-lg font-semibold mb-[32px]">Reach Us</h3>
           <div className="space-y-[16px]">
-            <div>Phone: +91-9876543210</div>
+            <div>Phone: +91-77488 35207</div>
+            <div>Phone: +91-8962068877</div>
             <div>Email: hr@fucturicatechnologies.com</div>
             <div className="flex space-x-[12px] mt-[16px]">
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
