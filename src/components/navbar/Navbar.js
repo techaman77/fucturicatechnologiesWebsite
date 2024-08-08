@@ -33,7 +33,7 @@ function Navbar() {
                 </Link>
                 <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'hidden' : ''}`}>
                     <ul className={`w-full gap-5 max-lg:gap-3 justify-end flex items-center max-sm:flex-col max-sm:justify-center max-sm:gap-10 max-sm:absolute max-sm:bg-black max-sm:bg-opacity-95 z-[5] max-sm:w-[100%] max-sm:h-screen ${open ? 'top-[0%] left-0' : 'top-[-1490px]'}`}>
-                        <Link to="/" onClick={handleToggleMenu}>
+                        <Link to="/about-us" onClick={handleToggleMenu}>
                             <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/' ? 'active' : ''}`}>About Us</li>
                         </Link>
                         <Link to="/services" onClick={handleToggleMenu}>

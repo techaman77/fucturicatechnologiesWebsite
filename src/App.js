@@ -8,6 +8,7 @@ import Login from './components/loginpage/Login';
 import Hero from './components/Adminpage/Hero';
 import { useSelector } from 'react-redux';
 import Employee from './components/employeepage/Hero';
+import About from './components/AboutUsPage/Hero';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -30,6 +31,7 @@ function App() {
           <Route path="/admin-login" element={<Login/>}/>
           <Route path='/admin-panel' element={<ProtectedRoute element={<Hero/>}/>}/>
           <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee/>}/>}/>
+          <Route path='/about-us' element={<About/>}/>
         </Routes>
       </Layout>
     </Router>
