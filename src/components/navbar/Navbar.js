@@ -42,8 +42,8 @@ function Navbar() {
                         <Link to="/career" onClick={handleToggleMenu}>
                             <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/career' ? 'active' : ''}`}>Career</li>
                         </Link>
-                        <Link to="/courses" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/courses' ? 'active' : ''}`}>Courses</li>
+                        <Link to="/training" onClick={handleToggleMenu}>
+                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/courses' ? 'active' : ''}`}>Training</li>
                         </Link>
                         <Link to="/blogs" onClick={handleToggleMenu}>
                             <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/blogs' ? 'active' : ''}`}>Blogs</li>
