@@ -11,6 +11,11 @@ import Employee from './components/employeepage/Hero';
 import About from './components/AboutUsPage/Hero';
 import Service from './components/ServicePage/Hero';
 import Training from './components/TrainingPage/Hero';
+import BpoHiring from './components/TrainingPage/ModulePage/BpoHiring';
+import ITHiring from './components/TrainingPage/ModulePage/ItHiring';
+import Jobinterview from './components/TrainingPage/ModulePage/JobInterview';
+import Softskill from './components/TrainingPage/ModulePage/Softskill';
+import TechnicalSkill from './components/TrainingPage/ModulePage/TechnicalSkill';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -36,6 +41,12 @@ function App() {
           <Route path='/about-us' element={<About/>}/>
           <Route path='/services' element={<Service/>}/>
           <Route path='/training' element={<Training/>}/>
+          <Route path='/training/bpo-hiring' element={<BpoHiring/>}/>
+          <Route path='/training/it-hiring' element={<ITHiring/>}/>
+          <Route path='/training/job-interview' element={<Jobinterview/>}/>
+          <Route path='/training/Soft-skill' element={<Softskill/>}/>
+          <Route path='/training/technical' element={<TechnicalSkill/>}/>
+          
         </Routes>
       </Layout>
     </Router>
