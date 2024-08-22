@@ -9,27 +9,33 @@ const modules = [
     {
         img: img1,
         title: 'IT Hiring and Placement',
-        description: 'Comprehensive training for IT roles with guaranteed placement.'
+        description: 'Comprehensive training for IT roles with guaranteed placement.',
+        bgcolor: 'bg-[#FFEAD7]'
     },
     {
         img: img2,
         title: 'BPO Hiring and Placement',
-        description: 'Skill development for BPO positions with job assurance.'
+        description: 'Skill development for BPO positions with job assurance.',
+        bgcolor: 'bg-[#FFE69D]'
     },
     {
         img: img3,
         title: 'Technical Skill Development',
-        description: 'Hands-on training in the latest technologies.'
+        description: 'Hands-on training in the latest technologies.',
+        bgcolor: 'bg-[#FB861E]',
+        opacity: 'bg-opacity-[0.1]'
     },
     {
         img: img4,
         title: 'Soft Skills and Communication Training',
-        description: 'Enhancing interpersonal and communication skills.'
+        description: 'Enhancing interpersonal and communication skills.',
+        bgcolor: 'bg-[#E0E0FF]'
     },
     {
         img: img5,
         title: 'Job Interview Preparation',
-        description: 'Preparing you to ace your interviews with confidence.'
+        description: 'Preparing you to ace your interviews with confidence.',
+        bgcolor: 'bg-[#FADBC0]'
     }
 ];
 
@@ -45,7 +51,7 @@ const Module = () => {
                         {modules.map((module, index) => (
                             <div key={index} className='flex flex-col'>
                                 <img src={module.img} alt={`module${index + 1}`} className='m-auto translate-y-[50px]' />
-                                <div className='text-[#666666] bg-[#FFEAD7] p-5 pt-20 rounded-[30px] w-[350px] max-xl:w-[250px] max-sm:w-full flex flex-col gap-3 items-center'>
+                                <div className={`text-[#666666] ${module.bgcolor} ${module.opacity} p-5 pt-20 rounded-[30px] w-[350px] max-xl:w-[250px] max-sm:w-full flex flex-col gap-3 items-center`}>
                                     <h2 className='font-medium text-[24px] max-xl:text-[20px] max-sm:text-[18px] text-center'>{module.title}</h2>
                                     <p className='text-[20px] max-xl:text-[16px] max-sm:text-[14px] font-light text-center'>{module.description}</p>
                                     <button className='border border-[#007BFF] py-3 w-full text-center text-[#007BFF] font-semibold rounded-md hover:bg-[#007BFF] hover:text-[#fff]'>

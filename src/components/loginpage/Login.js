@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/auth';
 
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,6 +17,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // Start loader
+    setErrorMessage(''); // Clear previous error message
+
     try {
       const response = await axios.post('https://futurica-backend.vercel.app/login', { email, password }, {
         headers: {
@@ -30,15 +32,25 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('name', data.user.name);
       localStorage.setItem('role', data.user.role);
-      if (data.user.role === 'admin') {
-        navigate('/admin-panel');
-      } else{
+
+      if (data.user.selfDeclaration === true) {
         navigate('/employee-panel');
+      } else if (data.user.selfDeclaration === false) {
+        navigate('/self-declaration');
+      } else if (data.user.role === 'admin') {
+        navigate('/admin-panel');
       }
+
       setEmail('');
       setPassword('');
     } catch (error) {
-      console.error('Error:', error);
+      if (error.response) {
+        // Handle known API errors
+        setErrorMessage(error.response.data.message || 'An error occurred');
+      } else {
+        // Handle unknown errors
+        setErrorMessage('An unexpected error occurred');
+      }
     } finally {
       setIsSubmitting(false); // Stop loader
     }
@@ -69,6 +81,9 @@ const Login = () => {
             <button type="submit" className="mt-4 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white p-2 rounded-lg" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
+            {errorMessage && (
+              <p className="text-red-500 mt-2">{errorMessage}</p>
+            )}
           </form>
         </div>
       </div>

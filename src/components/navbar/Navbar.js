@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { logout } from '../../store/auth';
 import logo from './assets/logo.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaXmark } from 'react-icons/fa6';
 import { IoLogOutOutline } from "react-icons/io5";
+import axios from 'axios';
 import './navbar.css';
 
 function Navbar() {
@@ -19,12 +21,19 @@ function Navbar() {
 
     const handleToggleMenu = () => setOpen(!open);
 
-    const handleLogout = () => {
-        dispatch(logout());
-        localStorage.clear();
-        navigate('/admin-login');
-    };
+    const userId = useSelector((state) => state.auth.userId);
 
+    const handleLogout = async () => {      
+        try {
+          await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+          
+          dispatch(logout());
+          
+          navigate('/admin-login');
+        } catch (error) {
+          console.error('Logout failed:', error);
+        }
+      };
     return (
         <div className='w-full flex justify-center py-5 max-sm:py-4 border-b border-[#000]'>
             <div className='h-full w-[90%] text-[#666666] max-sm:text-[#fff] flex items-center justify-between max-sm:items-center'>
@@ -60,7 +69,7 @@ function Navbar() {
                     <h2 className='border-2 border-opacity-[0.6] border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold'>{username}</h2>
                     <button
                         onClick={handleLogout}
-                        className='flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]'
+                        className={`${currentPath === '/employee-panel' ? 'hidden' : ''} flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]`}
                     >
                         <IoLogOutOutline className='text-[24px] max-xl:text-[20px] max-lg:text-[18px]' />
                         Log Out
