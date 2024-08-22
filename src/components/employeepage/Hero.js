@@ -299,11 +299,11 @@ const Employee = () => {
                         <div className='flex justify-center gap-10 py-5 text-[20px] text-[#666666]'>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted in Session</p>
-                                <p>{totalCount}</p>
+                                <p>{totalCount}/1500</p>
                             </div>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted Today</p>
-                                <p>{count || 0}/1500</p>
+                                <p>{count || 0}</p>
                             </div>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Countdown Timer</p>
