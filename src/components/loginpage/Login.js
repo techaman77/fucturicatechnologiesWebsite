@@ -32,14 +32,14 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('name', data.user.name);
       localStorage.setItem('role', data.user.role);
-
-      if (data.user.selfDeclaration === true) {
-        navigate('/employee-panel');
-      } else if (data.user.selfDeclaration === false) {
-        navigate('/self-declaration');
-      } else if (data.user.role === 'admin') {
+      if (data.user.role && data.user.role === 'admin') {
         navigate('/admin-panel');
       }
+      if (data.user.selfDeclaration && data.user.selfDeclaration === true) {
+        navigate('/employee-panel');
+      } else if (data.user.selfDeclaration && data.user.selfDeclaration === false) {
+        navigate('/self-declaration');
+      } 
 
       setEmail('');
       setPassword('');

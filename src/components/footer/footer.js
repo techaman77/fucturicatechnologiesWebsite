@@ -26,7 +26,7 @@ const Footer = () => {
           <div className="flex flex-col items-center gap-4">
             <h3 className="text-2xl max-xl:text-lg font-semibold">Links</h3>
             <ul className="space-y-2 flex flex-col max-lg:items-center">
-              <Link to='/admin-login'><li className='font-bold max-md:text-[14px]'>Admin Login</li></Link>
+              <Link to='/login'><li className='font-bold max-md:text-[14px]'>Admin Login</li></Link>
               <li className=' max-md:text-[14px]'>About Us</li>
               <li className=' max-md:text-[14px]'>Services</li>
               <li className=' max-md:text-[14px]'>Courses</li>

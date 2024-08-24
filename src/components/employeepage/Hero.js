@@ -21,7 +21,7 @@ const Employee = () => {
     useEffect(() => {
         localStorage.setItem('totalCount', sessionCount);
         dispatch(addSessionCount(sessionCount))
-        console.log('useEffect block',sessionCount)
+        console.log('useEffect block', sessionCount)
     }, [sessionCount, dispatch]);
 
     const totalCount = useSelector((state) => state.form.sessionCount)
@@ -32,7 +32,7 @@ const Employee = () => {
     const [timeLeft, setTimeLeft] = useState(() => {
         // Restore timeLeft from localStorage, or default to 24 hours if not available
         const savedTime = localStorage.getItem('timeLeft');
-        return savedTime ? parseInt(savedTime, 10) : 1500 * 60 * 60;
+        return savedTime ? parseInt(savedTime, 10) : 600 * 60 * 60;
     });
 
     const timerRef = useRef(null);
@@ -140,7 +140,8 @@ const Employee = () => {
         roleResponsibilities: '',
         softSkills: [],
         technicalSkills: [],
-        linkedIn: ''
+        linkedIn: '',
+        serialNumber: ''
     });
 
 
@@ -239,35 +240,36 @@ const Employee = () => {
             dispatch(addCount(response.data.count));
             setSessionCount((prevCount) => prevCount + 1);
 
-            setFormData({
-                employeeId: id,
-                name: '',
-                contactNumber: '',
-                profile: '',
-                email: '',
-                languages: [],
-                motherName: '',
-                fatherName: '',
-                dateOfBirth: '',
-                maritalStatus: '',
-                permanentAddress: '',
-                qualification: '',
-                qualificationDetails: {
-                    10: '',
-                    12: '',
-                    Graduation: ''
-                },
-                extraQualifications: '',
-                extraQualificationsDetails: {
-                    Certification: '',
-                    Diploma: ''
-                },
-                experience: ['', '', ''],
-                roleResponsibilities: '',
-                softSkills: [],
-                technicalSkills: [],
-                linkedIn: ''
-            });
+            // setFormData({
+            //     employeeId: id,
+            //     name: '',
+            //     contactNumber: '',
+            //     profile: '',
+            //     email: '',
+            //     languages: [],
+            //     motherName: '',
+            //     fatherName: '',
+            //     dateOfBirth: '',
+            //     maritalStatus: '',
+            //     permanentAddress: '',
+            //     qualification: '',
+            //     qualificationDetails: {
+            //         10: '',
+            //         12: '',
+            //         Graduation: ''
+            //     },
+            //     extraQualifications: '',
+            //     extraQualificationsDetails: {
+            //         Certification: '',
+            //         Diploma: ''
+            //     },
+            //     experience: ['', '', ''],
+            //     roleResponsibilities: '',
+            //     softSkills: [],
+            //     technicalSkills: [],
+            //     linkedIn: '',
+            //     serialNumber: ''
+            // });
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -332,7 +334,7 @@ const Employee = () => {
                             <input
                                 type="text"
                                 name="contactNumber"
-                                placeholder="Enter your contact number"
+                                placeholder="Enter contact number"
                                 value={formData.contactNumber}
                                 onChange={handleChange}
                                 onCopy={disableCopyPaste}
@@ -606,6 +608,18 @@ const Employee = () => {
                                 name="linkedIn"
                                 placeholder="Enter your linkedIn URL"
                                 value={formData.linkedIn}
+                                onChange={handleChange}
+                                onCopy={disableCopyPaste}
+                                onPaste={disableCopyPaste}
+                                onCut={disableCopyPaste}
+                                className='bg-transparent border border-[#666666] rounded-lg p-4'
+                            />
+
+                            <input
+                                type="text"
+                                name="serialNumber"
+                                placeholder="Enter Serial Number"
+                                value={formData.serialNumber}
                                 onChange={handleChange}
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}

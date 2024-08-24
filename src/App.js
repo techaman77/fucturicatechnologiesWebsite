@@ -21,6 +21,7 @@ import Career from './components/CareerPage/Hero';
 import WebDevIntern from './components/CareerPage/JobListings/WebDevIntern';
 import ScrollToTop from './components/ScrollToTop';
 import SelfDeclaration from './components/employeepage/SelfDeclaration';
+import RegisterEmployee from './components/Adminpage/RegisterEmployee';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -41,8 +42,9 @@ function App() {
         <ScrollToTop/>
         <Routes>
           <Route path="/" element={<Homepage/>}/>
-          <Route path="/admin-login" element={<Login/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path='/admin-panel' element={<ProtectedRoute element={<Hero/>}/>}/>
+          <Route path='/register-employee' element={<RegisterEmployee/>}/>
           <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee/>}/>}/>
           <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration/>}/>}/>
           <Route path='/about-us' element={<About/>}/>

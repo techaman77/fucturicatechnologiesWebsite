@@ -1,101 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const TableComponent = lazy(() => import('./TableComponent'));
+
 const Hero = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [formsFetched, setFormsFetched] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setError('');
-        setSuccess('');
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-
-        const formData = {
-            name,
-            email,
-            password,
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('https://futurica-backend.vercel.app/users');
+                const filteredUsers = response.data.filter(user => !user.role);
+                setUsers(filteredUsers);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
         };
 
+        fetchUsers();
+    }, []);
+
+
+    const handleRowClick = async (userId) => {
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/register', formData);
-            console.log('Employee created successfully:', response.data);
-            setSuccess('Employee created successfully!');
-            setName('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-            // Clear the error message if any
-            setError('');
-        } catch (error) {
-            console.error('Error creating employee:', error);
-            setError('There was an error creating the employee.');
-        }finally {
-            setIsSubmitting(false); // Stop loader
-          }
+            const response = await axios.post('https://futurica-backend.vercel.app/search-forms', { employeeId: userId });
+            setFormsFetched(response.data);
+            setIsModalOpen(true);
+        } catch (err) {
+            setError(err.message);
+        }
     };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setFormsFetched(null);
+    };
+
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className='w-full flex h-[650px] justify-center'>
-            <div className='w-[90%] flex'>
-                <div className='w-[50%] flex flex-col justify-center items-center'>
-                    <h2 className='text-[#666666] text-[48px] font-semibold'>
-                        Create <span className='text-[#FB861E]'>New Employee</span>
-                    </h2>
-                    <p className='text-[#666666] font-light text-[20px] text-center'>
-                        Fill in the details below to create a new employee
-                    </p>
-                </div>
-                <div className='w-[50%] flex justify-center items-center rounded-xl shadow-lg bg-[#fff] my-10'>
-                    <form onSubmit={handleSubmit} className="flex flex-col w-[60%] gap-5 py-10">
-                        <input
-                            placeholder="Username"
-                            type="text"
-                            className="bg-transparent border-2 border-[#666666] rounded-lg p-2"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        <input
-                            placeholder="Email Id"
-                            type="email"
-                            className="bg-transparent border-2 border-[#666666] rounded-lg p-2"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            placeholder="Password"
-                            type="password"
-                            className="bg-transparent border-2 border-[#666666] rounded-lg p-2"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <input
-                            placeholder="Confirm Password"
-                            type="password"
-                            className="bg-transparent border-2 border-[#666666] rounded-lg p-2"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                        {error && <p className="text-red-500">{error}</p>}
-                        {success && <p className="text-green-500">{success}</p>}
-                        <button type="submit" className="mt-4 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white p-2 rounded-lg" disabled={isSubmitting}>
-                            {isSubmitting ? 'Submitting...' : 'Submit'}
+            <div className='w-[90%] flex flex-col items-center justify-center gap-5'>
+                <div className='w-full flex justify-center'>
+                    <Link to='/register-employee'>
+                        <button type="submit" className="mt-4 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white p-2 rounded-lg">
+                            Register New Employee
                         </button>
-                    </form>
+                    </Link>
                 </div>
+                <div className='bg-[#fff] rounded-2xl shadow-2xl w-[80%] flex flex-col items-center'>
+                    <div className='flex items-center gap-20 py-5'>
+                        <h2 className='text-[#666666] font-semibold text-[24px]'>
+                            All <span className='text-[#FB861E]'>Employee's</span>
+                        </h2>
+                        <input
+                            type="text"
+                            placeholder="Search users by name..."
+                            value={searchQuery}
+                            className='border border-[#666666] rounded-[30px] px-6 py-2'
+                            onChange={handleSearchChange}
+                        />
+                    </div>
+                    <div className='flex justify-center py-10 px-5 w-full'>
+                        {loading ? (
+                            <p>Loading users...</p>
+                        ) : error ? (
+                            <p>Error: {error}</p>
+                        ) : filteredUsers.length > 0 ? (
+                            <table className='table-auto w-full rounded-2xl'>
+                                <thead>
+                                    <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
+                                        <th className='px-4 border font-medium py-2'>Name</th>
+                                        <th className='px-4 border font-medium py-2'>Total Forms Submitted</th>
+                                        <th className='px-4 border font-medium py-2'>Time Spend</th>
+                                        <th className='px-4 border font-medium py-2'>Rejected Form</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredUsers.map((user) => (
+                                        <tr key={user.id} className='text-center cursor-pointer' onClick={() => handleRowClick(user.userId)}>
+                                            <td className='border px-4 py-2'>{user.name}</td>
+                                            <td className='border px-4 py-2'>{user.totalFormsSubmitted}</td>
+                                            <td className='border px-4 py-2'>{user.timeSpend}</td>
+                                            <td className='border px-4 py-2'>{user.rejectedForm}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No users found</p>
+                        )}
+                    </div>
+                </div>
+
+                {/* Modal */}
+                {isModalOpen && (
+                    <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">
+                        <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">
+                            <div className='flex items-center justify-between py-5'>
+                                <h2 className="text-xl font-semibold ">Forms Details</h2>
+                                <button className="bg-gray-500 text-white p-2 rounded-lg" onClick={closeModal}>
+                                    Close
+                                </button>
+                            </div>
+                            <Suspense fallback={<div>Loading table...</div>}>
+                                {formsFetched && formsFetched.length > 0 ? (
+                                    <TableComponent formsFetched={formsFetched} />
+                                ) : (
+                                    <p>No user details available.</p>
+                                )}
+                            </Suspense>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
-}
+};
 
 export default Hero;
