@@ -6,7 +6,7 @@ const TableComponent = ({ formsFetched }) => {
         <div className="overflow-x-auto">
             <table className="table-auto w-full min-w-[1000px]">
                 <thead>
-                    <tr>
+                    <tr className='bg-[#E8F4FF]'>
                         <th className="px-10 py-2 border">Serial No.</th>
                         <th className="px-10 py-2 border">Name</th>
                         <th className="px-8 py-2 border">Contact Number</th>

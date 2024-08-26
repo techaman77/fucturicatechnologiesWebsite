@@ -11,9 +11,14 @@ const Hero = () => {
     const [error, setError] = useState(null);
     const [formsFetched, setFormsFetched] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [serialSearchQuery, setSerialSearchQuery] = useState(''); // State for serial number search
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+    };
+
+    const handleSerialSearchChange = (e) => {
+        setSerialSearchQuery(e.target.value);
     };
 
     useEffect(() => {
@@ -46,10 +51,16 @@ const Hero = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setFormsFetched(null);
+        setSerialSearchQuery(''); // Reset serial number search query when closing modal
     };
 
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filter formsFetched by serial number
+    const filteredForms = formsFetched?.filter((form) =>
+        form.serialNumber?.toLowerCase().includes(serialSearchQuery.toLowerCase())
     );
 
     return (
@@ -86,16 +97,14 @@ const Hero = () => {
                                     <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
                                         <th className='px-4 border font-medium py-2'>Name</th>
                                         <th className='px-4 border font-medium py-2'>Total Forms Submitted</th>
-                                        <th className='px-4 border font-medium py-2'>Time Spend</th>
                                         <th className='px-4 border font-medium py-2'>Rejected Form</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filteredUsers.map((user) => (
-                                        <tr key={user.id} className='text-center cursor-pointer' onClick={() => handleRowClick(user.userId)}>
+                                        <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]' onClick={() => handleRowClick(user.userId)}>
                                             <td className='border px-4 py-2'>{user.name}</td>
                                             <td className='border px-4 py-2'>{user.totalFormsSubmitted}</td>
-                                            <td className='border px-4 py-2'>{user.timeSpend}</td>
                                             <td className='border px-4 py-2'>{user.rejectedForm}</td>
                                         </tr>
                                     ))}
@@ -113,13 +122,21 @@ const Hero = () => {
                         <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">
                             <div className='flex items-center justify-between py-5'>
                                 <h2 className="text-xl font-semibold ">Forms Details</h2>
-                                <button className="bg-gray-500 text-white p-2 rounded-lg" onClick={closeModal}>
+                                <input
+                                    type="text"
+                                    placeholder="Search by Serial Number..."
+                                    value={serialSearchQuery}
+                                    className='border border-[#666666] rounded-[30px] px-6 py-2 '
+                                    onChange={handleSerialSearchChange}
+                                />
+                                <button className="bg-gray-500 text-white hover:text-[#000] p-2 hover:bg-[#FB861E] rounded-lg" onClick={closeModal}>
                                     Close
                                 </button>
                             </div>
+                        
                             <Suspense fallback={<div>Loading table...</div>}>
-                                {formsFetched && formsFetched.length > 0 ? (
-                                    <TableComponent formsFetched={formsFetched} />
+                                {filteredForms && filteredForms.length > 0 ? (
+                                    <TableComponent formsFetched={filteredForms} />
                                 ) : (
                                     <p>No user details available.</p>
                                 )}

@@ -95,7 +95,7 @@ const SelfDeclaration = () => {
 
                     <form onSubmit={handleSubmit} className='space-x-10 bg-[#fff] p-10 rounded-[30px] shadow-xl'>
                         <h3 className='text-[#666666] text-center text-[24px] font-light'>Please Fill Out the Following Information</h3>
-                        <div className='flex py-10'>
+                        <div className='flex flex-col py-10'>
                             <div className='space-y-5'>
                                 <div>
 
@@ -152,7 +152,7 @@ const SelfDeclaration = () => {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className='text-[#666666]'>
                                 <div className='space-x-5 px-5'>
                                     <input
                                         type="checkbox"
@@ -162,14 +162,25 @@ const SelfDeclaration = () => {
                                         onChange={handleChange}
                                         required
                                     />
-                                    <label htmlFor="termsAccepted">I accept the terms and conditions</label>
+                                    <label htmlFor="termsAccepted">**Terms and Conditions**<br/>
+
+                                        1. You are not allowed to copy and paste into any form field.<br/>
+                                        2. You may only log in with one device. Logging in with multiple devices will result in the rejection of your assignment.<br/>
+                                        3. You cannot work on Sundays.<br/>
+                                        4. You must work at least 6 hours per day; otherwise, your login will be automatically rejected.<br/>
+                                        5. The following mistakes can lead to form rejection:<br/>
+                                        (a) Grammatical mistakes<br/>
+                                        (b) Missing capital letters at the beginning of sentences<br/>
+                                        (c) Missing full stops or commas<br/>
+                                        (d) Spelling mistakes<br/>
+                                        6. A maximum of 3 mistakes are allowed per form. Any form with more than 3 mistakes will be considered rejected.</label>
                                 </div>
 
 
                             </div>
                         </div>
                         <div className='flex justify-center'>
-                            <button type="submit" className='py-2 px-6 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white rounded-[30px]'  disabled={isSubmitting} >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
+                            <button type="submit" className='py-2 px-6 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white rounded-[30px]' disabled={isSubmitting} >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
                         </div>
 
                         {error && <p style={{ color: 'red' }}>{error}</p>}
