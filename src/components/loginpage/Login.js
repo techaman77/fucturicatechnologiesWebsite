@@ -32,15 +32,23 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('name', data.user.name);
       localStorage.setItem('role', data.user.role);
-      if (data.user.role && data.user.role === 'admin') {
-        navigate('/admin-panel');
+      if (data.user.role) {
+        // Role is present
+        if (data.user.role === 'admin') {
+          // Navigate to 'admin-panel' if role is 'admin'
+          navigate('/admin-panel');
+        }
+      } else {
+        // Role is not present
+        if (data.user.selfDeclaration) {
+          // Navigate to 'employee-panel' if selfDeclaration is true
+          navigate('/employee-panel');
+        } else {
+          // Navigate to 'self-declaration' if selfDeclaration is false
+          navigate('/self-declaration');
+        }
       }
-      if (data.user.selfDeclaration && data.user.selfDeclaration === true) {
-        navigate('/employee-panel');
-      } else if (data.user.selfDeclaration && data.user.selfDeclaration === false) {
-        navigate('/self-declaration');
-      } 
-
+     
       setEmail('');
       setPassword('');
     } catch (error) {
