@@ -240,36 +240,36 @@ const Employee = () => {
             dispatch(addCount(response.data.count));
             setSessionCount((prevCount) => prevCount + 1);
 
-            // setFormData({
-            //     employeeId: id,
-            //     name: '',
-            //     contactNumber: '',
-            //     profile: '',
-            //     email: '',
-            //     languages: [],
-            //     motherName: '',
-            //     fatherName: '',
-            //     dateOfBirth: '',
-            //     maritalStatus: '',
-            //     permanentAddress: '',
-            //     qualification: '',
-            //     qualificationDetails: {
-            //         10: '',
-            //         12: '',
-            //         Graduation: ''
-            //     },
-            //     extraQualifications: '',
-            //     extraQualificationsDetails: {
-            //         Certification: '',
-            //         Diploma: ''
-            //     },
-            //     experience: ['', '', ''],
-            //     roleResponsibilities: '',
-            //     softSkills: [],
-            //     technicalSkills: [],
-            //     linkedIn: '',
-            //     serialNumber: ''
-            // });
+            setFormData({
+                employeeId: id,
+                name: '',
+                contactNumber: '',
+                profile: '',
+                email: '',
+                languages: [],
+                motherName: '',
+                fatherName: '',
+                dateOfBirth: '',
+                maritalStatus: '',
+                permanentAddress: '',
+                qualification: '',
+                qualificationDetails: {
+                    10: '',
+                    12: '',
+                    Graduation: ''
+                },
+                extraQualifications: '',
+                extraQualificationsDetails: {
+                    Certification: '',
+                    Diploma: ''
+                },
+                experience: ['', '', ''],
+                roleResponsibilities: '',
+                softSkills: [],
+                technicalSkills: [],
+                linkedIn: '',
+                serialNumber: ''
+            });
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -330,6 +330,7 @@ const Employee = () => {
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                autoComplete='off'
                             />
                             <input
                                 type="text"
@@ -340,6 +341,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -351,6 +353,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -362,6 +365,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -373,6 +377,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -384,6 +389,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -395,6 +401,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -407,6 +414,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -418,6 +426,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -429,6 +438,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
                             />
 
@@ -464,6 +474,10 @@ const Employee = () => {
                                         placeholder="Enter details for 10th"
                                         value={formData.qualificationDetails['10']}
                                         onChange={(e) => handleQualificationChange('10', e.target.value)}
+                                        autoComplete='off'
+                                        onCopy={disableCopyPaste}
+                                        onPaste={disableCopyPaste}
+                                        onCut={disableCopyPaste}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
                                     {(formData.qualification === '12th' || formData.qualification === 'Graduation') && (
@@ -472,6 +486,10 @@ const Employee = () => {
                                             name="qualificationDetails.12"
                                             placeholder="Enter details for 12th"
                                             value={formData.qualificationDetails['12']}
+                                            autoComplete='off'
+                                            onCopy={disableCopyPaste}
+                                            onPaste={disableCopyPaste}
+                                            onCut={disableCopyPaste}
                                             onChange={(e) => handleQualificationChange('12', e.target.value)}
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
@@ -482,6 +500,10 @@ const Employee = () => {
                                             name="qualificationDetails.Graduation"
                                             placeholder="Enter details for Graduation"
                                             value={formData.qualificationDetails['Graduation']}
+                                            autoComplete='off'
+                                            onCopy={disableCopyPaste}
+                                            onPaste={disableCopyPaste}
+                                            onCut={disableCopyPaste}
                                             onChange={(e) => handleQualificationChange('Graduation', e.target.value)}
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
@@ -518,6 +540,10 @@ const Employee = () => {
                                     name="extraQualificationsDetails.Certification"
                                     placeholder="Enter details for Certification"
                                     value={formData.extraQualificationsDetails['Certification']}
+                                    autoComplete='off'
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
                                     onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
                                     className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                 />
@@ -528,6 +554,10 @@ const Employee = () => {
                                     name="extraQualificationsDetails.Diploma"
                                     placeholder="Enter details for Diploma"
                                     value={formData.extraQualificationsDetails['Diploma']}
+                                    autoComplete='off'
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
                                     onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
                                     className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                 />
@@ -539,6 +569,10 @@ const Employee = () => {
                                         name="extraQualificationsDetails.Certification"
                                         placeholder="Enter details for Certification"
                                         value={formData.extraQualificationsDetails['Certification']}
+                                        autoComplete='off'
+                                        onCopy={disableCopyPaste}
+                                        onPaste={disableCopyPaste}
+                                        onCut={disableCopyPaste}
                                         onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
@@ -547,6 +581,10 @@ const Employee = () => {
                                         name="extraQualificationsDetails.Diploma"
                                         placeholder="Enter details for Diploma"
                                         value={formData.extraQualificationsDetails['Diploma']}
+                                        autoComplete='off'
+                                        onCopy={disableCopyPaste}
+                                        onPaste={disableCopyPaste}
+                                        onCut={disableCopyPaste}
                                         onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
@@ -563,6 +601,7 @@ const Employee = () => {
                                         value={formData.experience[index] || ''}
                                         onChange={(e) => handleExperienceChange(e, index)}
                                         onCopy={disableCopyPaste}
+                                        autoComplete='off'
                                         onPaste={disableCopyPaste}
                                         onCut={disableCopyPaste}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
@@ -577,6 +616,7 @@ const Employee = () => {
                                 value={formData.roleResponsibilities}
                                 onChange={handleChange}
                                 onCopy={disableCopyPaste}
+                                autoComplete='off'
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
@@ -590,6 +630,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -601,6 +642,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -612,6 +654,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
 
@@ -624,6 +667,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
 
