@@ -329,6 +329,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                                 autoComplete='off'
                             />
@@ -341,6 +342,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -353,6 +355,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
                             />
@@ -365,6 +368,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -377,6 +381,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -389,6 +394,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -401,6 +407,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -414,6 +421,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -426,6 +434,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -438,6 +447,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
                             />
@@ -478,6 +488,7 @@ const Employee = () => {
                                         onCopy={disableCopyPaste}
                                         onPaste={disableCopyPaste}
                                         onCut={disableCopyPaste}
+                                        spellCheck={false}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
                                     {(formData.qualification === '12th' || formData.qualification === 'Graduation') && (
@@ -490,6 +501,7 @@ const Employee = () => {
                                             onCopy={disableCopyPaste}
                                             onPaste={disableCopyPaste}
                                             onCut={disableCopyPaste}
+                                            spellCheck={false}
                                             onChange={(e) => handleQualificationChange('12', e.target.value)}
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
@@ -504,6 +516,7 @@ const Employee = () => {
                                             onCopy={disableCopyPaste}
                                             onPaste={disableCopyPaste}
                                             onCut={disableCopyPaste}
+                                            spellCheck={false}
                                             onChange={(e) => handleQualificationChange('Graduation', e.target.value)}
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
@@ -544,6 +557,7 @@ const Employee = () => {
                                     onCopy={disableCopyPaste}
                                     onPaste={disableCopyPaste}
                                     onCut={disableCopyPaste}
+                                    spellCheck={false}
                                     onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
                                     className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                 />
@@ -558,6 +572,7 @@ const Employee = () => {
                                     onCopy={disableCopyPaste}
                                     onPaste={disableCopyPaste}
                                     onCut={disableCopyPaste}
+                                    spellCheck={false}
                                     onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
                                     className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                 />
@@ -573,6 +588,7 @@ const Employee = () => {
                                         onCopy={disableCopyPaste}
                                         onPaste={disableCopyPaste}
                                         onCut={disableCopyPaste}
+                                        spellCheck={false}
                                         onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
@@ -585,6 +601,7 @@ const Employee = () => {
                                         onCopy={disableCopyPaste}
                                         onPaste={disableCopyPaste}
                                         onCut={disableCopyPaste}
+                                        spellCheck={false}
                                         onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
@@ -604,6 +621,7 @@ const Employee = () => {
                                         autoComplete='off'
                                         onPaste={disableCopyPaste}
                                         onCut={disableCopyPaste}
+                                        spellCheck={false}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
                                 ))}
@@ -619,6 +637,7 @@ const Employee = () => {
                                 autoComplete='off'
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
                             />
                             <input
@@ -630,6 +649,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -642,6 +662,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -654,6 +675,7 @@ const Employee = () => {
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />
@@ -661,12 +683,13 @@ const Employee = () => {
                             <input
                                 type="text"
                                 name="serialNumber"
-                                placeholder="Enter Serial Number"
+                                placeholder="Enter Serial Number (e.g abcd1234)"
                                 value={formData.serialNumber}
                                 onChange={handleChange}
                                 onCopy={disableCopyPaste}
                                 onPaste={disableCopyPaste}
                                 onCut={disableCopyPaste}
+                                spellCheck={false}
                                 autoComplete='off'
                                 className='bg-transparent border border-[#666666] rounded-lg p-4'
                             />

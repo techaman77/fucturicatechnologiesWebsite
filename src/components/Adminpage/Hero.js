@@ -11,7 +11,8 @@ const Hero = () => {
     const [error, setError] = useState(null);
     const [formsFetched, setFormsFetched] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [serialSearchQuery, setSerialSearchQuery] = useState(''); // State for serial number search
+    const [serialSearchQuery, setSerialSearchQuery] = useState('');
+    const [modalLoading, setModalLoading] = useState(false);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -37,28 +38,42 @@ const Hero = () => {
         fetchUsers();
     }, []);
 
+    const handleRowClick = (userId) => {
+        setIsModalOpen(true); // Open modal instantly
+        setFormsFetched(null); // Clear previous data
+        setModalLoading(true); // Set loading state
 
-    const handleRowClick = async (userId) => {
+        // Fetch data after opening the modal
+        fetchFormDetails(userId);
+    };
+
+    const fetchFormDetails = async (userId) => {
         try {
             const response = await axios.post('https://futurica-backend.vercel.app/search-forms', { employeeId: userId });
             setFormsFetched(response.data);
-            setIsModalOpen(true);
         } catch (err) {
-            setError(err.message);
+            setError(err.response.data.message);
+
+            // Display the error for 2 seconds
+            setTimeout(() => {
+                setError(null); 
+                setFormsFetched(null); 
+            }, 2000);
+        } finally {
+            setModalLoading(false); // Stop loading state
         }
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setFormsFetched(null);
-        setSerialSearchQuery(''); // Reset serial number search query when closing modal
+        setSerialSearchQuery('');
     };
 
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Filter formsFetched by serial number
     const filteredForms = formsFetched?.filter((form) =>
         form.serialNumber?.toLowerCase().includes(serialSearchQuery.toLowerCase())
     );
@@ -116,7 +131,6 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* Modal */}
                 {isModalOpen && (
                     <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">
                         <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">
@@ -133,9 +147,11 @@ const Hero = () => {
                                     Close
                                 </button>
                             </div>
-                        
+
                             <Suspense fallback={<div>Loading table...</div>}>
-                                {filteredForms && filteredForms.length > 0 ? (
+                                {modalLoading ? (
+                                    <div>Loading form details...</div>
+                                ) : filteredForms && filteredForms.length > 0 ? (
                                     <TableComponent formsFetched={filteredForms} />
                                 ) : (
                                     <p>No user details available.</p>

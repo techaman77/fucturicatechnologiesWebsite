@@ -8,7 +8,7 @@ const TableComponent = ({ formsFetched }) => {
                 <thead>
                     <tr className='bg-[#E8F4FF]'>
                         <th className="px-10 py-2 border">Serial No.</th>
-                        <th className="px-10 py-2 border">Name</th>
+                        <th className="px-20 py-2 border">Name</th>
                         <th className="px-8 py-2 border">Contact Number</th>
                         <th className="px-20 py-2 border">Qualifications</th>
                         <th className="px-20 py-2 border">Extra Qualifications</th>
@@ -28,7 +28,7 @@ const TableComponent = ({ formsFetched }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {formsFetched.map((user, index) => (
+                    {formsFetched.slice().reverse().map((user, index) => (
                         <tr key={index}>
                             <td className="px-4 py-2 border">{user.serialNumber || 'N/A'}</td>
                             <td className="px-4 py-2 border">{user.name || 'N/A'}</td>
