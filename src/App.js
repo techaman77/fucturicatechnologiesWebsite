@@ -22,6 +22,11 @@ import WebDevIntern from './components/CareerPage/JobListings/WebDevIntern';
 import ScrollToTop from './components/ScrollToTop';
 import SelfDeclaration from './components/employeepage/SelfDeclaration';
 import RegisterEmployee from './components/Adminpage/RegisterEmployee';
+import BpoHiring from './components/TrainingPage/ModulePage/BpoHiring';
+import ITHiring from './components/TrainingPage/ModulePage/ItHiring';
+import Jobinterview from './components/TrainingPage/ModulePage/JobInterview';
+import Softskill from './components/TrainingPage/ModulePage/Softskill';
+import TechnicalSkill from './components/TrainingPage/ModulePage/TechnicalSkill';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -50,6 +55,11 @@ function App() {
           <Route path='/about-us' element={<About/>}/>
           <Route path='/services' element={<Service/>}/>
           <Route path='/training' element={<Training/>}/>
+          <Route path='/training/bpo-hiring' element={<BpoHiring/>}/>
+          <Route path='/training/it-hiring' element={<ITHiring/>}/>
+          <Route path='/training/job-interview' element={<Jobinterview/>}/>
+          <Route path='/training/Soft-skill' element={<Softskill/>}/>
+          <Route path='/training/technical' element={<TechnicalSkill/>}/>
           <Route path='/career' element={<Career/>}/>
           <Route path='/career/fresher-intern' element={<FreshIntern/>}/>
           <Route path='/career/bpo-fresher' element={<BpoFresher/>}/>
