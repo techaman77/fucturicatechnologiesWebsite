@@ -67,6 +67,7 @@ function Navbar() {
                 </div>
                 <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'flex' : 'hidden'} gap-5`}>
                     <h2 className='border-2 border-opacity-[0.6] border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold'>{username}</h2>
+                    <Link to='/reset-password'><button className={`${currentPath === '/employee-panel' ? 'hidden' : ''} border-2 border-opacity-[0.6] border-[#666666] rounded-[30px] p-2 px-4 text-[18px] font-bold`}>Update Password</button></Link>
                     <button
                         onClick={handleLogout}
                         className={`${currentPath === '/employee-panel' ? 'hidden' : ''} flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]`}

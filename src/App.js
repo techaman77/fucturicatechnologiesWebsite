@@ -27,6 +27,7 @@ import ITHiring from './components/TrainingPage/ModulePage/ItHiring';
 import Jobinterview from './components/TrainingPage/ModulePage/JobInterview';
 import Softskill from './components/TrainingPage/ModulePage/Softskill';
 import TechnicalSkill from './components/TrainingPage/ModulePage/TechnicalSkill';
+import PassReset from './components/Adminpage/PassReset';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -49,6 +50,7 @@ function App() {
           <Route path="/" element={<Homepage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path='/admin-panel' element={<ProtectedRoute element={<Hero/>}/>}/>
+          <Route path='/reset-password' element={<PassReset/>}/>
           <Route path='/register-employee' element={<RegisterEmployee/>}/>
           <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee/>}/>}/>
           <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration/>}/>}/>
