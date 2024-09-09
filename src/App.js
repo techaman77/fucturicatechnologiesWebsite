@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Homepage from "./components/Homepage/homepage"
 import Layout from './Layout';
@@ -36,40 +36,39 @@ const ProtectedRoute = ({ element }) => {
 };
 const ProtectedRoute1 = ({ element }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
   return isAuthenticated ? element : <Navigate to="/" />;
 };
 
 function App() {
   return (
-    
+
     <Router>
       <Layout>
-        <ScrollToTop/>
+        <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Homepage/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path='/admin-panel' element={<ProtectedRoute element={<Hero/>}/>}/>
-          <Route path='/reset-password' element={<PassReset/>}/>
-          <Route path='/register-employee' element={<RegisterEmployee/>}/>
-          <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee/>}/>}/>
-          <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration/>}/>}/>
-          <Route path='/about-us' element={<About/>}/>
-          <Route path='/services' element={<Service/>}/>
-          <Route path='/training' element={<Training/>}/>
-          <Route path='/training/bpo-hiring' element={<BpoHiring/>}/>
-          <Route path='/training/it-hiring' element={<ITHiring/>}/>
-          <Route path='/training/job-interview' element={<Jobinterview/>}/>
-          <Route path='/training/Soft-skill' element={<Softskill/>}/>
-          <Route path='/training/technical' element={<TechnicalSkill/>}/>
-          <Route path='/career' element={<Career/>}/>
-          <Route path='/career/fresher-intern' element={<FreshIntern/>}/>
-          <Route path='/career/bpo-fresher' element={<BpoFresher/>}/>
-          <Route path='/career/resume-filling' element={<ResumeFilling/>}/>
-          <Route path='/career/ui-ux-developer' element={<UXDesigner/>}/>
-          <Route path='/career/reactjs-developer' element={<ReactDev/>}/>
-          <Route path='/career/react-native-developer' element={<ReactNativeDev/>}/>
-          <Route path='/career/web-dev-intern' element={<WebDevIntern/>}/>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path='/admin-panel' element={<ProtectedRoute element={<Hero />} />} />
+          <Route path='/reset-password' element={<PassReset />} />
+          <Route path='/register-employee' element={<RegisterEmployee />} />
+          <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee />} />} />
+          <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration />} />} />
+          <Route path='/about-us' element={<About />} />
+          <Route path='/services' element={<Service />} />
+          <Route path='/training' element={<Training />} />
+          <Route path='/training/bpo-hiring' element={<BpoHiring />} />
+          <Route path='/training/it-hiring' element={<ITHiring />} />
+          <Route path='/training/job-interview' element={<Jobinterview />} />
+          <Route path='/training/Soft-skill' element={<Softskill />} />
+          <Route path='/training/technical' element={<TechnicalSkill />} />
+          <Route path='/career' element={<Career />} />
+          <Route path='/career/fresher-intern' element={<FreshIntern />} />
+          <Route path='/career/bpo-fresher' element={<BpoFresher />} />
+          <Route path='/career/resume-filling' element={<ResumeFilling />} />
+          <Route path='/career/ui-ux-developer' element={<UXDesigner />} />
+          <Route path='/career/reactjs-developer' element={<ReactDev />} />
+          <Route path='/career/react-native-developer' element={<ReactNativeDev />} />
+          <Route path='/career/web-dev-intern' element={<WebDevIntern />} />
         </Routes>
       </Layout>
     </Router>
