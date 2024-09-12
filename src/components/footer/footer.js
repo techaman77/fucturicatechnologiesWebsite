@@ -19,7 +19,7 @@ const Footer = () => {
             <h2 className='text-2xl max-xl:text-lg font-bold'>Subscribe To Newsletter</h2>
             <div className='relative'>
               <input type='text' placeholder='Your email' className='bg-[#666666] rounded-[30px] w-full p-4' />
-              <img src={img} alt='message' className='absolute top-0 right-0 mt-1' />
+              <img src={img} alt='message' className='absolute top-0 right-2 mt-1' />
             </div>
           </div>
 
@@ -68,30 +68,30 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-center sm:hidden">
-            <h3 className="text-2xl max-xl:text-lg font-semibold mb-[32px]">Reach Us</h3>
-            <div className="space-y-2 flex flex-col max-md:text-[14px] max-lg:items-center">
-              <div>Phone: +91-77488 35207</div>
-              <div>Phone: +91-8962068877</div>
-              <div>Email: hr@fucturicatechnologies.com</div>
-              <div className="flex space-x-[12px] mt-[16px]">
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-                  <img src={youtubeLogo} alt="YouTube" className="w-[36px] h-[36px]" />
-                </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                  <img src={facebookLogo} alt="Facebook" className="w-[36px] h-[36px]" />
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                  <img src={instagramLogo} alt="Instagram" className="w-[36px] h-[36px]" />
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <img src={linkedinLogo} alt="LinkedIn" className="w-[36px] h-[36px]" />
-                </a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                  <img src={twitterLogo} alt="Twitter" className="w-[36px] h-[36px]" />
-                </a>
-              </div>
+          <h3 className="text-2xl max-xl:text-lg font-semibold mb-[32px]">Reach Us</h3>
+          <div className="space-y-2 flex flex-col max-md:text-[14px] max-lg:items-center">
+            <div>Phone: +91-77488 35207</div>
+            <div>Phone: +91-8962068877</div>
+            <div>Email: hr@fucturicatechnologies.com</div>
+            <div className="flex space-x-[12px] mt-[16px]">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+                <img src={youtubeLogo} alt="YouTube" className="w-[36px] h-[36px]" />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <img src={facebookLogo} alt="Facebook" className="w-[36px] h-[36px]" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <img src={instagramLogo} alt="Instagram" className="w-[36px] h-[36px]" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <img src={linkedinLogo} alt="LinkedIn" className="w-[36px] h-[36px]" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <img src={twitterLogo} alt="Twitter" className="w-[36px] h-[36px]" />
+              </a>
             </div>
           </div>
+        </div>
 
         <div className="border-t w-[90%] mt-[20px] mx-auto" />
 

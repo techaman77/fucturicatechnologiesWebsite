@@ -18,7 +18,19 @@ module.exports = {
       colors: {
         'gradient-start': '#007BFF', // Custom color 1
         'gradient-end': '#0056B3', // Custom color 2
+        'primary': '#007BFF',
+        'secondary': '#FB861E',
+        'gray': '#666666',
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+      },
+      fontSize: {
+        navElements: '18px',
+        large: '44px',
+        medium: '24px',
+        small: '14px',
+      }
     },
   },
   plugins: [],

@@ -231,15 +231,14 @@ const Employee = () => {
             setIsSubmitting(false);
             return;
         }
-        console.log('formData:', formData);
 
         try {
             const response = await axios.post('https://futurica-backend.vercel.app/formData', formData);
-            console.log('Success:', response.data);
             localStorage.setItem('count', response.data.count)
             dispatch(addCount(response.data.count));
             setSessionCount((prevCount) => prevCount + 1);
 
+            alert("Form submitted successfully!");
             setFormData({
                 employeeId: id,
                 name: '',
@@ -318,8 +317,8 @@ const Employee = () => {
                         <h2 className='text-[#666666] text-[40px] text-center font-semibold'>
                             Resume <span className='text-[#FB861E]'>Details Form</span>
                         </h2>
-                        <p className='text-[#fff] font-light text-[20px] text-center'>Please fill in the required details</p>
-                        <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-10'>
+                        <p className='text-[red] font-light text-[20px] text-center'>Please fill in the required details</p>
+                        <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-2 gap-10'>
                             <input
                                 type="text"
                                 name="name"

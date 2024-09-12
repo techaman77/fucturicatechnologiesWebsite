@@ -9,6 +9,7 @@ import Hero from './components/Adminpage/Hero';
 import { useSelector } from 'react-redux';
 import Employee from './components/employeepage/Hero';
 import About from './components/AboutUsPage/Hero';
+import Contact from './components/ContactUsPage/Hero';
 import Service from './components/ServicePage/Hero';
 import Training from './components/TrainingPage/Hero';
 import FreshIntern from './components/CareerPage/JobListings/FreshIntern';
@@ -41,7 +42,6 @@ const ProtectedRoute1 = ({ element }) => {
 
 function App() {
   return (
-
     <Router>
       <Layout>
         <ScrollToTop />
@@ -69,6 +69,7 @@ function App() {
           <Route path='/career/reactjs-developer' element={<ReactDev />} />
           <Route path='/career/react-native-developer' element={<ReactNativeDev />} />
           <Route path='/career/web-dev-intern' element={<WebDevIntern />} />
+          <Route path='/contact-us' element={<Contact />} />
         </Routes>
       </Layout>
     </Router>

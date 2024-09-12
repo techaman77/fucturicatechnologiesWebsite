@@ -13,10 +13,10 @@ const Homepage = () => {
             <Welcome />
             <Mission />
             <Choose />
-            <Featured/>
-            <ReviewSlider/>
-            <Blogs/>
-            {/* <GetTouch/> */}
+            <Featured />
+            <ReviewSlider />
+            <Blogs />
+            {/* <GetTouch /> */}
         </div>
     );
 }

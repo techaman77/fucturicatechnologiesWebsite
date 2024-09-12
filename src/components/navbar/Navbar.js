@@ -9,6 +9,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { IoLogOutOutline } from "react-icons/io5";
 import axios from 'axios';
 import './navbar.css';
+import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 
 function Navbar() {
     const [open, setOpen] = useState(false);
@@ -23,17 +24,17 @@ function Navbar() {
 
     const userId = useSelector((state) => state.auth.userId);
 
-    const handleLogout = async () => {      
+    const handleLogout = async () => {
         try {
-          await axios.post('https://futurica-backend.vercel.app/logout', { userId });
-          
-          dispatch(logout());
-          
-          navigate('/login');
+            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+
+            dispatch(logout());
+
+            navigate('/login');
         } catch (error) {
-          console.error('Logout failed:', error);
+            console.error('Logout failed:', error);
         }
-      };
+    };
     return (
         <div className='w-full flex justify-center py-5 max-sm:py-4 border-b border-[#000]'>
             <div className='h-full w-[90%] text-[#666666] max-sm:text-[#fff] flex items-center justify-between max-sm:items-center'>
@@ -43,22 +44,22 @@ function Navbar() {
                 <div className={`${currentPath === '/admin-panel' || currentPath === '/employee-panel' ? 'hidden' : ''}`}>
                     <ul className={`w-full gap-5 max-lg:gap-3 justify-end flex items-center max-sm:flex-col max-sm:justify-center max-sm:gap-10 max-sm:absolute max-sm:bg-black max-sm:bg-opacity-95 z-[5] max-sm:w-[100%] max-sm:h-screen ${open ? 'top-[0%] left-0' : 'top-[-1490px]'}`}>
                         <Link to="/about-us" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/' ? 'active' : ''}`}>About Us</li>
+                            <li className={`text-navElements text-gray font-montserrat max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/' ? 'active' : ''}`}>About US</li>
                         </Link>
                         <Link to="/services" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/services' ? 'active' : ''}`}>Services</li>
+                            <li className={`text-navElements text-gray font-montserrat max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/services' ? 'active' : ''}`}>Services</li>
                         </Link>
                         <Link to="/career" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/career' ? 'active' : ''}`}>Career</li>
+                            <li className={`text-navElements text-gray font-montserrat max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/career' ? 'active' : ''}`}>Career</li>
                         </Link>
                         <Link to="/training" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/courses' ? 'active' : ''}`}>Training</li>
+                            <li className={`text-navElements text-gray font-montserrat max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/courses' ? 'active' : ''}`}>Training</li>
                         </Link>
                         <Link to="/blogs" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/blogs' ? 'active' : ''}`}>Blogs</li>
+                            <li className={`text-navElements text-gray font-montserrat max-lg:text-[16px] max-md:text-[12px] max-sm:text-[14px] tracking-wide font-semibold text-center hover max-sm:mb-5 ${currentPath === '/blogs' ? 'active' : ''}`}>Blogs</li>
                         </Link>
-                        <Link to="/contact" onClick={handleToggleMenu}>
-                            <li className={`text-[18px] max-lg:text-[16px] text-[#fff] bg-[#FB861E] borde rounded-[40px] py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold px-3 text-center ${currentPath === '/contact' ? 'active' : ''}`}>Contact Us</li>
+                        <Link to="/contact-us" onClick={handleToggleMenu}>
+                            <li className={`text-navElements font-montserrat max-lg:text-[16px] text-[#fff] bg-[#FB861E] borde rounded-[40px] py-2 max-md:text-[14px] max-sm:text-[14px] tracking-wide font-semibold px-3 text-center ${currentPath === '/contact' ? 'active' : ''}`}>Contact Us <EastOutlinedIcon /></li>
                         </Link>
                     </ul>
                     <div onClick={handleToggleMenu} className='block text-[#666666] sm:hidden absolute right-[5%] top-[3%] z-[6]'>
