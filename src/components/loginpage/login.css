@@ -17,3 +17,65 @@
     opacity: 0.4;
 
 }
+
+.plane-icon{
+    background-image: url('./assets/Vector.svg');
+    background-size: 180px;
+    overflow: visible;
+}
+
+
+
+.logo {
+    background-image: url('./assets/logo.svg');
+    background-size: 300px;
+    overflow: hidden;
+    background-position-x: center;
+}
+
+@media (max-width: 636px){
+    .plane-icon {
+        background-size: 100px;
+        width: 60px;
+        top: 460px;
+    }
+
+    .logo {
+        background-size: 180px;
+    }
+
+    .bgimage {
+        height: 100vh;
+    }
+}
+
+@media(max-width: 380px) {
+    .plane-icon {
+        background-size: 100px;
+        width: 60px;
+        top: 380px;
+    }
+}
+
+@media(max-width: 640px) {
+    .bgimage {
+        height: 40vh;
+    }
+}
+
+.email-icon {
+    background-image: url('./assets/sms.svg'); 
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    padding-left: 40px;
+  }
+
+  .password-icon {
+    background-image: url('./assets/lock.svg'); 
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    padding-left: 40px;
+  }
+  
