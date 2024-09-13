@@ -83,14 +83,14 @@ const Login = () => {
             <input
               placeholder="Email Id"
               type="email"
-              className="bg-transparent border-2 border-gray-600 rounded-lg p-2 w-full max-w-xs email-icon"
+              className="bg-transparent border-2 border-gray-600 rounded-lg p-2 w-1/2 email-icon"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
               placeholder="Password"
               type="password"
-              className="bg-transparent border-2 border-gray-600 rounded-lg p-2 w-full max-w-xs password-icon"
+              className="bg-transparent border-2 border-gray-600 rounded-lg p-2 w-1/2 password-icon"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
