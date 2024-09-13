@@ -1,11 +1,12 @@
-.bgimage{
+.bgimage {
     background-image: url('./assets/l1.svg');
     background-position: center;
     background-size: cover;
     position: relative;
     z-index: 0;
 }
-.bgimage::before{
+
+.bgimage::before {
     content: '';
     z-index: 5;
     position: absolute;
@@ -14,6 +15,45 @@
     top: 0%;
     bottom: 0%;
     background-color: #007BFF;
-    opacity: 0.4;
-
+    opacity: 3%;
 }
+
+.plane-icon {
+    background-image: url('./assets/Vector.svg');
+    background-size: 180px;
+    overflow: visible;
+}
+
+.logo {
+    background-image: url('./assets/logo.svg');
+    background-size: 300px;
+    overflow: hidden;
+    background-position-x: center;
+}
+
+.email-icon {
+    background-image: url('./assets/sms.svg');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    padding-left: 40px;
+}
+
+.password-icon {
+    background-image: url('./assets/lock.svg');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    padding-left: 40px;
+}
+
+@media (max-width: 636px) {
+    .bgimage {
+        height: 40vh;
+        margin-bottom: 40px;
+    }
+    .logo {
+        background-size: 180px;
+    }
+}
+
