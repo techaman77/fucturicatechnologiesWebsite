@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/auth';
 
 const TableComponent = lazy(() => import('./TableComponent'));
 
@@ -14,6 +16,10 @@ const Hero = () => {
     const [serialSearchQuery, setSerialSearchQuery] = useState('');
     const [modalLoading, setModalLoading] = useState(false);
 
+    const userId = useSelector((state) => state.auth.userId);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -21,6 +27,19 @@ const Hero = () => {
     const handleSerialSearchChange = (e) => {
         setSerialSearchQuery(e.target.value);
     };
+
+    const handleTabClose = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+
+            dispatch(logout());
+
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,6 +55,12 @@ const Hero = () => {
         };
 
         fetchUsers();
+
+        window.addEventListener("beforeunload", (e) => { handleTabClose(e) });
+
+        return () => {
+            window.removeEventListener("beforeunload", (e) => { handleTabClose(e) });
+        };
     }, []);
 
     const handleRowClick = (userId) => {
@@ -56,8 +81,8 @@ const Hero = () => {
 
             // Display the error for 2 seconds
             setTimeout(() => {
-                setError(null); 
-                setFormsFetched(null); 
+                setError(null);
+                setFormsFetched(null);
             }, 2000);
         } finally {
             setModalLoading(false); // Stop loading state
