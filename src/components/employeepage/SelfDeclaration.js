@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import img from './assets/pd.svg';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/auth';
 
 const SelfDeclaration = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,6 +18,8 @@ const SelfDeclaration = () => {
         termsAccepted: false
     });
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const [error, setError] = useState('');
 
@@ -83,6 +84,27 @@ const SelfDeclaration = () => {
             setIsSubmitting(false); // Stop loader
         }
     };
+
+    const handleTabClose = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+
+            dispatch(logout());
+
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", (e) => { handleTabClose(e) });
+
+        return () => {
+            window.removeEventListener("beforeunload", (e) => { handleTabClose(e) });
+        };
+    }, [])
 
     return (
         <div className='w-full flex justify-center py-10'>
