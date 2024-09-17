@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const TableComponent = lazy(() => import('./TableComponent'));
-
 const Hero = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState([]);
@@ -13,7 +14,8 @@ const Hero = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [serialSearchQuery, setSerialSearchQuery] = useState('');
     const [modalLoading, setModalLoading] = useState(false);
-
+    const[showPopup, setShowPopup] = useState(false);
+    const[userIdToDelete, setUserIdToDelete] = useState('');
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -45,6 +47,30 @@ const Hero = () => {
 
         // Fetch data after opening the modal
         fetchFormDetails(userId);
+    };
+
+    const handleDeleteClick = (userId) => {
+        setUserIdToDelete(userId);
+        setShowPopup(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            await axios.delete(`https://futurica-backend.vercel.app/deleteUser`, {
+                data: {userId: userIdToDelete},
+                headers: {
+                  'Content-Type': 'application/json',
+                }});
+            setUsers((prevUsers) => prevUsers.filter(user => user.userId !== userIdToDelete));
+        } catch (err) {
+            setError(err.response.data.message);
+        } finally {
+            setShowPopup(false);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setShowPopup(false);
     };
 
     const fetchFormDetails = async (userId) => {
@@ -79,7 +105,7 @@ const Hero = () => {
     );
 
     return (
-        <div className='w-full flex h-[650px] justify-center'>
+        <div className='w-full flex min-h-[650px] justify-center mb-20'>
             <div className='w-[90%] flex flex-col items-center justify-center gap-5'>
                 <div className='w-full flex justify-center'>
                     <Link to='/register-employee'>
@@ -107,6 +133,7 @@ const Hero = () => {
                         ) : error ? (
                             <p>Error: {error}</p>
                         ) : filteredUsers.length > 0 ? (
+                            <div className='overflow-y-scroll w-full h-[400px]'>
                             <table className='table-auto w-full rounded-2xl'>
                                 <thead>
                                     <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
@@ -117,19 +144,47 @@ const Hero = () => {
                                 </thead>
                                 <tbody>
                                     {filteredUsers.map((user) => (
-                                        <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]' onClick={() => handleRowClick(user.userId)}>
-                                            <td className='border px-4 py-2'>{user.name}</td>
-                                            <td className='border px-4 py-2'>{user.totalFormsSubmitted}</td>
-                                            <td className='border px-4 py-2'>{user.rejectedForm}</td>
+                                        <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]'>
+                                            <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.name}</td>
+                                            <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalFormsSubmitted}</td>
+                                            <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.rejectedForm}</td>
+                                            <td>
+                                                <FontAwesomeIcon 
+                                                    icon={faTrashCan} 
+                                                    color='red' 
+                                                    onClick={() => handleDeleteClick(user.userId)}/>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
+                            </div>
                         ) : (
                             <p>No users found</p>
                         )}
                     </div>
                 </div>
+
+                {showPopup && (
+                    <div className='fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center'>
+                        <div className='bg-white p-5 rounded-lg test-center'>
+                            <p>Are you sure you want to delete this user?</p>
+                                <div className='mt-4'>
+                                    <button
+                                        onClick={handleCancelDelete}
+                                        className='px-4 py-2 bg-blue-500 test-white rounded-md mr-2'>
+                                        Cancel
+                                </button> 
+                                <button 
+                                    onClick={handleConfirmDelete}
+                                    className='px-4 py-2 bg-blue-500 test-white rounded-md mr-2'>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
 
                 {isModalOpen && (
                     <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">

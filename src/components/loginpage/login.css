@@ -15,7 +15,7 @@
     top: 0%;
     bottom: 0%;
     background-color: #007BFF;
-    opacity: 3%;
+    opacity: 10%;
 }
 
 .plane-icon {
@@ -26,7 +26,7 @@
 
 .logo {
     background-image: url('./assets/logo.svg');
-    background-size: 300px;
+    background-size: 100%;
     overflow: hidden;
     background-position-x: center;
 }
@@ -53,7 +53,16 @@
         margin-bottom: 40px;
     }
     .logo {
-        background-size: 180px;
+        background-size: 220px;
     }
 }
 
+.error-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    width: 60%; 
+    margin-left: 0;
+  }
+  

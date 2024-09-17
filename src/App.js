@@ -29,6 +29,8 @@ import Jobinterview from './components/TrainingPage/ModulePage/JobInterview';
 import Softskill from './components/TrainingPage/ModulePage/Softskill';
 import TechnicalSkill from './components/TrainingPage/ModulePage/TechnicalSkill';
 import PassReset from './components/Adminpage/PassReset';
+import ForgotPassword from './components/loginpage/forgotPass'
+import ForgotPassReset from './components/loginpage/resetPassword';
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -70,6 +72,9 @@ function App() {
           <Route path='/career/react-native-developer' element={<ReactNativeDev />} />
           <Route path='/career/web-dev-intern' element={<WebDevIntern />} />
           <Route path='/contact-us' element={<Contact />} />
+          <Route path='/resetForgotPassword' element={<ForgotPassReset />} />
+          <Route path='/forgotPassword' element={<ForgotPassword />} />
+
         </Routes>
       </Layout>
     </Router>
