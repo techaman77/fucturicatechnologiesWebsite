@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const ResetPassword = () => {
-  const [otp, setOtp] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,8 +11,12 @@ const ResetPassword = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { email } = location.state || {};
+  const { email, otp } = location.state || {};
 
+  if (!email || !otp) {
+    navigate('/forgotPassword'); 
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +38,8 @@ const ResetPassword = () => {
       });
 
       if (response.status === 200) {
-        setSuccessMessage('Password has been reset successfully. You can now log in.');
-        setTimeout(() => navigate('/login'), 2000);
+        setSuccessMessage('Password has been reset successfully. Redirecting to login...');
+        setTimeout(() => navigate('/login'), 2000); // Redirect to login after success
       } else {
         setErrorMessage('Failed to reset password. Please try again.');
       }
@@ -56,19 +59,13 @@ const ResetPassword = () => {
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-semibold text-center mb-6">Reset Password</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-            type="number"
-            placeholder="OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg"
-          />
           <input
             type="password"
             placeholder="New Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg"
+            required
           />
           <input
             type="password"
@@ -76,15 +73,14 @@ const ResetPassword = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg"
+            required
           />
           <button
             type="submit"
-            className={`w-full py-3 rounded-lg text-white ${
-              isSubmitting ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'
-            }`}
+            className={`w-full py-3 rounded-lg text-white ${isSubmitting ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Resetting...' : 'Reset Password'}
+            {isSubmitting ? 'Resetting Password...' : 'Reset Password'}
           </button>
           {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
           {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}

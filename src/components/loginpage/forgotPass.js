@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     setSuccessMessage('');
 
     try {
-      const response = await axios.post('https://futurica-backend.vercel.app/forgotPassword', { email }, {
+      const response = await axios.post('https://futurica-backend.vercel.app/forgetPassword', { email }, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
     setSuccessMessage('');
 
     try {
-      const response = await axios.post('https://futurica-backend.vercel.app/verifyOtp', { email, otp }, {
+      const response = await axios.post('https://futurica-backend.vercel.app/verify-otp', { otp }, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -57,7 +57,7 @@ const ForgotPassword = () => {
 
       if (response.status === 200) {
         setSuccessMessage('OTP verified. Redirecting to reset password page...');
-        setTimeout(() => navigate('/resetPassword', { state: { email, otp } }), 2000); // Pass email and OTP to reset password page
+        setTimeout(() => navigate('/resetForgotPassword', { state: { email, otp } }), 2000); // Pass email and OTP to reset password page
       } else {
         setErrorMessage('Invalid OTP. Please try again.');
       }
@@ -87,7 +87,7 @@ const ForgotPassword = () => {
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-blue-300 rounded-lg"
               required
             />
             <button
@@ -113,7 +113,7 @@ const ForgotPassword = () => {
             />
             <button
               type="submit"
-              className={`w-full py-3 rounded-lg text-white ${isSubmitting ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+              className={`w-full py-3 rounded-lg text-white ${isSubmitting ? 'bg-blue-500' : 'bg-blue-500 hover:bg-blue-600'}`}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Verifying OTP...' : 'Verify OTP'}

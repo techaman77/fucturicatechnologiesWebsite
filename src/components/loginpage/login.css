@@ -20,7 +20,7 @@
 
 .plane-icon {
     background-image: url('./assets/Vector.svg');
-    background-size: 180px;
+    background-size: 240px;
     overflow: visible;
 }
 
@@ -45,6 +45,14 @@
     background-position: 10px center;
     background-size: 20px 20px;
     padding-left: 40px;
+}
+
+.google-icon {
+    background-image: url('./assets/google.svg');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    margin-left: 30px;
 }
 
 @media (max-width: 636px) {
