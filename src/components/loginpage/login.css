@@ -1,76 +1,74 @@
 .bgimage {
-    background-image: url('./assets/l1.svg');
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    z-index: 0;
+  background-image: url("./assets/l1.svg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  z-index: 0;
 }
-
 .bgimage::before {
-    content: '';
-    z-index: 5;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0%;
-    bottom: 0%;
-    background-color: #007BFF;
-    opacity: 10%;
+  content: "";
+  z-index: 5;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  bottom: 0%;
+  background-color: #007bff;
+  opacity: 10%;
 }
 
 .plane-icon {
-    background-image: url('./assets/Vector.svg');
-    background-size: 240px;
-    overflow: visible;
+  background-image: url("./assets/Vector.svg");
+  background-size: 240px;
+  overflow: visible;
 }
 
 .logo {
-    background-image: url('./assets/logo.svg');
-    background-size: 100%;
-    overflow: hidden;
-    background-position-x: center;
+  background-image: url("./assets/logo.svg");
+  background-size: 100%;
+  overflow: hidden;
+  background-position-x: center;
 }
 
 .email-icon {
-    background-image: url('./assets/sms.svg');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    background-size: 20px 20px;
-    padding-left: 40px;
+  background-image: url("./assets/sms.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px 20px;
+  padding-left: 40px;
 }
 
 .password-icon {
-    background-image: url('./assets/lock.svg');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    background-size: 20px 20px;
-    padding-left: 40px;
+  background-image: url("./assets/lock.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px 20px;
+  padding-left: 40px;
 }
 
 .google-icon {
-    background-image: url('./assets/google.svg');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    background-size: 20px 20px;
-    margin-left: 30px;
+  background-image: url("./assets/google.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px 20px;
+  margin-left: 30px;
 }
 
 @media (max-width: 636px) {
-    .bgimage {
-        height: 40vh;
-        margin-bottom: 40px;
-    }
-    .logo {
-        background-size: 220px;
-    }
+  .bgimage {
+    height: 40vh;
+    margin-bottom: 40px;
+  }
+  .logo {
+    background-size: 220px;
+  }
 }
 
 .error-message {
-    text-align: left;
-    color: red;
-    font-size: 12px;
-    margin-top: -10px;
-    width: 60%; 
-    margin-left: 0;
-  }
-  
+  text-align: left;
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  width: 60%;
+  margin-left: 0;
+}
