@@ -37,7 +37,7 @@ import ForgotPassword from './components/loginpage/forgotPass'
 import ForgotPassReset from './components/loginpage/resetPassword';
 import Blogs from "./components/Homepage/Blogs";
 import BlogDetails from "./components/Homepage/BlogDetails";
-
+import AdminVerifyOtp from "./components/loginpage/AdminVerifyOtp";
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
 
@@ -82,6 +82,7 @@ function App() {
           <Route path='/forgotPassword' element={<ForgotPassword />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<BlogDetails />} />{" "}
+          <Route path='/admin-verify-otp' element={<AdminVerifyOtp />} />
         </Routes>
       </Layout>
     </Router>

@@ -19,8 +19,8 @@
 
 .plane-icon {
   background-image: url("./assets/Vector.svg");
-  background-size: 240px;
-  overflow: visible;
+  background-size: 360px 50px;
+  overflow: hidden;
 }
 
 .logo {
@@ -31,12 +31,13 @@
 }
 
 .email-icon {
-  background-image: url("./assets/sms.svg");
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  background-size: 20px 20px;
-  padding-left: 40px;
-}
+    background-image: url("./assets/sms.svg");
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+    padding-left: 40px;
+  }
+  
 
 .password-icon {
   background-image: url("./assets/lock.svg");
@@ -47,20 +48,55 @@
 }
 
 .google-icon {
-  background-image: url("./assets/google.svg");
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  background-size: 20px 20px;
-  margin-left: 30px;
+    background-image: url('./assets/google.svg');
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    background-size: 20px 20px;
+    padding-left: 60px;
+    display: inline-flex;
 }
 
-@media (max-width: 636px) {
+.google-signin {
+    font-size: 110%;
+    text-align: center;
+}
+
+@media  (max-width: 995px) {
+    .google-signin {
+        font-size: 80% !important;
+    }
+    .google-icon {
+        background-position: 20% center;
+        background-size: 12px 20px;
+        padding-left: 20%;
+    
+    }
+}
+
+@media (max-width: 870px) {
+    .google-signin {
+        font-size: 65% !important;
+    }
+}
+
+@media (max-width: 639px) {
   .bgimage {
     height: 40vh;
     margin-bottom: 40px;
   }
   .logo {
     background-size: 220px;
+  }
+  .google-signin {
+    font-size: 80% !important;
+    text-align: center;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+  }
+  .google-icon {
+    padding-left: 50px;
+    background-position: 30px center;
   }
 }
 
