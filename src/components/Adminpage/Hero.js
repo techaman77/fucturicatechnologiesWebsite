@@ -1,6 +1,10 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/auth';
 
 const TableComponent = lazy(() => import('./TableComponent'));
 
@@ -13,6 +17,12 @@ const Hero = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [serialSearchQuery, setSerialSearchQuery] = useState('');
     const [modalLoading, setModalLoading] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [userIdToDelete, setUserIdToDelete] = useState('');
+
+    const userId = useSelector((state) => state.auth.userId);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -21,6 +31,19 @@ const Hero = () => {
     const handleSerialSearchChange = (e) => {
         setSerialSearchQuery(e.target.value);
     };
+
+    const handleTabClose = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+
+            dispatch(logout());
+
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,6 +59,12 @@ const Hero = () => {
         };
 
         fetchUsers();
+
+        window.addEventListener("beforeunload", (e) => { handleTabClose(e) });
+
+        return () => {
+            window.removeEventListener("beforeunload", (e) => { handleTabClose(e) });
+        };
     }, []);
 
     const handleRowClick = (userId) => {
@@ -47,6 +76,31 @@ const Hero = () => {
         fetchFormDetails(userId);
     };
 
+    const handleDeleteClick = (userId) => {
+        setUserIdToDelete(userId);
+        setShowPopup(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            await axios.delete(`https://futurica-backend.vercel.app/deleteUser`, {
+                data: { userId: userIdToDelete },
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            setUsers((prevUsers) => prevUsers.filter(user => user.userId !== userIdToDelete));
+        } catch (err) {
+            setError(err.response.data.message);
+        } finally {
+            setShowPopup(false);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setShowPopup(false);
+    };
+
     const fetchFormDetails = async (userId) => {
         try {
             const response = await axios.post('https://futurica-backend.vercel.app/search-forms', { employeeId: userId });
@@ -56,8 +110,8 @@ const Hero = () => {
 
             // Display the error for 2 seconds
             setTimeout(() => {
-                setError(null); 
-                setFormsFetched(null); 
+                setError(null);
+                setFormsFetched(null);
             }, 2000);
         } finally {
             setModalLoading(false); // Stop loading state
@@ -79,7 +133,7 @@ const Hero = () => {
     );
 
     return (
-        <div className='w-full flex h-[650px] justify-center'>
+        <div className='w-full flex min-h-[650px] justify-center mb-20'>
             <div className='w-[90%] flex flex-col items-center justify-center gap-5'>
                 <div className='w-full flex justify-center'>
                     <Link to='/register-employee'>
@@ -107,30 +161,56 @@ const Hero = () => {
                         ) : error ? (
                             <p>Error: {error}</p>
                         ) : filteredUsers.length > 0 ? (
-                            <table className='table-auto w-full rounded-2xl'>
-                                <thead>
-                                    <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
-                                        <th className='px-4 border font-medium py-2'>Name</th>
-                                        <th className='px-4 border font-medium py-2'>Total Forms Submitted</th>
-                                        <th className='px-4 border font-medium py-2'>Rejected Form</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredUsers.map((user) => (
-                                        <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]' onClick={() => handleRowClick(user.userId)}>
-                                            <td className='border px-4 py-2'>{user.name}</td>
-                                            <td className='border px-4 py-2'>{user.totalFormsSubmitted}</td>
-                                            <td className='border px-4 py-2'>{user.rejectedForm}</td>
+                            <div className='overflow-y-scroll w-full h-[400px]'>
+                                <table className='table-auto w-full rounded-2xl'>
+                                    <thead>
+                                        <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
+                                            <th className='px-4 border font-medium py-2'>Name</th>
+                                            <th className='px-4 border font-medium py-2'>Total Forms Submitted</th>
+                                            <th className='px-4 border font-medium py-2'>Rejected Form</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {filteredUsers.map((user) => (
+                                            <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]'>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.name}</td>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalFormsSubmitted}</td>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.rejectedForm}</td>
+                                                <td>
+                                                    <FontAwesomeIcon
+                                                        icon={faTrashCan}
+                                                        color='red'
+                                                        onClick={() => handleDeleteClick(user.userId)} />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         ) : (
                             <p>No users found</p>
                         )}
                     </div>
                 </div>
-
+                {showPopup && (
+                    <div className='fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center'>
+                        <div className='bg-white p-5 rounded-lg test-center'>
+                            <p>Are you sure you want to delete this user?</p>
+                            <div className='mt-4'>
+                                <button
+                                    onClick={handleCancelDelete}
+                                    className='px-4 py-2 bg-blue-500 test-white rounded-md mr-2'>
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleConfirmDelete}
+                                    className='px-4 py-2 bg-blue-500 test-white rounded-md mr-2'>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {isModalOpen && (
                     <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">
                         <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">

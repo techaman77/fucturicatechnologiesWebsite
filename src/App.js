@@ -8,7 +8,6 @@ import {
 import "./App.css";
 import Homepage from "./components/Homepage/homepage";
 import Layout from "./Layout";
-
 import Login from "./components/loginpage/Login";
 import Hero from "./components/Adminpage/Hero";
 import { useSelector } from "react-redux";
@@ -34,6 +33,8 @@ import Jobinterview from "./components/TrainingPage/ModulePage/JobInterview";
 import Softskill from "./components/TrainingPage/ModulePage/Softskill";
 import TechnicalSkill from "./components/TrainingPage/ModulePage/TechnicalSkill";
 import PassReset from "./components/Adminpage/PassReset";
+import ForgotPassword from "./components/loginpage/forgotPass";
+import ForgotPassReset from "./components/loginpage/resetPassword";
 import Blogs from "./components/Homepage/Blogs";
 import BlogDetails from "./components/Homepage/BlogDetails";
 
@@ -89,9 +90,10 @@ function App() {
           />
           <Route path="/career/web-dev-intern" element={<WebDevIntern />} />
           <Route path="/contact-us" element={<Contact />} />
+          <Route path="/resetForgotPassword" element={<ForgotPassReset />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<BlogDetails />} />{" "}
-          {/* Blog Details Page */}
         </Routes>
       </Layout>
     </Router>

@@ -1,7 +1,7 @@
 import React from "react";
-import { MdOutlineArrowOutward } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { blogPosts } from "./blogPosts";
+import { MdOutlineArrowOutward } from "react-icons/md";
 
 const Blogs = () => {
   const navigate = useNavigate();

@@ -26,9 +26,6 @@ const Employee = () => {
 
     const totalCount = useSelector((state) => state.form.sessionCount)
 
-
-
-
     const [timeLeft, setTimeLeft] = useState(() => {
         // Restore timeLeft from localStorage, or default to 24 hours if not available
         const savedTime = localStorage.getItem('timeLeft');
@@ -89,6 +86,19 @@ const Employee = () => {
             });
         }, 1000);
     }, [handleEmployeeLogout, dispatch]);
+
+    const handleTabClose = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+
+            dispatch(logout());
+
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    }
 
     useEffect(() => {
         startTimer();
@@ -151,9 +161,12 @@ const Employee = () => {
         dateInput.addEventListener('focus', handleFocus);
         dateInput.addEventListener('blur', handleBlur);
 
+        window.addEventListener('beforeunload', (e) => { handleTabClose(e) });
+
         return () => {
             dateInput.removeEventListener('focus', handleFocus);
             dateInput.removeEventListener('blur', handleBlur);
+            window.removeEventListener('beforeunload', (e) => { handleTabClose(e) });
         };
     }, []);
 
@@ -300,7 +313,7 @@ const Employee = () => {
                         <div className='flex justify-center gap-10 py-5 text-[20px] text-[#666666]'>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted in Session</p>
-                                <p>{totalCount}/1500</p>
+                                <p>{totalCount}/2500</p>
                             </div>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted Today</p>
