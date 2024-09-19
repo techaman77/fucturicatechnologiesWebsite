@@ -19,6 +19,7 @@ const Employee = () => {
     });
     const count = useSelector((state) => state.form.count);
     const id = useSelector((state) => state.auth.userId);
+
     useEffect(() => {
         localStorage.setItem('totalCount', sessionCount);
         dispatch(addSessionCount(sessionCount))
