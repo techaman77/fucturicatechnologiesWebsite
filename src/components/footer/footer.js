@@ -43,16 +43,10 @@ const Footer = () => {
               <Link to="/login">
                 <li className="font-bold max-md:text-[14px]">Admin Login</li>
               </Link>
-              <Link to="/about-us">
-                <li className=" max-md:text-[14px]">About Us</li>
-              </Link>
-              <Link to="/services">
-                <li className=" max-md:text-[14px]">Services</li>
-              </Link>
+              <li className=" max-md:text-[14px]">About Us</li>
+              <li className=" max-md:text-[14px]">Services</li>
               <li className=" max-md:text-[14px]">Courses</li>
-              <Link to="/blogs">
-                <li className=" max-md:text-[14px]">Blogs</li>
-              </Link>
+              <li className=" max-md:text-[14px]">Blogs</li>
             </ul>
           </div>
 
@@ -78,7 +72,9 @@ const Footer = () => {
             <div className="space-y-2 flex flex-col max-md:text-[14px] max-lg:items-center">
               <div>Phone: +91-77488 35207</div>
               <div>Phone: +91-8962068877</div>
-              <div>Email: hr@fucturicatechnologies.com</div>
+              <a href="mailto:hr@fucturicatechnologies.com">
+                <div>Email: hr@fucturicatechnologies.com</div>
+              </a>
               <div className="flex space-x-[12px] mt-[16px]">
                 <a
                   href="https://youtube.com"
@@ -215,7 +211,9 @@ const Footer = () => {
           </div>
           <div className="flex flex-wrap justify-center space-x-[48px] max-sm:space-x-4 max-lg:space-x-5 text-left font-montserrat text-[16px] font-[400] leading-[32px]">
             <h3>Privacy Policy</h3>
-            <h3>Terms and Conditions</h3>
+            <Link to="/terms-and-condition">
+              <h3>Terms and Conditions</h3>
+            </Link>
             <h3>Sitemap</h3>
           </div>
         </div>

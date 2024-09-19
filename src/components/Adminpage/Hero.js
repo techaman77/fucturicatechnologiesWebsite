@@ -217,7 +217,7 @@ const Hero = () => {
                           className="border px-4 py-2"
                           onClick={() => handleRowClick(user.userId)}
                         >
-                          {calculateRejectedForms(user)}
+                          {user.rejectedForm}
                         </td>
                         <td>
                           <FontAwesomeIcon

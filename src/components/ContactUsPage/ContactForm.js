@@ -217,6 +217,7 @@ const ContactForm = () => {
                             <Box className="w-full h-[200px] mt-5 rounded-md">
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d29483.96704382749!2d88.3221021!3d22.5230898!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0270ae18cc5e0d%3A0xaa8b9b5d97350f08!2sNew%20Alipur!5e0!3m2!1sen!2sin!4v1725989197523!5m2!1sen!2sin"
+                                    title='Fucturica Technologies'
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}

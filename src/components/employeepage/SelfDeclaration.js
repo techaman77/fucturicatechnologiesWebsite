@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import img from './assets/pd.svg';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/auth';
+import { useSelector } from 'react-redux';
 
 const SelfDeclaration = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,8 +17,6 @@ const SelfDeclaration = () => {
         termsAccepted: false
     });
     const navigate = useNavigate();
-
-    const dispatch = useDispatch();
 
     const [error, setError] = useState('');
 
@@ -59,7 +56,7 @@ const SelfDeclaration = () => {
             formDataWithFile.append('file', blob, 'screenshot.png');
 
             // Send data to the API
-            const response = await axios.post('https://futurica-backend.vercel.app/send-email', formDataWithFile, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/send-email`, formDataWithFile, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -84,27 +81,6 @@ const SelfDeclaration = () => {
             setIsSubmitting(false); // Stop loader
         }
     };
-
-    const handleTabClose = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
-
-            dispatch(logout());
-
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener("beforeunload", (e) => { handleTabClose(e) });
-
-        return () => {
-            window.removeEventListener("beforeunload", (e) => { handleTabClose(e) });
-        };
-    }, [])
 
     return (
         <div className='w-full flex justify-center py-10'>
