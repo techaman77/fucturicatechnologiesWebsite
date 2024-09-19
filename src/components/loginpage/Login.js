@@ -51,7 +51,8 @@ const Login = () => {
       localStorage.setItem('role', data.user.role);
       // Handle navigation based on user role
       if (data.user.role === 'admin') {
-        navigate('/admin-verify-otp');
+        navigate('/admin-panel');
+        // navigate('/admin-verify-otp');
       } else if (data.user.selfDeclaration) {
         navigate('/employee-panel');
       } else {
@@ -142,8 +143,6 @@ const Login = () => {
             <button type='submit' className='bg-transparent border-2 rounded-lg p-2 w-[60%] google-signin google-icon'>
               Sign in with Google
             </button>
-            {errors.general && <p className="error-message">{errors.general}</p>}
-            {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
           </form>
         </div>
       </div>
