@@ -1,10 +1,8 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/auth';
 
 const TableComponent = lazy(() => import('./TableComponent'));
 
@@ -20,10 +18,6 @@ const Hero = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState('');
 
-    const userId = useSelector((state) => state.auth.userId);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -32,24 +26,11 @@ const Hero = () => {
         setSerialSearchQuery(e.target.value);
     };
 
-    const handleTabClose = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
-
-            dispatch(logout());
-
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    }
-
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('https://futurica-backend.vercel.app/users');
-                const filteredUsers = response.data.filter(user => !user.role);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
+                const filteredUsers = response.data?.filter(user => !user.role);
                 setUsers(filteredUsers);
                 setLoading(false);
             } catch (err) {
@@ -60,11 +41,6 @@ const Hero = () => {
 
         fetchUsers();
 
-        window.addEventListener("beforeunload", (e) => { handleTabClose(e) });
-
-        return () => {
-            window.removeEventListener("beforeunload", (e) => { handleTabClose(e) });
-        };
     }, []);
 
     const handleRowClick = (userId) => {
@@ -83,7 +59,7 @@ const Hero = () => {
 
     const handleConfirmDelete = async () => {
         try {
-            await axios.delete(`https://futurica-backend.vercel.app/deleteUser`, {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/deleteUser`, {
                 data: { userId: userIdToDelete },
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +79,7 @@ const Hero = () => {
 
     const fetchFormDetails = async (userId) => {
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/search-forms', { employeeId: userId });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/search-forms`, { employeeId: userId });
             setFormsFetched(response.data);
         } catch (err) {
             setError(err.response.data.message);
@@ -171,10 +147,10 @@ const Hero = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredUsers.map((user) => (
+                                        {filteredUsers?.map((user) => (
                                             <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]'>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.name}</td>
-                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalFormsSubmitted}</td>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalForm}</td>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.rejectedForm}</td>
                                                 <td>
                                                     <FontAwesomeIcon
@@ -212,7 +188,7 @@ const Hero = () => {
                     </div>
                 )}
                 {isModalOpen && (
-                    <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">
+                    <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden z-[99]">
                         <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">
                             <div className='flex items-center justify-between py-5'>
                                 <h2 className="text-xl font-semibold ">Forms Details</h2>
@@ -223,7 +199,7 @@ const Hero = () => {
                                     className='border border-[#666666] rounded-[30px] px-6 py-2 '
                                     onChange={handleSerialSearchChange}
                                 />
-                                <button className="bg-gray-500 text-white hover:text-[#000] p-2 hover:bg-[#FB861E] rounded-lg" onClick={closeModal}>
+                                <button className="bg-gray-500 text-gray hover:text-[#000] p-2 hover:bg-[#FB861E] rounded-lg" onClick={closeModal}>
                                     Close
                                 </button>
                             </div>

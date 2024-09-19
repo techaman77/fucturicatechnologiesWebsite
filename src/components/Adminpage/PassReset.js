@@ -31,7 +31,7 @@ const PassReset = () => {
         }
 
         try {
-            const res = await axios.put('https://futurica-backend.vercel.app/updatePassword', {
+            const res = await axios.put(`${process.env.REACT_APP_API_URL}/updatePassword`, {
                 userId,
                 currentPassword,
                 newPassword,
@@ -98,7 +98,7 @@ const PassReset = () => {
                         </div>
                     </form>
                 </div>
-                <img src={img} alt='update' className='w-[300px]'/>
+                <img src={img} alt='update' className='w-[300px]' />
             </div>
         </div>
     );

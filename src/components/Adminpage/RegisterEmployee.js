@@ -28,7 +28,7 @@ const RegisterEmployee = () => {
         };
 
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/register', formData);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData);
             console.log('Employee created successfully:', response.data);
             setSuccess('Employee created successfully!');
             setName('');
@@ -40,9 +40,9 @@ const RegisterEmployee = () => {
         } catch (error) {
             console.error('Error creating employee:', error);
             setError('There was an error creating the employee.');
-        }finally {
+        } finally {
             setIsSubmitting(false); // Stop loader
-          }
+        }
     };
 
     return (

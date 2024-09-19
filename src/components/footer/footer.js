@@ -19,7 +19,9 @@ const Footer = () => {
             <h2 className='text-2xl max-xl:text-lg font-bold'>Subscribe To Newsletter</h2>
             <div className='relative'>
               <input type='text' placeholder='Your email' className='bg-[#666666] rounded-[30px] w-full p-4' />
-              <img src={img} alt='message' className='absolute top-0 right-2 mt-1' />
+              <Link to='/contact-us'>
+                <img src={img} alt='message' className='absolute top-0 right-2 mt-1' />
+              </Link>
             </div>
           </div>
 
@@ -27,10 +29,10 @@ const Footer = () => {
             <h3 className="text-2xl max-xl:text-lg font-semibold">Links</h3>
             <ul className="space-y-2 flex flex-col max-lg:items-center">
               <Link to='/login'><li className='font-bold max-md:text-[14px]'>Admin Login</li></Link>
-              <li className=' max-md:text-[14px]'>About Us</li>
-              <li className=' max-md:text-[14px]'>Services</li>
-              <li className=' max-md:text-[14px]'>Courses</li>
-              <li className=' max-md:text-[14px]'>Blogs</li>
+              <Link to='/about-us'><li className=' max-md:text-[14px]'>About Us</li></Link>
+              <Link to='/services'><li className=' max-md:text-[14px]'>Services</li></Link>
+              <Link to='/training'><li className=' max-md:text-[14px]'>Courses</li></Link>
+              <Link to='/blogs'><li className=' max-md:text-[14px]'>Blogs</li></Link>
             </ul>
           </div>
 
@@ -46,7 +48,9 @@ const Footer = () => {
             <div className="space-y-2 flex flex-col max-md:text-[14px] max-lg:items-center">
               <div>Phone: +91-77488 35207</div>
               <div>Phone: +91-8962068877</div>
-              <div>Email: hr@fucturicatechnologies.com</div>
+              <a href='mailto:hr@fucturicatechnologies.com'>
+                <div>Email: hr@fucturicatechnologies.com</div>
+              </a>
               <div className="flex space-x-[12px] mt-[16px]">
                 <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
                   <img src={youtubeLogo} alt="YouTube" className="w-[36px] h-[36px]" />
@@ -57,7 +61,7 @@ const Footer = () => {
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                   <img src={instagramLogo} alt="Instagram" className="w-[36px] h-[36px]" />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/company/fucturica-technologies/" target="_blank" rel="noopener noreferrer">
                   <img src={linkedinLogo} alt="LinkedIn" className="w-[36px] h-[36px]" />
                 </a>
                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
@@ -101,7 +105,9 @@ const Footer = () => {
           </div>
           <div className="flex flex-wrap justify-center space-x-[48px] max-sm:space-x-4 max-lg:space-x-5 text-left font-montserrat text-[16px] font-[400] leading-[32px]">
             <h3>Privacy Policy</h3>
-            <h3>Terms and Conditions</h3>
+            <Link to='/terms-and-condition'>
+              <h3>Terms and Conditions</h3>
+            </Link>
             <h3>Sitemap</h3>
           </div>
         </div>

@@ -67,9 +67,15 @@ const BlogDetail = () => {
                             <p className="text-base text-gray-700 mb-4 font-semibold  text-gray">
                                 {blog.description}
                             </p>
+                            <h2 className="text-2xl font-semibold mb-2  text-gray">
+                                Introduction
+                            </h2>
+                            <p className="text-base text-gray-700 mb-4 font-Montserrat  text-gray">
+                                {blog.introduction}
+                            </p>
 
                             {/* Blog Sections */}
-                            {blog.aboutBlog.map((section, index) => (
+                            {blog?.aboutBlog?.map((section, index) => (
                                 <div key={index} className="mb-6">
                                     <h3 className="text-xl font-semibold mb-2  text-gray">
                                         {section.section}
@@ -79,7 +85,7 @@ const BlogDetail = () => {
                                     </p>
                                     {section.subsections && (
                                         <div className="mt-4 pl-4">
-                                            {section.subsections.map((sub, subIndex) => (
+                                            {section?.subsections?.map((sub, subIndex) => (
                                                 <div
                                                     key={subIndex}
                                                     className="mb-4 flex items-start gap-2"

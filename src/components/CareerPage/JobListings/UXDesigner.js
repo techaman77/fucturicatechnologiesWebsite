@@ -39,7 +39,7 @@ const UXDesigner = () => {
                         </div>
                         <div className='flex items-center text-[24px] max-xl:text-[20px] max-lg:text-[18px] max-sm:text-[16px] gap-3'>
                             <img src={icon3} alt='icon1' />
-                            <h2 className='font-semibold'>Experience :</h2>
+                            <h2 className='font-semibold'>Compensation :</h2>
                             <p className='font-light'>Up to ₹8LPA</p>
                         </div>
                     </div>

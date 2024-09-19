@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/forgetPassword', { email }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/forgetPassword`, { email }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/verify-otp', { otp }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/verify-otp`, { otp }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

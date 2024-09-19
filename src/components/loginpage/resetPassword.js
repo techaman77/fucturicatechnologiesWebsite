@@ -30,7 +30,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/resetPassword', { email, otp, password }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/resetPassword`, { email, otp, password }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IoLogOutOutline } from "react-icons/io5";
 import { logout } from '../../store/auth';
+
 const Employee = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Employee = () => {
     const handleEmployeeLogout = useCallback(async () => {
         try {
             stopTimer();
-            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
+            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
 
             dispatch(logout());
             navigate('/admin-login');
@@ -87,18 +88,6 @@ const Employee = () => {
         }, 1000);
     }, [handleEmployeeLogout, dispatch]);
 
-    const handleTabClose = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('https://futurica-backend.vercel.app/logout', { userId });
-
-            dispatch(logout());
-
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    }
 
     useEffect(() => {
         startTimer();
@@ -161,12 +150,9 @@ const Employee = () => {
         dateInput.addEventListener('focus', handleFocus);
         dateInput.addEventListener('blur', handleBlur);
 
-        window.addEventListener('beforeunload', (e) => { handleTabClose(e) });
-
         return () => {
             dateInput.removeEventListener('focus', handleFocus);
             dateInput.removeEventListener('blur', handleBlur);
-            window.removeEventListener('beforeunload', (e) => { handleTabClose(e) });
         };
     }, []);
 
@@ -246,7 +232,7 @@ const Employee = () => {
         }
 
         try {
-            const response = await axios.post('https://futurica-backend.vercel.app/formData', formData);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/formData`, formData);
             localStorage.setItem('count', response.data.count)
             dispatch(addCount(response.data.count));
             setSessionCount((prevCount) => prevCount + 1);
