@@ -65,7 +65,7 @@ const Hero = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            setUsers((prevUsers) => prevUsers.filter(user => user.userId !== userIdToDelete));
+            setUsers((prevUsers) => prevUsers?.filter(user => user.userId !== userIdToDelete));
         } catch (err) {
             setError(err.response.data.message);
         } finally {
@@ -141,14 +141,16 @@ const Hero = () => {
                                 <table className='table-auto w-full rounded-2xl'>
                                     <thead>
                                         <tr className='bg-[#E8F4FF] h-[70px] text-[#666666]'>
+                                            <th className='px-4 border font-medium py-2'>Serial No.</th>
                                             <th className='px-4 border font-medium py-2'>Name</th>
                                             <th className='px-4 border font-medium py-2'>Total Forms Submitted</th>
                                             <th className='px-4 border font-medium py-2'>Rejected Form</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredUsers?.map((user) => (
+                                        {filteredUsers?.map((user, index) => (
                                             <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]'>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{index + 1}</td>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.name}</td>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalForm}</td>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.rejectedForm}</td>
