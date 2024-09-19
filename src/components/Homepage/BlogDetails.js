@@ -135,13 +135,13 @@ const BlogDetail = () => {
                                     Share on Social Media
                                 </h3>
                                 <div class="flex gap-4 p-4">
-                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full shadow-md">
+                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full">
                                         <FaFacebookF className="text-gray" />
                                     </div>
-                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full shadow-md">
+                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full">
                                         <FaInstagram className="text-gray" />
                                     </div>{" "}
-                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full shadow-md">
+                                    <div class="w-12 h-12 border-2 border-gray shadow-md flex items-center justify-center rounded-full">
                                         <RiTwitterXLine className="text-gray" />
                                     </div>
                                 </div>

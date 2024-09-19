@@ -24,7 +24,7 @@ const TermsandCondition = () => {
         <>
             <div className="p-4 flex flex-col md:flex-row items-center mx-auto space-y-4 md:space-y-0 md:space-x-4">
                 <div className="flex-1 text-center md:text-left md:ml-[200px]">
-                    <h2 className="font-[500] text-[28px] md:text-[44px] leading-[36px] md:leading-[53.64px] text-[#666666] font-semibold">
+                    <h2 className="text-[28px] md:text-[44px] leading-[36px] md:leading-[53.64px] text-[#666666] font-semibold">
                         Terms and Conditions
                     </h2>
                     <p className="text-[#666666] font-light text-[14px] md:text-[16px] lg:text-[20px] mt-2 md:mt-4">
@@ -108,8 +108,8 @@ const TermsandCondition = () => {
                 <button
                     type="submit"
                     className={`w-full max-w-[190px] h-[45px] px-[24px] py-[12px] rounded-[30px] font-bold border border-[#007BFF] transition-colors duration-300 ${isChecked1 && isChecked2
-                            ? "bg-[#007BFF] text-white hover:bg-[#0056b3]"
-                            : "text-gray-500 cursor-not-allowed"
+                        ? "bg-[#007BFF] text-white hover:bg-[#0056b3]"
+                        : "text-gray-500 cursor-not-allowed"
                         }`}
                     disabled={!isChecked1 || !isChecked2}
                 >
