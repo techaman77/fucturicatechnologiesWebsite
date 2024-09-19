@@ -37,6 +37,7 @@ import ForgotPassword from "./components/loginpage/forgotPass";
 import ForgotPassReset from "./components/loginpage/resetPassword";
 import Blogs from "./components/Homepage/Blogs";
 import BlogDetails from "./components/Homepage/BlogDetails";
+import TermsandCondition from "./components/TermsandCondition/TermsandCondition";
 
 const ProtectedRoute = ({ element }) => {
   const role = useSelector((state) => state.auth.role);
@@ -93,7 +94,8 @@ function App() {
           <Route path="/resetForgotPassword" element={<ForgotPassReset />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blog/:id" element={<BlogDetails />} />{" "}
+          <Route path="/blog/:id" element={<BlogDetails />} />
+          <Route path="/terms-and-condition" element={<TermsandCondition />} />
         </Routes>
       </Layout>
     </Router>

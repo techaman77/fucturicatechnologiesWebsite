@@ -67,6 +67,12 @@ const BlogDetail = () => {
               <p className="text-base text-gray-700 mb-4 font-semibold  text-gray">
                 {blog.description}
               </p>
+              <h2 className="text-2xl font-semibold mb-2  text-gray">
+                Introduction
+              </h2>
+              <p className="text-base text-gray-700 mb-4 font-Montserrat  text-gray">
+                {blog.introduction}
+              </p>
 
               {/* Blog Sections */}
               {blog.aboutBlog.map((section, index) => (
