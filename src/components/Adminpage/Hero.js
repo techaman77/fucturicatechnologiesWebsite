@@ -152,8 +152,8 @@ const Hero = () => {
                                             <tr key={user.id} className='text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]'>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{index + 1}</td>
                                                 <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.name}</td>
-                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.totalForm}</td>
-                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{user.rejectedForm}</td>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{formsFetched?.length}</td>
+                                                <td className='border px-4 py-2' onClick={() => handleRowClick(user.userId)}>{formsFetched?.length}</td>
                                                 <td>
                                                     <FontAwesomeIcon
                                                         icon={faTrashCan}
