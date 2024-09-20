@@ -91,7 +91,7 @@ const Hero = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`https://futurica-backend.vercel.app/deleteUser`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/deleteUser`, {
         data: { userId: userIdToDelete },
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +196,7 @@ const Hero = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredUsers.map((user) => (
+                    {filteredUsers?.map((user) => (
                       <tr
                         key={user.id}
                         className="text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]"
@@ -211,7 +211,7 @@ const Hero = () => {
                           className="border px-4 py-2"
                           onClick={() => handleRowClick(user.userId)}
                         >
-                          {user.totalFormsSubmitted}
+                          {user.totalForm}
                         </td>
                         <td
                           className="border px-4 py-2"
@@ -258,7 +258,7 @@ const Hero = () => {
           </div>
         )}
         {isModalOpen && (
-          <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden">
+          <div className="fixed inset-0 w-full bg-black bg-opacity-50 flex justify-center items-center overflow-hidden z-[99]">
             <div className="bg-white text-[#666666] w-[90%] h-[80vh] overflow-y-auto p-6 rounded-lg">
               <div className="flex items-center justify-between py-5">
                 <h2 className="text-xl font-semibold ">Forms Details</h2>
@@ -270,7 +270,7 @@ const Hero = () => {
                   onChange={handleSerialSearchChange}
                 />
                 <button
-                  className="bg-gray-500 text-white hover:text-[#000] p-2 hover:bg-[#FB861E] rounded-lg"
+                  className="bg-gray-500 text-gray hover:text-[#000] p-2 hover:bg-[#FB861E] rounded-lg"
                   onClick={closeModal}
                 >
                   Close

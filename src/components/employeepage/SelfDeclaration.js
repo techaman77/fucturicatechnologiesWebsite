@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
+import html2canvas from "html2canvas";
+import img from "./assets/pd.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import img from "./assets/pd.svg";
 
 const SelfDeclaration = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,40 +14,68 @@ const SelfDeclaration = () => {
     mobile: "",
     email: "",
     address: "",
+    termsAccepted: false,
   });
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Start loader
 
     // Validate form fields
     if (
       !formData.username ||
       !formData.mobile ||
       !formData.email ||
-      !formData.address
+      !formData.address ||
+      !formData.termsAccepted
     ) {
-      setError("Please fill in all fields.");
-      setIsSubmitting(false);
+      setError(
+        "Please fill in all fields and accept the terms and conditions."
+      );
       return;
     }
 
     try {
-      // Store form data in local storage
-      localStorage.setItem("formData", JSON.stringify(formData));
+      // Capture screenshot of the form component
+      const canvas = await html2canvas(document.body);
+      const screenshot = canvas.toDataURL("image/png");
 
-      console.log("Form data stored in local storage");
-      navigate("/terms-and-condition"); // Navigate to Terms and Conditions page
+      // Convert the screenshot to a Blob
+      const blob = await fetch(screenshot).then((res) => res.blob());
+
+      // Create FormData to include form data and the screenshot file
+      const formDataWithFile = new FormData();
+      formDataWithFile.append("userId", formData.userId);
+      formDataWithFile.append("username", formData.username);
+      formDataWithFile.append("number", formData.mobile);
+      formDataWithFile.append("email", formData.email);
+      formDataWithFile.append("address", formData.address);
+      formDataWithFile.append("file", blob, "screenshot.png");
+
+      // Send data to the API
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/send-email`,
+        formDataWithFile,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Form submitted successfully:", response.data);
+      navigate("/employee-panel");
 
       // Reset form after successful submission
       setFormData({
@@ -53,6 +83,7 @@ const SelfDeclaration = () => {
         mobile: "",
         email: "",
         address: "",
+        termsAccepted: false,
       });
       setError(""); // Clear any existing error
     } catch (error) {
@@ -72,7 +103,7 @@ const SelfDeclaration = () => {
           </h2>
         </div>
         <div className="flex justify-center gap-20">
-          <img src={img} alt="logo" />
+          <img src={img} alt="pizza" />
 
           <form
             onSubmit={handleSubmit}
@@ -132,6 +163,47 @@ const SelfDeclaration = () => {
                     onChange={handleChange}
                     required
                   />
+                </div>
+              </div>
+
+              <div className="text-[#666666]">
+                <div className="space-x-5 px-5">
+                  <input
+                    type="checkbox"
+                    id="termsAccepted"
+                    name="termsAccepted"
+                    checked={formData.termsAccepted}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label htmlFor="termsAccepted">
+                    **Terms and Conditions**
+                    <br />
+                    1. You are not allowed to copy and paste into any form
+                    field.
+                    <br />
+                    2. You may only log in with one device. Logging in with
+                    multiple devices will result in the rejection of your
+                    assignment.
+                    <br />
+                    3. You cannot work on Sundays.
+                    <br />
+                    4. You must work at least 6 hours per day; otherwise, your
+                    login will be automatically rejected.
+                    <br />
+                    5. The following mistakes can lead to form rejection:
+                    <br />
+                    (a) Grammatical mistakes
+                    <br />
+                    (b) Missing capital letters at the beginning of sentences
+                    <br />
+                    (c) Missing full stops or commas
+                    <br />
+                    (d) Spelling mistakes
+                    <br />
+                    6. A maximum of 3 mistakes are allowed per form. Any form
+                    with more than 3 mistakes will be considered rejected.
+                  </label>
                 </div>
               </div>
             </div>

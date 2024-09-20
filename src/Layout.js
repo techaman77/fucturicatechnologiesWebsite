@@ -28,10 +28,15 @@ const Layout = ({ children }) => {
   }, [dispatch, navigate, userId]);
 
   useEffect(() => {
+    //Tab close
     window.addEventListener("beforeunload", handleTabClose);
+    //Back button
+    window.addEventListener('popstate', handleTabClose);
 
     return () => {
       window.removeEventListener("beforeunload", handleTabClose);
+
+      window.removeEventListener('popstate', handleTabClose);
     };
   }, [handleTabClose]);
 
