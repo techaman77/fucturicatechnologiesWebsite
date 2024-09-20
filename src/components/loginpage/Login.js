@@ -66,10 +66,10 @@ const Login = () => {
         // Handle known API errors
         const errorMessage = error.response.data.msg || 'An error occurred';
 
-        if (errorMessage.toLowerCase().includes('email')) {
-          setErrors((prev) => ({ ...prev, email: 'Email not found' }));
-        } else if (errorMessage.toLowerCase().includes('password')) {
+        if (errorMessage.toLowerCase().includes('password')) {
           setErrors((prev) => ({ ...prev, password: 'Incorrect password' }));
+        } else if (errorMessage.toLowerCase().includes('email')) {
+          setErrors((prev) => ({ ...prev, email: 'Email not found' }));
         } else {
           setErrors((prev) => ({ ...prev, general: errorMessage }));
         }
@@ -132,7 +132,7 @@ const Login = () => {
             <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-full w-[30%] max-w-xs" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
-            {errors.general && <p className="error-message">{errors.general}</p>}
+            {errors.general && <p className="text-center text-red-500 text-[14px] mt-[-10px] w-[60%]">{errors.general}</p>}
             {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
 
             <div className="flex items-center justify-center w-1/2 mt-4">

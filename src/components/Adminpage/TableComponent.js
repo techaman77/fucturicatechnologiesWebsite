@@ -36,14 +36,14 @@ const TableComponent = ({ formsFetched }) => {
                             <td className="px-4 py-2 border">{user.name || 'N/A'}</td>
                             <td className="px-4 py-2 border">{user.contactNumber || 'N/A'}</td>
                             <td className="px-4 py-2 border">
-                                {Object.entries(user.qualificationDetails || {}).map(([key, value]) => (
+                                {Object.entries(user.qualificationDetails || {})?.map(([key, value]) => (
                                     <div key={key}>
                                         {key}: {value || 'N/A'}
                                     </div>
                                 ))}
                             </td>
                             <td className="px-4 py-2 border">
-                                {Object.entries(user.extraQualificationsDetails || {}).map(([key, value]) => (
+                                {Object?.entries(user.extraQualificationsDetails || {})?.map(([key, value]) => (
                                     <div key={key}>
                                         {key}: {value || 'N/A'}
                                     </div>

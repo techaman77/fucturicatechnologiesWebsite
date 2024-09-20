@@ -12,6 +12,7 @@ const Employee = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState({});
     const [sessionCount, setSessionCount] = useState(() => {
         // Initialize sessionCount from localStorage, or default to 0 if not available
         const storedCount = localStorage.getItem('totalCount');
@@ -174,6 +175,9 @@ const Employee = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        if (errorMessage[name]) {
+            setErrorMessage((prev) => ({ ...prev, [name]: '' }));
+        }
     };
 
     const handleQualificationChange = (key, value) => {
@@ -184,6 +188,15 @@ const Employee = () => {
                 [key]: value
             }
         }));
+        setErrorMessage(prevErrors => {
+            const newErrors = { ...prevErrors };
+            if (value.trim()) {
+                newErrors[`qualificationDetails.${key}`] = '';
+            } else {
+                newErrors[`qualificationDetails.${key}`] = `${key} details are required`;
+            }
+            return newErrors;
+        });
     };
     const handleExtraQualificationChange = (key, value) => {
         setFormData(prevData => ({
@@ -192,6 +205,10 @@ const Employee = () => {
                 ...prevData.extraQualificationsDetails,
                 [key]: value
             }
+        }));
+        setErrorMessage(prevErrors => ({
+            ...prevErrors,
+            [`extraQualificationsDetails.${key}`]: ''
         }));
     };
     const handleExperienceChange = (e, index) => {
@@ -204,6 +221,12 @@ const Employee = () => {
                 experience: newExperience
             };
         });
+        if (formData.experience[0].trim !== '') {
+            setErrorMessage((prevError) => ({
+                ...prevError,
+                experience: '',
+            }))
+        }
     };
 
 
@@ -212,11 +235,102 @@ const Employee = () => {
             ...prevData,
             [name]: value
         }));
+        setErrorMessage(prevErrors => {
+            if (name === 'extraQualifications') {
+                return {
+                    ...prevErrors,
+                    extraQualifications: '',
+                    'extraQualificationsDetails.Certification': '',
+                    'extraQualificationsDetails.Diploma': ''
+                };
+            }
+            if (name === 'qualification') {
+                return {
+                    ...prevErrors,
+                    qualification: '',
+
+                };
+            }
+
+            return prevErrors;
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        const errors = {};
+
+        // Check if all fields are filled
+        if (!formData.employeeId) errors.employeeId = "Employee ID is required";
+        if (!formData.name) errors.name = "Name is required";
+        if (!formData.email) errors.email = "Email is required";
+        if (!formData.contactNumber) errors.contactNumber = "Contact Number is required";
+        if (!formData.qualification) errors.qualification = "Qualification is required";
+        if (!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
+        if (!formData.fatherName) errors.fatherName = "Father Name is required";
+        if (!formData.motherName) errors.motherName = "Mother Name is required";
+        if (!formData.dateOfBirth) errors.dateOfBirth = "Date of Birth is required";
+        if (!formData.maritalStatus) errors.maritalStatus = "Marital Status is required";
+        if (!formData.permanentAddress) errors.permanentAddress = "Permanent Address is required";
+        if (formData.languages.length === 0) errors.languages = "Languages are required";
+        if (formData.softSkills.length === 0) errors.softSkills = "Soft Skills are required";
+        if (formData.technicalSkills.length === 0) errors.technicalSkills = "Technical Skills are required";
+        if (!formData.linkedIn) errors.linkedIn = "LinkedIn is required";
+        if (!formData.profile) errors.profile = "Profile/Summary is required";
+        if (!formData.serialNumber) errors.serialNumber = "Serial Number is required";
+        // Check if qualification details are present and validate each property
+        if (!formData.qualification) {
+            errors.qualification = 'Qualification is required';
+        }
+        if (!formData.qualificationDetails['10']) {
+            errors['qualificationDetails.10'] = '10th details are required';
+        }
+        if (['12th', 'Graduation'].includes(formData.qualification) && !formData.qualificationDetails['12']) {
+            errors['qualificationDetails.12'] = '12th details are required';
+        }
+        if (formData.qualification === 'Graduation' && !formData.qualificationDetails['Graduation']) {
+            errors['qualificationDetails.Graduation'] = 'Graduation details are required';
+        }
+
+
+
+        if (!formData.extraQualifications) {
+            errors.extraQualifications = "Extra Qualification is required";
+        } else {
+            switch (formData.extraQualifications) {
+                case 'Certification':
+                    if (!formData.extraQualificationsDetails.Certification) {
+                        errors['extraQualificationsDetails.Certification'] = "Certification details are required";
+                    }
+                    break;
+                case 'Diploma':
+                    if (!formData.extraQualificationsDetails.Diploma) {
+                        errors['extraQualificationsDetails.Diploma'] = "Diploma details are required";
+                    }
+                    break;
+                case 'Both':
+                    if (!formData.extraQualificationsDetails.Certification) {
+                        errors['extraQualificationsDetails.Certification'] = "Certification details are required";
+                    }
+                    if (!formData.extraQualificationsDetails.Diploma) {
+                        errors['extraQualificationsDetails.Diploma'] = "Diploma details are required";
+                    }
+                    break;
+                default:
+                    errors.extraQualifications = "Invalid Extra Qualification selection";
+            }
+        }
+
+
+        const isEmpty = formData.experience.every(exp => exp.trim() === '');
+        if (isEmpty) errors.experience = 'At least one experience field must be filled in.';
+        setErrorMessage(errors);
+
+        if (Object.keys(errors).length > 0) {
+            setIsSubmitting(false);
+            return;
+        }
 
         const allFieldsFilled = Object.entries(formData).every(([key, value]) => {
             if (Array.isArray(value)) {
@@ -314,145 +428,192 @@ const Employee = () => {
                     </div>
                     <div className='border-b border-[#016DE2] w-full pb-10'></div>
                     <div className='w-[80%]'>
-                        <h2 className='text-[#666666] text-[40px] text-center font-semibold'>
+                        <h2 className='text-[#666666] text-[40px] text-center font-semibold mb-4'>
                             Resume <span className='text-[#FB861E]'>Details Form</span>
                         </h2>
-                        <p className='text-[red] font-light text-[20px] text-center'>Please fill in the required details</p>
+                        <p className='text-secondary font-medium text-[20px] text-center'>Please fill in the required details</p>
                         <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-2 gap-10'>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Enter First_Name Last_Name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                                autoComplete='off'
-                            />
-                            <input
-                                type="text"
-                                name="contactNumber"
-                                placeholder="Enter contact number"
-                                value={formData.contactNumber}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="profile"
-                                placeholder="Enter Profile/ Summary"
-                                value={formData.profile}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="email"
-                                placeholder="Email Adress"
-                                value={formData.email}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="languages"
-                                placeholder="Enter Languages Known (comma-separated)"
-                                value={formData.languages.join(', ')}
-                                onChange={(e) => setFormData({ ...formData, languages: e.target.value.split(',').map(language => language.trim()) })}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="motherName"
-                                placeholder="Enter mother's name"
-                                value={formData.motherName}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="fatherName"
-                                placeholder="Enter father's name"
-                                value={formData.fatherName}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                id="dateOfBirth"
-                                name="dateOfBirth"
-                                placeholder="Enter your date of birth"
-                                value={formData.dateOfBirth}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="maritalStatus"
-                                placeholder="Enter your marital status"
-                                value={formData.maritalStatus}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="permanentAddress"
-                                placeholder="Enter your permanent address"
-                                value={formData.permanentAddress}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
-                            />
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Enter First_Name Last_Name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                    autoComplete='off'
+                                />
+                                {errorMessage.name && <span className="text-red-500 text-sm block mt-1">{errorMessage.name}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="contactNumber"
+                                    placeholder="Enter contact number"
+                                    value={formData.contactNumber}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.contactNumber && <span className="text-red-500 text-sm block mt-1">{errorMessage.contactNumber}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="profile"
+                                    placeholder="Enter Profile/ Summary"
+                                    value={formData.profile}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.profile && <span className="text-red-500 text-sm block mt-1">{errorMessage.profile}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    placeholder="Email Adress"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.email && <span className="text-red-500 text-sm block mt-1">{errorMessage.email}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="languages"
+                                    placeholder="Enter Languages Known (comma-separated)"
+                                    value={formData.languages.join(', ')}
+                                    onChange={(e) => {
+                                        const value = e.target.value.split(',').map(language => language.trim());
+                                        setFormData({ ...formData, languages: value });
+
+                                        setErrorMessage((prevErrors) => ({
+                                            ...prevErrors,
+                                            languages: value.length > 0 && value[0] !== '' ? '' : prevErrors.languages,
+                                        }));
+                                    }}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.languages && <span className="text-red-500 text-sm block mt-1">{errorMessage.languages}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="motherName"
+                                    placeholder="Enter mother's name"
+                                    value={formData.motherName}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.motherName && <span className="text-red-500 text-sm block mt-1">{errorMessage.motherName}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="fatherName"
+                                    placeholder="Enter father's name"
+                                    value={formData.fatherName}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.fatherName && <span className="text-red-500 text-sm block mt-1">{errorMessage.fatherName}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    id="dateOfBirth"
+                                    name="dateOfBirth"
+                                    placeholder="Enter your date of birth"
+                                    value={formData.dateOfBirth}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.dateOfBirth && <span className="text-red-500 text-sm block mt-1">{errorMessage.dateOfBirth}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="maritalStatus"
+                                    placeholder="Enter your marital status"
+                                    value={formData.maritalStatus}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.maritalStatus && <span className="text-red-500 text-sm block mt-1">{errorMessage.maritalStatus}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="permanentAddress"
+                                    placeholder="Enter your permanent address"
+                                    value={formData.permanentAddress}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.permanentAddress && <span className="text-red-500 text-sm block mt-1">{errorMessage.permanentAddress}</span>}
+                            </div>
 
                             {/* Qualification Options */}
-                            <div className='flex gap-5 items-center'>
+                            <div className='flex gap-5 items-center flex-row grid-item col-span-2'>
                                 <label>Qualification:</label>
                                 <div
                                     className={`option ${formData.qualification === '10th' ? 'active' : ''}`}
@@ -472,6 +633,7 @@ const Employee = () => {
                                 >
                                     Graduation
                                 </div>
+                                {errorMessage.qualification && <span className="text-red-500 text-sm block">{errorMessage.qualification}</span>}
                             </div>
 
                             {/* Dynamic input fields */}
@@ -490,6 +652,7 @@ const Employee = () => {
                                         spellCheck={false}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
+                                    {errorMessage['qualificationDetails.10'] && <span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['qualificationDetails.10']}</span>}
                                     {(formData.qualification === '12th' || formData.qualification === 'Graduation') && (
                                         <input
                                             type="text"
@@ -505,6 +668,7 @@ const Employee = () => {
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
                                     )}
+                                    {errorMessage['qualificationDetails.12'] && <span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['qualificationDetails.12']}</span>}
                                     {formData.qualification === 'Graduation' && (
                                         <input
                                             type="text"
@@ -520,10 +684,11 @@ const Employee = () => {
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                         />
                                     )}
+                                    {errorMessage['qualificationDetails.Graduation'] && <span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['qualificationDetails.Graduation']}</span>}
                                 </>
                             )}
                             {/* // JSX for Extra-Qualification Options */}
-                            <div className='flex gap-5 items-center'>
+                            <div className='flex gap-5 items-center grid-item col-span-2'>
                                 <label>Extra Qualification:</label>
                                 <div
                                     className={`option ${formData.extraQualifications === 'Certification' ? 'active' : ''}`}
@@ -543,46 +708,17 @@ const Employee = () => {
                                 >
                                     Both
                                 </div>
+                                {errorMessage.extraQualifications && <span className="text-red-500 text-sm block">{errorMessage.extraQualifications}</span>}
                             </div>
 
                             {/* // JSX for Dynamic Input Fields */}
-                            {formData.extraQualifications === 'Certification' && (
-                                <input
-                                    type="text"
-                                    name="extraQualificationsDetails.Certification"
-                                    placeholder="Enter details for Certification"
-                                    value={formData.extraQualificationsDetails['Certification']}
-                                    autoComplete='off'
-                                    onCopy={disableCopyPaste}
-                                    onPaste={disableCopyPaste}
-                                    onCut={disableCopyPaste}
-                                    spellCheck={false}
-                                    onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
-                                    className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
-                                />
-                            )}
-                            {formData.extraQualifications === 'Diploma' && (
-                                <input
-                                    type="text"
-                                    name="extraQualificationsDetails.Diploma"
-                                    placeholder="Enter details for Diploma"
-                                    value={formData.extraQualificationsDetails['Diploma']}
-                                    autoComplete='off'
-                                    onCopy={disableCopyPaste}
-                                    onPaste={disableCopyPaste}
-                                    onCut={disableCopyPaste}
-                                    spellCheck={false}
-                                    onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
-                                    className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
-                                />
-                            )}
-                            {formData.extraQualifications === 'Both' && (
-                                <>
+                            <>
+                                {['Certification', 'Both'].includes(formData.extraQualifications) && (
                                     <input
                                         type="text"
                                         name="extraQualificationsDetails.Certification"
                                         placeholder="Enter details for Certification"
-                                        value={formData.extraQualificationsDetails['Certification']}
+                                        value={formData.extraQualificationsDetails['Certification'] || ''}
                                         autoComplete='off'
                                         onCopy={disableCopyPaste}
                                         onPaste={disableCopyPaste}
@@ -591,11 +727,15 @@ const Employee = () => {
                                         onChange={(e) => handleExtraQualificationChange('Certification', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
+                                )}
+                                {errorMessage['extraQualificationsDetails.Certification'] && (<span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['extraQualificationsDetails.Certification']}</span>)}
+
+                                {['Diploma', 'Both'].includes(formData.extraQualifications) && (
                                     <input
                                         type="text"
                                         name="extraQualificationsDetails.Diploma"
                                         placeholder="Enter details for Diploma"
-                                        value={formData.extraQualificationsDetails['Diploma']}
+                                        value={formData.extraQualificationsDetails['Diploma'] || ''}
                                         autoComplete='off'
                                         onCopy={disableCopyPaste}
                                         onPaste={disableCopyPaste}
@@ -604,10 +744,12 @@ const Employee = () => {
                                         onChange={(e) => handleExtraQualificationChange('Diploma', e.target.value)}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
                                     />
-                                </>
-                            )}
+                                )}
+                                {errorMessage['extraQualificationsDetails.Diploma'] && (<span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['extraQualificationsDetails.Diploma']}</span>)}
+                            </>
                             <div className='col-span-2 flex flex-col gap-5'>
                                 <label>Experience:</label>
+                                {errorMessage.experience && <span className="text-red-500 text-sm -mt-3 flex flex-col">{errorMessage.experience}</span>}
                                 {[0, 1, 2].map((index) => (
                                     <input
                                         key={index}
@@ -625,73 +767,106 @@ const Employee = () => {
                                     />
                                 ))}
                             </div>
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="roleResponsibilities"
+                                    placeholder="Enter your role & responsibilities"
+                                    value={formData.roleResponsibilities}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    autoComplete='off'
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.roleResponsibilities && <span className="text-red-500 text-sm block mt-1">{errorMessage.roleResponsibilities}</span>}
+                            </div>
 
-                            <input
-                                type="text"
-                                name="roleResponsibilities"
-                                placeholder="Enter your role & responsibilities"
-                                value={formData.roleResponsibilities}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                autoComplete='off'
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="softSkills"
-                                placeholder="Enter your softSkills (comma-separated)"
-                                value={formData.softSkills.join(', ')}
-                                onChange={(e) => setFormData({ ...formData, softSkills: e.target.value.split(',').map(skill => skill.trim()) })}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="technicalSkills"
-                                placeholder="Enter your technicalSkills (comma-separated)"
-                                value={formData.technicalSkills.join(', ')}
-                                onChange={(e) => setFormData({ ...formData, technicalSkills: e.target.value.split(',').map(techskill => techskill.trim()) })}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            <input
-                                type="text"
-                                name="linkedIn"
-                                placeholder="Enter your linkedIn URL"
-                                value={formData.linkedIn}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="softSkills"
+                                    placeholder="Enter your softSkills (comma-separated)"
+                                    value={formData.softSkills.join(', ')}
+                                    onChange={(e) => {
+                                        const value = e.target.value.split(',').map(skill => skill.trim());
+                                        setFormData({ ...formData, softSkills: value });
 
-                            <input
-                                type="text"
-                                name="serialNumber"
-                                placeholder="Enter Serial Number (e.g abcd1234)"
-                                value={formData.serialNumber}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
+                                        setErrorMessage((prevErrors) => ({
+                                            ...prevErrors,
+                                            softSkills: value.length > 0 && value[0] !== '' ? '' : prevErrors.softSkills,
+                                        }));
+                                    }}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.softSkills && <span className="text-red-500 text-sm block mt-1">{errorMessage.softSkills}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="technicalSkills"
+                                    placeholder="Enter your technicalSkills (comma-separated)"
+                                    value={formData.technicalSkills.join(', ')}
+                                    onChange={(e) => {
+                                        const value = e.target.value.split(',').map(techskill => techskill.trim());
+                                        setFormData({ ...formData, technicalSkills: value });
+
+                                        setErrorMessage((prevErrors) => ({
+                                            ...prevErrors,
+                                            technicalSkills: value.length > 0 && value[0] !== '' ? '' : prevErrors.technicalSkills,
+                                        }));
+                                    }}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.technicalSkills && <span className="text-red-500 text-sm block mt-1">{errorMessage.technicalSkills}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="linkedIn"
+                                    placeholder="Enter your linkedIn URL"
+                                    value={formData.linkedIn}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.linkedIn && <span className="text-red-500 text-sm block mt-1">{errorMessage.linkedIn}</span>}
+                            </div>
+
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="serialNumber"
+                                    placeholder="Enter Serial Number (e.g abcd1234)"
+                                    value={formData.serialNumber}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.serialNumber && <span className="text-red-500 text-sm block mt-1">{errorMessage.serialNumber}</span>}
+                            </div>
 
                             <div className='col-span-2 flex justify-center w-full'>
                                 <button
@@ -704,8 +879,8 @@ const Employee = () => {
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     );
 };
