@@ -11,7 +11,7 @@ const Hero = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [formsFetched, setFormsFetched] = useState(null);
+    const [formsFetched, setFormsFetched] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [serialSearchQuery, setSerialSearchQuery] = useState('');
     const [modalLoading, setModalLoading] = useState(false);
@@ -80,7 +80,7 @@ const Hero = () => {
     const fetchFormDetails = async (userId) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/search-forms`, { employeeId: userId });
-            setFormsFetched(response.data);
+            setFormsFetched(response.data.forms);
         } catch (err) {
             setError(err.response.data.message);
 
@@ -100,7 +100,7 @@ const Hero = () => {
         setSerialSearchQuery('');
     };
 
-    const filteredUsers = users.filter((user) =>
+    const filteredUsers = users?.filter((user) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
