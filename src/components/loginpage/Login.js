@@ -14,7 +14,6 @@ const Login = () => {
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,12 +42,15 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
+
       const data = response.data;
+
       // Store token and user details in localStorage
       dispatch(login(data));
       localStorage.setItem('token', data.token);
       localStorage.setItem('name', data.user.name);
       localStorage.setItem('role', data.user.role);
+
       // Handle navigation based on user role
       if (data.user.role === 'admin') {
         navigate('/admin-panel');
@@ -59,24 +61,23 @@ const Login = () => {
         navigate('/self-declaration');
       }
       setSuccessMessage('Login successful');
+      
+      // Clear form inputs
       setEmail('');
       setPassword('');
     } catch (error) {
       if (error.response) {
-        // Handle known API errors
         const errorMessage = error.response.data.msg || 'An error occurred';
 
-        if (errorMessage.toLowerCase().includes('email')) {
-          setErrors((prev) => ({ ...prev, email: 'Email not found' }));
-        } else if (errorMessage.toLowerCase().includes('password')) {
+        if (errorMessage.toLowerCase().includes('password')) {
           setErrors((prev) => ({ ...prev, password: 'Incorrect password' }));
+        } else if (errorMessage.toLowerCase().includes('email')) {
+          setErrors((prev) => ({ ...prev, email: 'Email not found' }));
+        } else if (errorMessage.toLowerCase().includes('logged in')) {
+          setErrors((prev) => ({ ...prev, general: 'User already logged in on another device' }));
         } else {
           setErrors((prev) => ({ ...prev, general: errorMessage }));
-        }
-      } else {
-        // Handle unexpected errors
-        setErrors((prev) => ({ ...prev, general: 'An unexpected error occurred' }));
-      }
+      }}
     } finally {
       setIsSubmitting(false); // Stop loader
     }
@@ -109,7 +110,8 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {errors.email && <p className="error-message">{errors.email}</p>}
+            {errors.email && <p className="error-message">{errors.email}</p>} 
+
             <div className="relative w-[60%]">
               <input
                 placeholder="Password"
@@ -118,21 +120,22 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </div>
+               <div className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+               </div>
             </div>
-            {errors.password && <p className="error-message">{errors.password}</p>}
-
+              {errors.password && <p className="error-message">{errors.password}</p>}
+        
             <div className="relative w-full -mt-4">
               <div className="absolute right-[20%]">
                 <span className="text-gray text-[12px] cursor-pointer" onClick={handleForgotPassword}>Forgot your password?</span>
               </div>
             </div>
-            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-full w-[30%] max-w-xs" disabled={isSubmitting}>
+
+            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-full w-[42%] max-w-xs p-3" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
-            </button>
-            {errors.general && <p className="error-message">{errors.general}</p>}
+            </button> 
+            {errors.general && <p className="text-center text-red-500 text-[14px] mt-[-10px] w-[60%]">{errors.general}</p>}
             {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
 
             <div className="flex items-center justify-center w-1/2 mt-4">
