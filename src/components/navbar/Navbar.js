@@ -26,7 +26,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("https://futurica-backend.vercel.app/logout", {
+      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {
         userId,
       });
 

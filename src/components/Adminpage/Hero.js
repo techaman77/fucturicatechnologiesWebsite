@@ -13,7 +13,7 @@ const Hero = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [formsFetched, setFormsFetched] = useState(null);
+  const [formsFetched, setFormsFetched] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serialSearchQuery, setSerialSearchQuery] = useState("");
   const [modalLoading, setModalLoading] = useState(false);
@@ -35,7 +35,7 @@ const Hero = () => {
   const handleTabClose = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://futurica-backend.vercel.app/logout", {
+      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {
         userId,
       });
 
@@ -51,7 +51,7 @@ const Hero = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://futurica-backend.vercel.app/users"
+          ` ${process.env.REACT_APP_API_URL}/users`
         );
         const filteredUsers = response.data.filter((user) => !user.role);
         setUsers(filteredUsers);
@@ -114,13 +114,14 @@ const Hero = () => {
   const fetchFormDetails = async (userId) => {
     try {
       const response = await axios.post(
-        "https://futurica-backend.vercel.app/search-forms",
+        `${process.env.REACT_APP_API_URL}/search-forms`,
         { employeeId: userId }
       );
-      setFormsFetched(response.data);
+      // Extract forms array from the response
+      const formsArray = response.data.forms; // Adjust based on your API response structure
+      setFormsFetched(formsArray); // Set the forms array directly
     } catch (err) {
       setError(err.response.data.message);
-
       // Display the error for 2 seconds
       setTimeout(() => {
         setError(null);
@@ -141,9 +142,13 @@ const Hero = () => {
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredForms = formsFetched?.filter((form) =>
-    form.serialNumber?.toLowerCase().includes(serialSearchQuery.toLowerCase())
-  );
+  const filteredForms = Array.isArray(formsFetched)
+    ? formsFetched.filter((form) =>
+        form.serialNumber
+          ?.toLowerCase()
+          .includes(serialSearchQuery.toLowerCase())
+      )
+    : [];
 
   // Calculate the "Rejected Form" count
   const calculateRejectedForms = (user) => {
@@ -280,7 +285,7 @@ const Hero = () => {
               <Suspense fallback={<div>Loading table...</div>}>
                 {modalLoading ? (
                   <div>Loading form details...</div>
-                ) : filteredForms && filteredForms.length > 0 ? (
+                ) : filteredForms.length > 0 ? (
                   <TableComponent formsFetched={filteredForms} />
                 ) : (
                   <p>No user details available.</p>

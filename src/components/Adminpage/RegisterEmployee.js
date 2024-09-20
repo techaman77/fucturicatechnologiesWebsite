@@ -63,7 +63,6 @@ const RegisterEmployee = () => {
           className="text-[#666666] flex items-center gap-2"
         >
           <IoIosArrowRoundBack className="text-2xl" />
-          Blogs
         </button>
       </div>
       <div className="w-full flex h-[650px] justify-center">
