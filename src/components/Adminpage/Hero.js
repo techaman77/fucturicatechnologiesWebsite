@@ -20,10 +20,6 @@ const Hero = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
 
-  const userId = useSelector((state) => state.auth.userId);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -117,11 +113,10 @@ const Hero = () => {
         `${process.env.REACT_APP_API_URL}/search-forms`,
         { employeeId: userId }
       );
-      // Extract forms array from the response
-      const formsArray = response.data.forms; // Adjust based on your API response structure
-      setFormsFetched(formsArray); // Set the forms array directly
+      setFormsFetched(response.data.forms);
     } catch (err) {
       setError(err.response.data.message);
+
       // Display the error for 2 seconds
       setTimeout(() => {
         setError(null);
@@ -138,7 +133,7 @@ const Hero = () => {
     setSerialSearchQuery("");
   };
 
-  const filteredUsers = users.filter((user) =>
+  const filteredUsers = users?.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 

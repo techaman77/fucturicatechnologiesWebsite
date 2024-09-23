@@ -13,6 +13,8 @@ const RegisterEmployee = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -50,7 +52,7 @@ const RegisterEmployee = () => {
       setIsSubmitting(false); // Stop loader
     }
   };
-  // Navigate back to the previous page
+
   const handleBackClick = () => {
     navigate("/admin-panel");
   };
@@ -63,6 +65,7 @@ const RegisterEmployee = () => {
           className="text-[#666666] flex items-center gap-2"
         >
           <IoIosArrowRoundBack className="text-2xl" />
+          Back
         </button>
       </div>
       <div className="w-full flex h-[650px] justify-center">
