@@ -193,8 +193,6 @@ const Employee = () => {
             const newErrors = { ...prevErrors };
             if (value.trim()) {
                 newErrors[`qualificationDetails.${key}`] = '';
-            } else {
-                newErrors[`qualificationDetails.${key}`] = `${key} details are required`;
             }
             return newErrors;
         });
@@ -280,22 +278,21 @@ const Employee = () => {
         if (!formData.linkedIn) errors.linkedIn = "LinkedIn is required";
         if (!formData.profile) errors.profile = "Profile/Summary is required";
         if (!formData.serialNumber) errors.serialNumber = "Serial Number is required";
-        // Check if qualification details are present and validate each property
-        if (!formData.qualification) {
-            errors.qualification = 'Qualification is required';
+        
+        if (!formData.qualification) {    
+            errors.qualification = "Qualification is required";
+        } else {
+            if (!formData.qualificationDetails['10']) {
+                errors['qualificationDetails.10'] = '10th details are required';
+            }
+            if (!formData.qualificationDetails['12']) {
+                errors['qualificationDetails.12'] = '12th details are required';
+            }
+            if (!formData.qualificationDetails['Graduation']) {
+                errors['qualificationDetails.Graduation'] = 'Graduation details are required';
+            }
         }
-        if (!formData.qualificationDetails['10']) {
-            errors['qualificationDetails.10'] = '10th details are required';
-        }
-        if (['12th', 'Graduation'].includes(formData.qualification) && !formData.qualificationDetails['12']) {
-            errors['qualificationDetails.12'] = '12th details are required';
-        }
-        if (formData.qualification === 'Graduation' && !formData.qualificationDetails['Graduation']) {
-            errors['qualificationDetails.Graduation'] = 'Graduation details are required';
-        }
-
-
-
+        
         if (!formData.extraQualifications) {
             errors.extraQualifications = "Extra Qualification is required";
         } else {
