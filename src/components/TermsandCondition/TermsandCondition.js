@@ -8,7 +8,6 @@ import img1 from "./assets/Accept terms-cuate 1 (1).svg"; // Adjust the path to 
 const TermsandCondition = () => {
     // States to handle the checkbox selections
     const [isChecked1, setIsChecked1] = useState(false);
-    const [isChecked2, setIsChecked2] = useState(false);
 
     // State to manage form submission and errors
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +35,7 @@ const TermsandCondition = () => {
     };
 
     const handleAgree = async () => {
-        if (isChecked1 && isChecked2) {
+        if (isChecked1) {
             try {
                 // Retrieve form data from local storage
                 const formData = JSON.parse(localStorage.getItem("formData"));
@@ -158,21 +157,6 @@ const TermsandCondition = () => {
                             Accept the Terms and Conditions
                         </label>
                     </div>
-
-                    {/* Checkbox 2 */}
-                    <div className="flex items-center mt-2">
-                        <div
-                            className="cursor-pointer"
-                            onClick={() => setIsChecked2(!isChecked2)} // Toggle state on click
-                        >
-                            {isChecked2 ? (
-                                <MdCheckBox className="mr-2 text-[#FB861E]" /> // Checked icon
-                            ) : (
-                                <MdCheckBoxOutlineBlank className="mr-2 text-[#FB861E]" /> // Unchecked icon
-                            )}
-                        </div>
-                        <label className="text-[#666666]">Lorem ipsum dolor sit amet</label>
-                    </div>
                 </div>
             </div>
             <div className="flex justify-end gap-4 m-[40px]">
@@ -185,12 +169,12 @@ const TermsandCondition = () => {
                 </button>
                 <button
                     type="button" // Changed from "submit" to "button" to avoid form submission
-                    className={`w-full max-w-[190px] h-[45px] px-[24px] py-[12px] rounded-[30px] font-bold border border-[#007BFF] transition-colors duration-300 ${isChecked1 && isChecked2
+                    className={`w-full max-w-[190px] h-[45px] px-[24px] py-[12px] rounded-[30px] font-bold border border-[#007BFF] transition-colors duration-300 ${isChecked1
                         ? "bg-[#007BFF] text-white hover:bg-[#0056b3]"
                         : "text-gray-500 cursor-not-allowed"
                         }`}
                     onClick={handleAgree} // Call handleAgree on button click
-                    disabled={!isChecked1 || !isChecked2}
+                    disabled={!isChecked1}
                 >
                     Agree
                 </button>

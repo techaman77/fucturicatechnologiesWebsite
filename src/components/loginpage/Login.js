@@ -73,8 +73,6 @@ const Login = () => {
           setErrors((prev) => ({ ...prev, password: 'Incorrect password' }));
         } else if (errorMessage.toLowerCase().includes('email')) {
           setErrors((prev) => ({ ...prev, email: 'Email not found' }));
-        } else if (errorMessage.toLowerCase().includes('logged in')) {
-          setErrors((prev) => ({ ...prev, general: 'User already logged in on another device' }));
         } else {
           setErrors((prev) => ({ ...prev, general: errorMessage }));
       }}
@@ -134,7 +132,7 @@ const Login = () => {
 
             <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-full w-[42%] max-w-xs p-3" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
-            </button> 
+            </button>
             {errors.general && <p className="text-center text-red-500 text-[14px] mt-[-10px] w-[60%]">{errors.general}</p>}
             {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
 

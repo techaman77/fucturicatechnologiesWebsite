@@ -12,7 +12,7 @@ const Employee = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const[errorMessage, setErrorMessage] = useState({});
+    const [errorMessage, setErrorMessage] = useState({});
     const [sessionCount, setSessionCount] = useState(() => {
         // Initialize sessionCount from localStorage, or default to 0 if not available
         const storedCount = localStorage.getItem('totalCount');
@@ -176,9 +176,8 @@ const Employee = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-
-        if(errorMessage[name]) {
-            setErrorMessage((prev) => ({...prev, [name]: ''}));
+        if (errorMessage[name]) {
+            setErrorMessage((prev) => ({ ...prev, [name]: '' }));
         }
     };
 
@@ -190,16 +189,15 @@ const Employee = () => {
                 [key]: value
             }
         }));
-
-            setErrorMessage(prevErrors => {
-                const newErrors = { ...prevErrors };
-                if (value.trim()) {
-                    newErrors[`qualificationDetails.${key}`] = '';
-                } else {
-                    newErrors[`qualificationDetails.${key}`] = `${key} details are required`;
-                }
-                return newErrors;
-            });
+        setErrorMessage(prevErrors => {
+            const newErrors = { ...prevErrors };
+            if (value.trim()) {
+                newErrors[`qualificationDetails.${key}`] = '';
+            } else {
+                newErrors[`qualificationDetails.${key}`] = `${key} details are required`;
+            }
+            return newErrors;
+        });
     };
     const handleExtraQualificationChange = (key, value) => {
         setFormData(prevData => ({
@@ -209,11 +207,10 @@ const Employee = () => {
                 [key]: value
             }
         }));
-
         setErrorMessage(prevErrors => ({
             ...prevErrors,
             [`extraQualificationsDetails.${key}`]: ''
-          }));
+        }));
     };
     const handleExperienceChange = (e, index) => {
         const { value } = e.target;
@@ -225,13 +222,12 @@ const Employee = () => {
                 experience: newExperience
             };
         });
-
-        if(formData.experience[0].trim !== '') {
+        if (formData.experience[0].trim !== '') {
             setErrorMessage((prevError) => ({
                 ...prevError,
                 experience: '',
             }))
-        } 
+        }
     };
 
 
@@ -240,7 +236,6 @@ const Employee = () => {
             ...prevData,
             [name]: value
         }));
-
         setErrorMessage(prevErrors => {
             if (name === 'extraQualifications') {
                 return {
@@ -254,10 +249,10 @@ const Employee = () => {
                 return {
                     ...prevErrors,
                     qualification: '',
-                    
+
                 };
             }
-        
+
             return prevErrors;
         });
     };
@@ -268,27 +263,27 @@ const Employee = () => {
         const errors = {};
 
         // Check if all fields are filled
-        if(!formData.employeeId) errors.employeeId = "Employee ID is required";
-        if(!formData.name) errors.name = "Name is required";
-        if(!formData.email) errors.email = "Email is required";
-        if(!formData.contactNumber) errors.contactNumber = "Contact Number is required";
-        if(!formData.qualification) errors.qualification = "Qualification is required";
-        if(!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
-        if(!formData.fatherName) errors.fatherName = "Father Name is required";
-        if(!formData.motherName) errors.motherName = "Mother Name is required";
-        if(!formData.dateOfBirth) errors.dateOfBirth = "Date of Birth is required";
-        if(!formData.maritalStatus) errors.maritalStatus = "Marital Status is required";
-        if(!formData.permanentAddress) errors.permanentAddress = "Permanent Address is required";
-        if(formData.languages.length === 0) errors.languages = "Languages are required";
-        if(formData.softSkills.length === 0) errors.softSkills = "Soft Skills are required";
-        if(formData.technicalSkills.length === 0) errors.technicalSkills = "Technical Skills are required";
-        if(!formData.linkedIn) errors.linkedIn = "LinkedIn is required";
-        if(!formData.profile) errors.profile = "Profile/Summary is required";
-        if(!formData.serialNumber) errors.serialNumber = "Serial Number is required";
+        if (!formData.employeeId) errors.employeeId = "Employee ID is required";
+        if (!formData.name) errors.name = "Name is required";
+        if (!formData.email) errors.email = "Email is required";
+        if (!formData.contactNumber) errors.contactNumber = "Contact Number is required";
+        if (!formData.qualification) errors.qualification = "Qualification is required";
+        if (!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
+        if (!formData.fatherName) errors.fatherName = "Father Name is required";
+        if (!formData.motherName) errors.motherName = "Mother Name is required";
+        if (!formData.dateOfBirth) errors.dateOfBirth = "Date of Birth is required";
+        if (!formData.maritalStatus) errors.maritalStatus = "Marital Status is required";
+        if (!formData.permanentAddress) errors.permanentAddress = "Permanent Address is required";
+        if (formData.languages.length === 0) errors.languages = "Languages are required";
+        if (formData.softSkills.length === 0) errors.softSkills = "Soft Skills are required";
+        if (formData.technicalSkills.length === 0) errors.technicalSkills = "Technical Skills are required";
+        if (!formData.linkedIn) errors.linkedIn = "LinkedIn is required";
+        if (!formData.profile) errors.profile = "Profile/Summary is required";
+        if (!formData.serialNumber) errors.serialNumber = "Serial Number is required";
         // Check if qualification details are present and validate each property
         if (!formData.qualification) {
             errors.qualification = 'Qualification is required';
-        } 
+        }
         if (!formData.qualificationDetails['10']) {
             errors['qualificationDetails.10'] = '10th details are required';
         }
@@ -298,8 +293,8 @@ const Employee = () => {
         if (formData.qualification === 'Graduation' && !formData.qualificationDetails['Graduation']) {
             errors['qualificationDetails.Graduation'] = 'Graduation details are required';
         }
-        
-        
+
+
 
         if (!formData.extraQualifications) {
             errors.extraQualifications = "Extra Qualification is required";
@@ -327,17 +322,16 @@ const Employee = () => {
                     errors.extraQualifications = "Invalid Extra Qualification selection";
             }
         }
-        
+
 
         const isEmpty = formData.experience.every(exp => exp.trim() === '');
         if (isEmpty) errors.experience = 'At least one experience field must be filled in.';
-            setErrorMessage(errors);
+        setErrorMessage(errors);
 
-        if(Object.keys(errors).length > 0) {
+        if (Object.keys(errors).length > 0) {
             setIsSubmitting(false);
             return;
-          }
-
+        }
 
         const allFieldsFilled = Object.entries(formData).every(([key, value]) => {
             if (Array.isArray(value)) {
@@ -438,6 +432,7 @@ const Employee = () => {
                         <h2 className='text-[#666666] text-[40px] text-center font-semibold mb-4'>
                             Resume <span className='text-[#FB861E]'>Details Form</span>
                         </h2>
+                        <p className='text-secondary font-medium text-[20px] text-center'>Please fill in the required details</p>
                         <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-2 gap-10'>
                             <div className='flex flex-col'>
                                 <input
@@ -455,7 +450,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.name && <span className="text-red-500 text-sm block mt-1">{errorMessage.name}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -472,7 +467,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.contactNumber && <span className="text-red-500 text-sm block mt-1">{errorMessage.contactNumber}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -506,7 +501,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.email && <span className="text-red-500 text-sm block mt-1">{errorMessage.email}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -516,7 +511,7 @@ const Employee = () => {
                                     onChange={(e) => {
                                         const value = e.target.value.split(',').map(language => language.trim());
                                         setFormData({ ...formData, languages: value });
-                                        
+
                                         setErrorMessage((prevErrors) => ({
                                             ...prevErrors,
                                             languages: value.length > 0 && value[0] !== '' ? '' : prevErrors.languages,
@@ -531,7 +526,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.languages && <span className="text-red-500 text-sm block mt-1">{errorMessage.languages}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -548,7 +543,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.motherName && <span className="text-red-500 text-sm block mt-1">{errorMessage.motherName}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -565,7 +560,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.fatherName && <span className="text-red-500 text-sm block mt-1">{errorMessage.fatherName}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -583,7 +578,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.dateOfBirth && <span className="text-red-500 text-sm block mt-1">{errorMessage.dateOfBirth}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -600,7 +595,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.maritalStatus && <span className="text-red-500 text-sm block mt-1">{errorMessage.maritalStatus}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -617,7 +612,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.permanentAddress && <span className="text-red-500 text-sm block mt-1">{errorMessage.permanentAddress}</span>}
                             </div>
-                            
+
                             {/* Qualification Options */}
                             <div className='flex gap-5 items-center flex-row grid-item col-span-2'>
                                 <label>Qualification:</label>
@@ -657,7 +652,7 @@ const Employee = () => {
                                         onCut={disableCopyPaste}
                                         spellCheck={false}
                                         className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
-                                    />                                   
+                                    />
                                     {errorMessage['qualificationDetails.10'] && <span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['qualificationDetails.10']}</span>}
                                     {(formData.qualification === '12th' || formData.qualification === 'Graduation') && (
                                         <input
@@ -715,7 +710,6 @@ const Employee = () => {
                                     Both
                                 </div>
                                 {errorMessage.extraQualifications && <span className="text-red-500 text-sm block">{errorMessage.extraQualifications}</span>}
-
                             </div>
 
                             {/* // JSX for Dynamic Input Fields */}
@@ -756,8 +750,7 @@ const Employee = () => {
                             </>
                             <div className='col-span-2 flex flex-col gap-5'>
                                 <label>Experience:</label>
-                                {errorMessage.experience && <span className="text-red-500 text-sm block -mt-3 flex flex-col">{errorMessage.experience}</span>}
-
+                                {errorMessage.experience && <span className="text-red-500 text-sm -mt-3 flex flex-col">{errorMessage.experience}</span>}
                                 {[0, 1, 2].map((index) => (
                                     <input
                                         key={index}
@@ -775,49 +768,48 @@ const Employee = () => {
                                     />
                                 ))}
                             </div>
+                            <div className='flex flex-col'>
+                                <input
+                                    type="text"
+                                    name="roleResponsibilities"
+                                    placeholder="Enter your role & responsibilities"
+                                    value={formData.roleResponsibilities}
+                                    onChange={handleChange}
+                                    onCopy={disableCopyPaste}
+                                    autoComplete='off'
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.roleResponsibilities && <span className="text-red-500 text-sm block mt-1">{errorMessage.roleResponsibilities}</span>}
+                            </div>
 
                             <div className='flex flex-col'>
-                            <input
-                                type="text"
-                                name="roleResponsibilities"
-                                placeholder="Enter your role & responsibilities"
-                                value={formData.roleResponsibilities}
-                                onChange={handleChange}
-                                onCopy={disableCopyPaste}
-                                autoComplete='off'
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                className='bg-transparent col-span-2 border border-[#666666] rounded-lg p-4'
-                            />
-                            {errorMessage.roleResponsibilities && <span className="text-red-500 text-sm block mt-1">{errorMessage.roleResponsibilities}</span>}
+                                <input
+                                    type="text"
+                                    name="softSkills"
+                                    placeholder="Enter your softSkills (comma-separated)"
+                                    value={formData.softSkills.join(', ')}
+                                    onChange={(e) => {
+                                        const value = e.target.value.split(',').map(skill => skill.trim());
+                                        setFormData({ ...formData, softSkills: value });
+
+                                        setErrorMessage((prevErrors) => ({
+                                            ...prevErrors,
+                                            softSkills: value.length > 0 && value[0] !== '' ? '' : prevErrors.softSkills,
+                                        }));
+                                    }}
+                                    onCopy={disableCopyPaste}
+                                    onPaste={disableCopyPaste}
+                                    onCut={disableCopyPaste}
+                                    spellCheck={false}
+                                    autoComplete='off'
+                                    className='bg-transparent border border-[#666666] rounded-lg p-4'
+                                />
+                                {errorMessage.softSkills && <span className="text-red-500 text-sm block mt-1">{errorMessage.softSkills}</span>}
                             </div>
-                            
-                            <div className='flex flex-col'>
-                            <input
-                                type="text"
-                                name="softSkills"
-                                placeholder="Enter your softSkills (comma-separated)"
-                                value={formData.softSkills.join(', ')}
-                                onChange={(e) => {
-                                    const value = e.target.value.split(',').map(skill => skill.trim());
-                                    setFormData({ ...formData, softSkills: value });
-                                    
-                                    setErrorMessage((prevErrors) => ({
-                                        ...prevErrors,
-                                        softSkills: value.length > 0 && value[0] !== '' ? '' : prevErrors.softSkills,
-                                    }));
-                                }}
-                                onCopy={disableCopyPaste}
-                                onPaste={disableCopyPaste}
-                                onCut={disableCopyPaste}
-                                spellCheck={false}
-                                autoComplete='off'
-                                className='bg-transparent border border-[#666666] rounded-lg p-4'
-                            />
-                            {errorMessage.softSkills && <span className="text-red-500 text-sm block mt-1">{errorMessage.softSkills}</span>}
-                            </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -827,7 +819,7 @@ const Employee = () => {
                                     onChange={(e) => {
                                         const value = e.target.value.split(',').map(techskill => techskill.trim());
                                         setFormData({ ...formData, technicalSkills: value });
-                                        
+
                                         setErrorMessage((prevErrors) => ({
                                             ...prevErrors,
                                             technicalSkills: value.length > 0 && value[0] !== '' ? '' : prevErrors.technicalSkills,
@@ -842,7 +834,7 @@ const Employee = () => {
                                 />
                                 {errorMessage.technicalSkills && <span className="text-red-500 text-sm block mt-1">{errorMessage.technicalSkills}</span>}
                             </div>
-                            
+
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -860,7 +852,6 @@ const Employee = () => {
                                 {errorMessage.linkedIn && <span className="text-red-500 text-sm block mt-1">{errorMessage.linkedIn}</span>}
                             </div>
 
-                            
                             <div className='flex flex-col'>
                                 <input
                                     type="text"
@@ -889,8 +880,8 @@ const Employee = () => {
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     );
 };
