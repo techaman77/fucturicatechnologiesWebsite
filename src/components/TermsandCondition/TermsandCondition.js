@@ -65,12 +65,18 @@ const TermsandCondition = () => {
                     formDataWithFile.append("file", blob, "screenshot.png");
 
                     // Send data to the API
+                    const token = localStorage.getItem("token");
+                    if (!token) {
+                        setError("Please login to access this page");
+                        return;
+                    }
                     const response = await axios.post(
                         `${process.env.REACT_APP_API_URL}/send-email`,
                         formDataWithFile,
                         {
                             headers: {
                                 "Content-Type": "multipart/form-data",
+                                'Authorization': `Bearer ${token}`
                             },
                         }
                     );

@@ -98,6 +98,12 @@
   }
 }
 
+@media (max-height: 520px) {
+  .plane-icon {
+    display: none; 
+  }
+}
+
 .error-message {
   text-align: left;
   color: red;

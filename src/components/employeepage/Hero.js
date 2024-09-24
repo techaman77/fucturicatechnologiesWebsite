@@ -51,7 +51,7 @@ const Employee = () => {
         try {
             stopTimer();
             await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
-
+            localStorage.removeItem('token');
             dispatch(logout());
             navigate('/admin-login');
 
@@ -345,7 +345,17 @@ const Employee = () => {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/formData`, formData);
+            const token = localStorage.getItem('token');
+            if(!token) {
+                setErrorMessage("Please login to access this page");
+                return;
+            }
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/formData`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             localStorage.setItem('count', response.data.count)
             dispatch(addCount(response.data.count));
             setSessionCount((prevCount) => prevCount + 1);

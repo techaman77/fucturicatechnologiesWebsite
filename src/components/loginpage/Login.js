@@ -17,6 +17,16 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setErrors((prev) => ({ ...prev, email: '' }));
+  };
+  
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setErrors((prev) => ({ ...prev, password: '' })); 
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // Start loader
@@ -106,7 +116,7 @@ const Login = () => {
               type="email"
               className={`bg-transparent border-2 ${errors.email ? 'border-red-500' : 'border-gray-600'} rounded-lg p-2 w-[60%] email-icon`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
             {errors.email && <p className="error-message">{errors.email}</p>} 
 
@@ -116,7 +126,7 @@ const Login = () => {
                 type={showPassword ? 'text' : 'password'}
                 className={`bg-transparent border-2 ${errors.password ? 'border-red-500' : 'border-gray-600'} rounded-lg p-2 w-full pr-10 password-icon`}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
               />
                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500" onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -130,7 +140,7 @@ const Login = () => {
               </div>
             </div>
 
-            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-full w-[42%] max-w-xs p-3" disabled={isSubmitting}>
+            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-full w-[44%] md:w-[40%] max-w-xs p-3" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
             {errors.general && <p className="text-center text-red-500 text-[14px] mt-[-10px] w-[60%]">{errors.general}</p>}

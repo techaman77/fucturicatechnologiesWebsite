@@ -27,7 +27,7 @@ function Navbar() {
     const handleLogout = async () => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
-
+            localStorage.removeItem('token');
             dispatch(logout());
 
             navigate('/login');
