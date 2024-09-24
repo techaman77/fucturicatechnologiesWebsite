@@ -1,10 +1,8 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/auth";
 
 const TableComponent = lazy(() => import("./TableComponent"));
 
@@ -28,28 +26,13 @@ const Hero = () => {
     setSerialSearchQuery(e.target.value);
   };
 
-  const handleTabClose = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {
-        userId,
-      });
-
-      dispatch(logout());
-
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          ` ${process.env.REACT_APP_API_URL}/users`
+          `${process.env.REACT_APP_API_URL}/users`
         );
-        const filteredUsers = response.data.filter((user) => !user.role);
+        const filteredUsers = response.data?.filter((user) => !user.role);
         setUsers(filteredUsers);
         setLoading(false);
       } catch (err) {
@@ -59,16 +42,6 @@ const Hero = () => {
     };
 
     fetchUsers();
-
-    window.addEventListener("beforeunload", (e) => {
-      handleTabClose(e);
-    });
-
-    return () => {
-      window.removeEventListener("beforeunload", (e) => {
-        handleTabClose(e);
-      });
-    };
   }, []);
 
   const handleRowClick = (userId) => {
@@ -94,7 +67,7 @@ const Hero = () => {
         },
       });
       setUsers((prevUsers) =>
-        prevUsers.filter((user) => user.userId !== userIdToDelete)
+        prevUsers?.filter((user) => user.userId !== userIdToDelete)
       );
     } catch (err) {
       setError(err.response.data.message);
@@ -137,18 +110,9 @@ const Hero = () => {
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredForms = Array.isArray(formsFetched)
-    ? formsFetched.filter((form) =>
-        form.serialNumber
-          ?.toLowerCase()
-          .includes(serialSearchQuery.toLowerCase())
-      )
-    : [];
-
-  // Calculate the "Rejected Form" count
-  const calculateRejectedForms = (user) => {
-    return user.mistakesCount < 3 ? 1 : 0;
-  };
+  const filteredForms = formsFetched?.filter((form) =>
+    form.serialNumber.toLowerCase().includes(serialSearchQuery.toLowerCase())
+  );
 
   return (
     <div className="w-full flex min-h-[650px] justify-center mb-20">
@@ -186,6 +150,9 @@ const Hero = () => {
                 <table className="table-auto w-full rounded-2xl">
                   <thead>
                     <tr className="bg-[#E8F4FF] h-[70px] text-[#666666]">
+                      <th className="px-4 border font-medium py-2">
+                        Serial No.
+                      </th>
                       <th className="px-4 border font-medium py-2">Name</th>
                       <th className="px-4 border font-medium py-2">
                         Total Forms Submitted
@@ -196,7 +163,7 @@ const Hero = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredUsers?.map((user) => (
+                    {filteredUsers?.map((user, index) => (
                       <tr
                         key={user.id}
                         className="text-center cursor-pointer hover:bg-[#666666] hover:bg-opacity-[0.3]"
@@ -205,19 +172,25 @@ const Hero = () => {
                           className="border px-4 py-2"
                           onClick={() => handleRowClick(user.userId)}
                         >
-                          {user.name}
+                          {index + 1 || "--"}
                         </td>
                         <td
                           className="border px-4 py-2"
                           onClick={() => handleRowClick(user.userId)}
                         >
-                          {user.totalForm}
+                          {user.name || "--"}
                         </td>
                         <td
                           className="border px-4 py-2"
                           onClick={() => handleRowClick(user.userId)}
                         >
-                          {user.rejectedForm}
+                          {user.totalForms || "--"}
+                        </td>
+                        <td
+                          className="border px-4 py-2"
+                          onClick={() => handleRowClick(user.userId)}
+                        >
+                          {user.rejectedForms || "--"}
                         </td>
                         <td>
                           <FontAwesomeIcon
@@ -280,7 +253,7 @@ const Hero = () => {
               <Suspense fallback={<div>Loading table...</div>}>
                 {modalLoading ? (
                   <div>Loading form details...</div>
-                ) : filteredForms.length > 0 ? (
+                ) : filteredForms && filteredForms.length > 0 ? (
                   <TableComponent formsFetched={filteredForms} />
                 ) : (
                   <p>No user details available.</p>
