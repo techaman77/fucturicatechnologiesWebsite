@@ -44,7 +44,6 @@ const SelfDeclaration = () => {
             // Store form data in local storage
             localStorage.setItem("formData", JSON.stringify(formData));
 
-            console.log("Form data stored in local storage");
             navigate("/terms-and-condition"); // Navigate to Terms and Conditions page
 
             // Reset form after successful submission

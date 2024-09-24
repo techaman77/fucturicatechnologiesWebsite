@@ -64,9 +64,6 @@ const TermsandCondition = () => {
                     formDataWithFile.append("termsAccepted", formData.termsAccepted); // Include termsAccepted
                     formDataWithFile.append("file", blob, "screenshot.png");
 
-                    // Log formData and screenshot details to the console
-                    console.log("Form Data:", formData);
-
                     // Send data to the API
                     const response = await axios.post(
                         `${process.env.REACT_APP_API_URL}/send-email`,
@@ -78,7 +75,6 @@ const TermsandCondition = () => {
                         }
                     );
 
-                    console.log("Form submitted successfully:", response.data);
                     navigate("/employee-panel");
 
                     // Reset form after successful submission

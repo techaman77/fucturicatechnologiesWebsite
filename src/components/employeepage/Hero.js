@@ -24,7 +24,6 @@ const Employee = () => {
     useEffect(() => {
         localStorage.setItem('totalCount', sessionCount);
         dispatch(addSessionCount(sessionCount))
-        console.log('useEffect block', sessionCount)
     }, [sessionCount, dispatch]);
 
     const totalCount = useSelector((state) => state.form.sessionCount)
@@ -197,6 +196,7 @@ const Employee = () => {
             return newErrors;
         });
     };
+
     const handleExtraQualificationChange = (key, value) => {
         setFormData(prevData => ({
             ...prevData,
@@ -210,6 +210,7 @@ const Employee = () => {
             [`extraQualificationsDetails.${key}`]: ''
         }));
     };
+
     const handleExperienceChange = (e, index) => {
         const { value } = e.target;
         setFormData((prevData) => {
@@ -227,7 +228,6 @@ const Employee = () => {
             }))
         }
     };
-
 
     const handleOptionClick = (name, value) => {
         setFormData(prevData => ({
@@ -278,8 +278,8 @@ const Employee = () => {
         if (!formData.linkedIn) errors.linkedIn = "LinkedIn is required";
         if (!formData.profile) errors.profile = "Profile/Summary is required";
         if (!formData.serialNumber) errors.serialNumber = "Serial Number is required";
-        
-        if (!formData.qualification) {    
+        // Check if qualification details are present and validate each property
+        if (!formData.qualification) {
             errors.qualification = "Qualification is required";
         } else {
             if (!formData.qualificationDetails['10']) {
@@ -292,7 +292,7 @@ const Employee = () => {
                 errors['qualificationDetails.Graduation'] = 'Graduation details are required';
             }
         }
-        
+
         if (!formData.extraQualifications) {
             errors.extraQualifications = "Extra Qualification is required";
         } else {
