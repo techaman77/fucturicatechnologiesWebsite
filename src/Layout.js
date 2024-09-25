@@ -17,9 +17,20 @@ const Layout = ({ children }) => {
   const handleTabClose = useCallback(async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return;
+      }
+      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId },
+        { 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+         }
+        });
 
       dispatch(logout());
+      localStorage.removeItem('token');
 
       navigate('/login');
     } catch (error) {

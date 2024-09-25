@@ -32,7 +32,18 @@ const RegisterEmployee = () => {
         };
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('Please login to access this page');
+                setIsSubmitting(false);
+                return;
+            }
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  
+                },
+            });
             console.log('Employee created successfully:', response.data);
             setSuccess('Employee created successfully!');
             setName('');

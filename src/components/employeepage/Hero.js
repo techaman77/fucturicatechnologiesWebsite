@@ -50,7 +50,19 @@ const Employee = () => {
     const handleEmployeeLogout = useCallback(async () => {
         try {
             stopTimer();
-            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Please login to access this page');
+                return;
+            }
+            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
             localStorage.removeItem('token');
             dispatch(logout());
             navigate('/admin-login');
@@ -347,7 +359,7 @@ const Employee = () => {
         try {
             const token = localStorage.getItem('token');
             if(!token) {
-                setErrorMessage("Please login to access this page");
+                console.error("Please login to access this page");
                 return;
             }
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/formData`, formData, {

@@ -72,6 +72,7 @@ const Hero = () => {
             const token = localStorage.getItem('token');
             if (!token) {
                 setError('Please login to access this page');
+                setShowPopup(false);
                 return;
             }
             await axios.delete(`${process.env.REACT_APP_API_URL}/deleteUser`, {

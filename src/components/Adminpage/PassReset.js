@@ -31,11 +31,23 @@ const PassReset = () => {
         }
 
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('Please login to access this page');
+                setIsSubmitting(false);
+                return;
+            }
             const res = await axios.put(`${process.env.REACT_APP_API_URL}/updatePassword`, {
                 userId,
                 currentPassword,
                 newPassword,
-            });
+            },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
 
             setSuccess(res.data.msg);
             setCurrentPassword('');

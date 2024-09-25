@@ -26,7 +26,17 @@ function Navbar() {
 
     const handleLogout = async () => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId },{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             localStorage.removeItem('token');
             dispatch(logout());
 
