@@ -13,6 +13,7 @@ const RegisterEmployee = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +33,12 @@ const RegisterEmployee = () => {
         };
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
             console.log('Employee created successfully:', response.data);
             setSuccess('Employee created successfully!');
             setName('');

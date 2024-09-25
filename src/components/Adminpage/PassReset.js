@@ -16,7 +16,7 @@ const PassReset = () => {
     const [success, setSuccess] = useState('');
 
     const navigate = useNavigate();
-
+    const token = localStorage.getItem('token');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,20 +31,25 @@ const PassReset = () => {
         }
 
         try {
-            const res = await axios.put(`${process.env.REACT_APP_API_URL}/updatePassword`, {
+            const res = await axios.put(`${process.env.REACT_APP_API_URL}/password/update`, {
                 userId,
                 currentPassword,
                 newPassword,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
             });
 
-            setSuccess(res.data.msg);
+            setSuccess(res.data.message);
             setCurrentPassword('');
             setNewPassword('');
             setConfirmNewPassword('');
             navigate('/admin-panel');
         } catch (err) {
             if (err.response && err.response.data) {
-                setError(err.response.data.msg);
+                setError(err.response.data.message);
             } else {
                 setError('An error occurred while updating the password.');
             }

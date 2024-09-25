@@ -12,6 +12,8 @@ const ForgotPassword = () => {
 
     const navigate = useNavigate();
 
+    const token = localStorage.getItem('token');
+
     const handleEmailSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -19,9 +21,10 @@ const ForgotPassword = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/forgetPassword`, { email }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/password/forget`, { email }, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             });
 
@@ -49,12 +52,12 @@ const ForgotPassword = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/verify-otp`, { otp }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/otp/verify`, { email, otp }, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             });
-
             if (response.status === 200) {
                 setSuccessMessage('OTP verified. Redirecting to reset password page...');
                 setTimeout(() => navigate('/resetForgotPassword', { state: { email, otp } }), 2000); // Pass email and OTP to reset password page

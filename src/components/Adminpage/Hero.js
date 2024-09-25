@@ -17,6 +17,7 @@ const Hero = () => {
     const [modalLoading, setModalLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState('');
+    const token = localStorage.getItem('token');
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -29,8 +30,13 @@ const Hero = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
-                const filteredUsers = response.data?.filter(user => !user.role);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const filteredUsers = response.data?.filter(user => user.role === 'employee');
                 setUsers(filteredUsers);
                 setLoading(false);
             } catch (err) {
@@ -59,10 +65,11 @@ const Hero = () => {
 
     const handleConfirmDelete = async () => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/deleteUser`, {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/user/delete`, {
                 data: { userId: userIdToDelete },
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             setUsers((prevUsers) => prevUsers?.filter(user => user.userId !== userIdToDelete));
@@ -79,7 +86,14 @@ const Hero = () => {
 
     const fetchFormDetails = async (userId) => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/search-forms`, { employeeId: userId });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/form/search`, { employeeId: userId },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
             setFormsFetched(response.data.forms);
         } catch (err) {
             setError(err.response.data.message);
