@@ -29,7 +29,6 @@ const Employee = () => {
   useEffect(() => {
     localStorage.setItem("totalCount", sessionCount);
     dispatch(addSessionCount(sessionCount));
-    console.log("useEffect block", sessionCount);
   }, [sessionCount, dispatch]);
 
   const totalCount = useSelector((state) => state.form.sessionCount);
@@ -195,14 +194,11 @@ const Employee = () => {
       const newErrors = { ...prevErrors };
       if (value.trim()) {
         newErrors[`qualificationDetails.${key}`] = "";
-      } else {
-        newErrors[
-          `qualificationDetails.${key}`
-        ] = `${key} details are required`;
       }
       return newErrors;
     });
   };
+
   const handleExtraQualificationChange = (key, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -216,6 +212,7 @@ const Employee = () => {
       [`extraQualificationsDetails.${key}`]: "",
     }));
   };
+
   const handleExperienceChange = (e, index) => {
     const { value } = e.target;
     setFormData((prevData) => {
@@ -294,22 +291,17 @@ const Employee = () => {
     // Check if qualification details are present and validate each property
     if (!formData.qualification) {
       errors.qualification = "Qualification is required";
-    }
-    if (!formData.qualificationDetails["10"]) {
-      errors["qualificationDetails.10"] = "10th details are required";
-    }
-    if (
-      ["12th", "Graduation"].includes(formData.qualification) &&
-      !formData.qualificationDetails["12"]
-    ) {
-      errors["qualificationDetails.12"] = "12th details are required";
-    }
-    if (
-      formData.qualification === "Graduation" &&
-      !formData.qualificationDetails["Graduation"]
-    ) {
-      errors["qualificationDetails.Graduation"] =
-        "Graduation details are required";
+    } else {
+      if (!formData.qualificationDetails["10"]) {
+        errors["qualificationDetails.10"] = "10th details are required";
+      }
+      if (!formData.qualificationDetails["12"]) {
+        errors["qualificationDetails.12"] = "12th details are required";
+      }
+      if (!formData.qualificationDetails["Graduation"]) {
+        errors["qualificationDetails.Graduation"] =
+          "Graduation details are required";
+      }
     }
 
     if (!formData.extraQualifications) {

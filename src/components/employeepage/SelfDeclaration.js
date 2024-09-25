@@ -47,35 +47,10 @@ const SelfDeclaration = () => {
     }
 
     try {
-      // Capture screenshot of the form component
-      const canvas = await html2canvas(document.body);
-      const screenshot = canvas.toDataURL("image/png");
+      // Store form data in local storage
+      localStorage.setItem("formData", JSON.stringify(formData));
 
-      // Convert the screenshot to a Blob
-      const blob = await fetch(screenshot).then((res) => res.blob());
-
-      // Create FormData to include form data and the screenshot file
-      const formDataWithFile = new FormData();
-      formDataWithFile.append("userId", formData.userId);
-      formDataWithFile.append("username", formData.username);
-      formDataWithFile.append("number", formData.mobile);
-      formDataWithFile.append("email", formData.email);
-      formDataWithFile.append("address", formData.address);
-      formDataWithFile.append("file", blob, "screenshot.png");
-
-      // Send data to the API
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/send-email`,
-        formDataWithFile,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("Form submitted successfully:", response.data);
-      navigate("/employee-panel");
+      navigate("/terms-and-condition"); // Navigate to Terms and Conditions page
 
       // Reset form after successful submission
       setFormData({
