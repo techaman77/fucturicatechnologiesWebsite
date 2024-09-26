@@ -22,10 +22,20 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setErrors((prev) => ({ ...prev, email: "" }));
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setErrors((prev) => ({ ...prev, password: "" }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // Start loader
-    setErrors({ email: "", password: "", general: "" }); // Clear previous errors
+    setErrors({ email: "", password: "", general: "" });
 
     // Client-side validation
     if (!email) {
@@ -94,7 +104,26 @@ const Login = () => {
       setPassword("");
     } catch (error) {
       if (error.response) {
-        const errorMessage = error.response.data.msg || "An error occurred";
+        // Handle known API errors
+        const errorMessage = error.response.data.message || "An error occurred";
+
+        if (errorMessage === "Otp required for login. Please contact admin.") {
+          // Set the error message
+          setErrors((prev) => ({
+            ...prev,
+            general:
+              "Yesterday your working was not complete for 6 hours. Please verify your account.",
+          }));
+
+          // Stop the loader
+          setIsSubmitting(false);
+
+          // Delay for 3 seconds before redirecting to the OTP verification page
+          setTimeout(() => {
+            navigate("/admin-verify-otp", { state: { email: email } });
+          }, 3000);
+          return;
+        }
 
         if (errorMessage.toLowerCase().includes("password")) {
           setErrors((prev) => ({ ...prev, password: "Incorrect password" }));
@@ -148,7 +177,7 @@ const Login = () => {
                 errors.email ? "border-red-500" : "border-gray-600"
               } rounded-lg p-2 w-[60%] email-icon`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
             {errors.email && <p className="error-message">{errors.email}</p>}
             <div className="relative w-[60%]">
@@ -159,7 +188,7 @@ const Login = () => {
                   errors.password ? "border-red-500" : "border-gray-600"
                 } rounded-lg p-2 w-full pr-10 password-icon`}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
               />
               <div
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500"
@@ -184,7 +213,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-full w-[30%] max-w-xs"
+              className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-full w-[44%] md:w-[40%] max-w-xs"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Logging in..." : "Login"}

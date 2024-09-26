@@ -24,12 +24,21 @@ function Navbar() {
 
   const userId = useSelector((state) => state.auth.userId);
 
+  const token = localStorage.getItem("token");
+
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {
-        userId,
-      });
-
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/logout`,
+        { userId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
       dispatch(logout());
 
       navigate("/login");

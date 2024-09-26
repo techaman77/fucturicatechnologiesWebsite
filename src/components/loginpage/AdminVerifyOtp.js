@@ -11,28 +11,9 @@ const AdminVerifyOtp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get the email from the state passed from the login page
+  const token = localStorage.getItem("token");
 
   const { email } = location.state || {};
-  // Check if the email is present
-  if (!email) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-semibold text-center mb-6">Error</h2>
-          <p className="text-red-500 text-center">
-            Email is missing. Please go back and try again.
-          </p>
-          <button
-            className="w-full py-3 mt-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-            onClick={() => navigate("/login")}
-          >
-            Go Back to Login
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
@@ -41,15 +22,13 @@ const AdminVerifyOtp = () => {
     setSuccessMessage("");
 
     try {
-      console.log("email", email);
-      console.log("otp", otp);
-
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/verify-otp`,
+        `${process.env.REACT_APP_API_URL}/otp/verify`,
         { otp, email },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -62,7 +41,7 @@ const AdminVerifyOtp = () => {
       }
     } catch (error) {
       if (error.response) {
-        setErrorMessage(error.response.data.msg || "An error occurred");
+        setErrorMessage(error.response.data.message || "An error occurred");
       } else {
         setErrorMessage("An unexpected error occurred");
       }

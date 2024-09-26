@@ -25,10 +25,12 @@ const Employee = () => {
   });
   const count = useSelector((state) => state.form.count);
   const id = useSelector((state) => state.auth.userId);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     localStorage.setItem("totalCount", sessionCount);
     dispatch(addSessionCount(sessionCount));
+    console.log("useEffect block", sessionCount);
   }, [sessionCount, dispatch]);
 
   const totalCount = useSelector((state) => state.form.sessionCount);
@@ -55,14 +57,23 @@ const Employee = () => {
   const handleEmployeeLogout = useCallback(async () => {
     try {
       stopTimer();
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId });
-
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/logout`,
+        { userId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
       dispatch(logout());
       navigate("/admin-login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  }, [stopTimer, dispatch, navigate, userId]);
+  }, [stopTimer, dispatch, navigate, userId, token]);
 
   // Memoized function to start the timer
   const startTimer = useCallback(() => {
@@ -176,7 +187,17 @@ const Employee = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "contactNumber") {
+      const isNumeric = /^[0-9]*$/.test(value); // Check if the value is numeric
+      if (isNumeric && value.length <= 10) {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
     if (errorMessage[name]) {
       setErrorMessage((prev) => ({ ...prev, [name]: "" }));
     }
@@ -198,7 +219,6 @@ const Employee = () => {
       return newErrors;
     });
   };
-
   const handleExtraQualificationChange = (key, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -212,7 +232,6 @@ const Employee = () => {
       [`extraQualificationsDetails.${key}`]: "",
     }));
   };
-
   const handleExperienceChange = (e, index) => {
     const { value } = e.target;
     setFormData((prevData) => {
@@ -361,8 +380,14 @@ const Employee = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/formData`,
-        formData
+        `${process.env.REACT_APP_API_URL}/form/create`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       localStorage.setItem("count", response.data.count);
       dispatch(addCount(response.data.count));
@@ -487,6 +512,7 @@ const Employee = () => {
                   onCut={disableCopyPaste}
                   spellCheck={false}
                   autoComplete="off"
+                  maxLength="10"
                   className="bg-transparent border border-[#666666] rounded-lg p-4"
                 />
                 {errorMessage.contactNumber && (
