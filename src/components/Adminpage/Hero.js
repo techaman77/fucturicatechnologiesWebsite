@@ -17,6 +17,7 @@ const Hero = () => {
     const [modalLoading, setModalLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState('');
+    const token = localStorage.getItem('token');
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -29,18 +30,13 @@ const Hero = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setError('Please login to access this page');
-                    setLoading(false);
-                }
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                const filteredUsers = response.data?.filter(user => !user.role);
+                const filteredUsers = response.data?.filter(user => user.role === 'employee');
                 setUsers(filteredUsers);
                 setLoading(false);
             } catch (err) {
@@ -69,13 +65,7 @@ const Hero = () => {
 
     const handleConfirmDelete = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setError('Please login to access this page');
-                setShowPopup(false);
-                return;
-            }
-            await axios.delete(`${process.env.REACT_APP_API_URL}/deleteUser`, {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/user/delete`, {
                 data: { userId: userIdToDelete },
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,12 +86,7 @@ const Hero = () => {
 
     const fetchFormDetails = async (userId) => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setError('Please login to access this page');
-                return;
-            }
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/search-forms`, { employeeId: userId }, 
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/form/search`, { employeeId: userId },
                 {
                     headers: {
                         'Content-Type': 'application/json',

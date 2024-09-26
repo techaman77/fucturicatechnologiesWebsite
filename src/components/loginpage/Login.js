@@ -14,6 +14,7 @@ const Login = () => {
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,16 +22,16 @@ const Login = () => {
     setEmail(e.target.value);
     setErrors((prev) => ({ ...prev, email: '' }));
   };
-  
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setErrors((prev) => ({ ...prev, password: '' })); 
+    setErrors((prev) => ({ ...prev, password: '' }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); // Start loader
-    setErrors({ email: '', password: '' }); // Clear previous errors
+    setErrors({ email: "", password: "", general: "" });
 
     // Client-side validation
     if (!email) {
@@ -52,15 +53,12 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
-
       const data = response.data;
-
       // Store token and user details in localStorage
       dispatch(login(data));
       localStorage.setItem('token', data.token);
       localStorage.setItem('name', data.user.name);
       localStorage.setItem('role', data.user.role);
-
       // Handle navigation based on user role
       if (data.user.role === 'admin') {
         navigate('/admin-panel');
@@ -71,13 +69,30 @@ const Login = () => {
         navigate('/self-declaration');
       }
       setSuccessMessage('Login successful');
-      
-      // Clear form inputs
       setEmail('');
       setPassword('');
     } catch (error) {
       if (error.response) {
-        const errorMessage = error.response.data.msg || 'An error occurred';
+        // Handle known API errors
+        const errorMessage = error.response.data.message || 'An error occurred';
+
+        if (errorMessage === 'Otp required for login. Please contact admin.') {
+          // Set the error message
+          setErrors((prev) => ({
+            ...prev,
+            general:
+              "Yesterday your working was not complete for 6 hours. Please verify your account.",
+          }));
+
+          // Stop the loader
+          setIsSubmitting(false);
+
+          // Delay for 3 seconds before redirecting to the OTP verification page
+          setTimeout(() => {
+            navigate("/admin-verify-otp", { state: { email: email } });
+          }, 3000);
+          return;
+        }
 
         if (errorMessage.toLowerCase().includes('password')) {
           setErrors((prev) => ({ ...prev, password: 'Incorrect password' }));
@@ -85,7 +100,11 @@ const Login = () => {
           setErrors((prev) => ({ ...prev, email: 'Email not found' }));
         } else {
           setErrors((prev) => ({ ...prev, general: errorMessage }));
-      }}
+        }
+      } else {
+        // Handle unexpected errors
+        setErrors((prev) => ({ ...prev, general: 'An unexpected error occurred' }));
+      }
     } finally {
       setIsSubmitting(false); // Stop loader
     }
@@ -118,8 +137,7 @@ const Login = () => {
               value={email}
               onChange={handleEmailChange}
             />
-            {errors.email && <p className="error-message">{errors.email}</p>} 
-
+            {errors.email && <p className="error-message">{errors.email}</p>}
             <div className="relative w-[60%]">
               <input
                 placeholder="Password"
@@ -128,19 +146,18 @@ const Login = () => {
                 value={password}
                 onChange={handlePasswordChange}
               />
-               <div className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-               </div>
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-orange-500" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </div>
             </div>
-              {errors.password && <p className="error-message">{errors.password}</p>}
-        
+            {errors.password && <p className="error-message">{errors.password}</p>}
+
             <div className="relative w-full -mt-4">
               <div className="absolute right-[20%]">
                 <span className="text-gray text-[12px] cursor-pointer" onClick={handleForgotPassword}>Forgot your password?</span>
               </div>
             </div>
-
-            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-full w-[44%] md:w-[40%] max-w-xs p-3" disabled={isSubmitting}>
+            <button type="submit" className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-full w-[44%] md:w-[40%] max-w-xs" disabled={isSubmitting}>
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
             {errors.general && <p className="text-center text-red-500 text-[14px] mt-[-10px] w-[60%]">{errors.general}</p>}

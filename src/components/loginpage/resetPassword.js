@@ -11,6 +11,7 @@ const ResetPassword = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const token = localStorage.getItem('token');
     const { email, otp } = location.state || {};
 
     if (!email || !otp) {
@@ -30,9 +31,10 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/resetPassword`, { email, otp, password }, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/password/reset`, { email, otp, password }, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             });
 

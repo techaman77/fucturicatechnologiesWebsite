@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AdminVerifyOtp = () => {
     const [otp, setOtp] = useState('');
@@ -9,31 +9,42 @@ const AdminVerifyOtp = () => {
     const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const token = localStorage.getItem('token');
+
+    const { email } = location.state || {};
 
     const handleOtpSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setErrorMessage('');
-        setSuccessMessage('');
+        setErrorMessage("");
+        setSuccessMessage("");
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/verify-otp`, { otp }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/otp/verify`,
+                { otp, email },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
+                    },
+                }
+            );
 
             if (response.status === 200) {
-                setSuccessMessage('OTP verified. Redirecting to Admin Page...');
-                setTimeout(() => navigate('/admin-panel'), 2000);
+                setSuccessMessage("OTP verified. Redirecting to Admin Page...");
+                setTimeout(() => navigate("/login"), 2000);
             } else {
-                setErrorMessage('Invalid OTP. Please try again.');
+                setErrorMessage("Invalid OTP. Please try again.");
             }
         } catch (error) {
             if (error.response) {
-                setErrorMessage(error.response.data.msg || 'An error occurred');
+                setErrorMessage(error.response.data.message || "An error occurred");
             } else {
-                setErrorMessage('An unexpected error occurred');
+                setErrorMessage("An unexpected error occurred");
             }
         } finally {
             setIsSubmitting(false);

@@ -15,6 +15,7 @@ const TermsandCondition = () => {
 
     // Initialize useNavigate
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
     const termsData = [
         "Copy-pasting into form fields is strictly prohibited.",
@@ -64,14 +65,10 @@ const TermsandCondition = () => {
                     formDataWithFile.append("termsAccepted", formData.termsAccepted); // Include termsAccepted
                     formDataWithFile.append("file", blob, "screenshot.png");
 
+
                     // Send data to the API
-                    const token = localStorage.getItem("token");
-                    if (!token) {
-                        setError("Please login to access this page");
-                        return;
-                    }
                     const response = await axios.post(
-                        `${process.env.REACT_APP_API_URL}/send-email`,
+                        `${process.env.REACT_APP_API_URL}/mail/send`,
                         formDataWithFile,
                         {
                             headers: {

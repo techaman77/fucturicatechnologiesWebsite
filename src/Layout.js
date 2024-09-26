@@ -14,23 +14,19 @@ const Layout = ({ children }) => {
 
   const userId = useSelector((state) => state.auth.userId);
 
+  const token = localStorage.getItem('token');
+
   const handleTabClose = useCallback(async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        return;
-      }
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId },
-        { 
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-         }
-        });
-
-      dispatch(logout());
+      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
       localStorage.removeItem('token');
+      dispatch(logout());
 
       navigate('/login');
     } catch (error) {

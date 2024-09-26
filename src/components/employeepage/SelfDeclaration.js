@@ -44,6 +44,7 @@ const SelfDeclaration = () => {
             // Store form data in local storage
             localStorage.setItem("formData", JSON.stringify(formData));
 
+            console.log("Form data stored in local storage");
             navigate("/terms-and-condition"); // Navigate to Terms and Conditions page
 
             // Reset form after successful submission
@@ -142,7 +143,7 @@ const SelfDeclaration = () => {
                                 className="py-2 px-6 bg-gradient-to-r from-[#007BFF] to-[#0056B3] text-white rounded-[30px]"
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? "Please wait..." : "Submit"}
+                                {isSubmitting ? "Please wait..." : "Next"}
                             </button>
                         </div>
 
