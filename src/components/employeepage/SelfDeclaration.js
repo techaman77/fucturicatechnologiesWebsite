@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import img from './assets/pd.svg';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { logout } from "../../store/auth";
 
 const SelfDeclaration = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,6 +17,9 @@ const SelfDeclaration = () => {
     });
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token");
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -62,9 +67,34 @@ const SelfDeclaration = () => {
         }
     };
 
+    const handleBackClick = async () => {
+        try {
+            await axios.post(
+                `${process.env.REACT_APP_API_URL}/logout`,
+                { userId },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            localStorage.removeItem("token");
+            dispatch(logout());
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
     return (
         <div className="w-full flex justify-center py-10">
             <div className="w-[90%] flex flex-col gap-10">
+                <div className="flex">
+                    <button onClick={handleBackClick} className=" flex items-center">
+                        <IoIosArrowRoundBack className="text-2xl" />
+                    </button>
+                </div>
                 <div>
                     <h2 className="text-[#666666] text-center text-[52px] max-xl:text-[35px] max-lg:text-[28px] max-sm:text-[24px] font-semibold">
                         Welcome to{" "}
