@@ -293,9 +293,9 @@ const Employee = () => {
         if (!formData.employeeId) errors.employeeId = "Employee ID is required";
         if (!formData.name) errors.name = "Name is required";
         if (!formData.email) errors.email = "Email is required";
-        if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Email is invalid";
+        else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Email is invalid";
         if (!formData.contactNumber) errors.contactNumber = "Contact Number is required";
-        if (formData.contactNumber.length !== 10) errors.contactNumber = "Contact Number should be 10 digits long";
+        else if (formData.contactNumber.length !== 10) errors.contactNumber = "Contact Number should be 10 digits long";
         if (!formData.qualification) errors.qualification = "Qualification is required";
         if (!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
         if (!formData.fatherName) errors.fatherName = "Father Name is required";
