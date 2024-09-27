@@ -97,8 +97,11 @@ const SelfDeclaration = () => {
     <div className="w-full flex justify-center py-10">
       <div className="w-[90%] flex flex-col gap-10">
         <div className="flex">
-          <button onClick={handleBackClick} className=" flex items-center">
-            <IoIosArrowRoundBack className="text-2xl" />
+          <button
+            onClick={handleBackClick}
+            className=" flex items-center gap-2"
+          >
+            <IoIosArrowRoundBack className="text-2xl mt-1" /> Back
           </button>
         </div>
         <div>
