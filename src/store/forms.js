@@ -14,8 +14,7 @@ const formSlice = createSlice({
         },
         addSessionCount(state, action) {
             state.sessionCount = action.payload
-            localStorage.setItem('totalCount', action.payload)
-            console.log('Updated totalCount:', localStorage.getItem('totalCount'));
+            localStorage.setItem('totalCount', action.payload);
         },
         removeCount(state) {
             state.count = null
