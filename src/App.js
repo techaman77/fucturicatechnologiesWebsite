@@ -60,7 +60,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/admin-panel' element={<ProtectedRoute element={<Hero />} />} />
           <Route path='/reset-password' element={<PassReset />} />
-          <Route path='/register-employee' element={<RegisterEmployee />} />
+          <Route path='/register-employee' element={<ProtectedRoute element={<RegisterEmployee />}/>} />
           <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee />} />} />
           <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration />} />} />
           <Route path='/about-us' element={<About />} />

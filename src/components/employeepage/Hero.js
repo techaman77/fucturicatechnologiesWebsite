@@ -280,8 +280,9 @@ const Employee = () => {
         if (!formData.employeeId) errors.employeeId = "Employee ID is required";
         if (!formData.name) errors.name = "Name is required";
         if (!formData.email) errors.email = "Email is required";
+        else if(!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Email is invalid";
         if (!formData.contactNumber) errors.contactNumber = "Contact Number is required";
-        if (!formData.qualification) errors.qualification = "Qualification is required";
+        else if(formData.contactNumber.length !== 10) errors.contactNumber = "Contact Number should be 10 digits long";
         if (!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
         if (!formData.fatherName) errors.fatherName = "Father Name is required";
         if (!formData.motherName) errors.motherName = "Mother Name is required";
@@ -344,6 +345,8 @@ const Employee = () => {
 
         if (Object.keys(errors).length > 0) {
             setIsSubmitting(false);
+            errors.general = 'Please fill in all required details';
+            setErrorMessage(errors);
             return;
         }
 
@@ -889,7 +892,7 @@ const Employee = () => {
                                 {errorMessage.serialNumber && <span className="text-red-500 text-sm block mt-1">{errorMessage.serialNumber}</span>}
                             </div>
 
-                            <div className='col-span-2 flex justify-center w-full'>
+                            <div className='col-span-2 flex justify-center w-full relative'>
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
@@ -897,6 +900,7 @@ const Employee = () => {
                                 >
                                     {isSubmitting ? 'Submitting...' : 'Submit'}
                                 </button>
+                                {errorMessage.general && (<span className="text-red-500 text-sm absolute top-full mt-2 text-center">{errorMessage.general}</span>)}
                             </div>
                         </form>
                     </div>

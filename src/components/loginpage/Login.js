@@ -40,6 +40,8 @@ const Login = () => {
       return;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       setErrors((prev) => ({ ...prev, email: 'Email is invalid' }));
+      setIsSubmitting(false);
+      return;
     }
     if (!password) {
       setErrors((prev) => ({ ...prev, password: 'Password is required' }));
