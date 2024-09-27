@@ -65,7 +65,7 @@ const Login = () => {
       if (data.user.role === 'admin') {
         navigate('/admin-panel');
         // navigate('/admin-verify-otp');
-      } else if (data.user.selfDeclaration) {
+      } else if (data.user.selfDeclaration === true) {
         navigate('/employee-panel');
       } else {
         navigate('/self-declaration');

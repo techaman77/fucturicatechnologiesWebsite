@@ -20,13 +20,9 @@ const Employee = () => {
     });
     const count = useSelector((state) => state.form.count);
     const id = useSelector((state) => state.auth.userId);
+    const email = useSelector((state) => state.auth.email);
     const token = localStorage.getItem('token');
-
-    useEffect(() => {
-        localStorage.setItem('totalCount', sessionCount);
-        dispatch(addSessionCount(sessionCount))
-        console.log('useEffect block', sessionCount)
-    }, [sessionCount, dispatch]);
+    const [users, setUsers] = useState({});
 
     const totalCount = useSelector((state) => state.form.sessionCount)
 
@@ -46,26 +42,25 @@ const Employee = () => {
         }
     }, []);
 
-    const userId = useSelector((state) => state.auth.userId);
-
     // Memoized function to handle logout
     const handleEmployeeLogout = useCallback(async () => {
         try {
             stopTimer();
-            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId }, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/logout`, { userId: id }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
             localStorage.removeItem('token');
+            localStorage.removeItem('count');
             dispatch(logout());
             navigate('/admin-login');
 
         } catch (error) {
             console.error('Logout failed:', error);
         }
-    }, [stopTimer, dispatch, navigate, userId, token]);
+    }, [stopTimer, dispatch, navigate, id, token]);
 
     // Memoized function to start the timer
     const startTimer = useCallback(() => {
@@ -151,6 +146,25 @@ const Employee = () => {
         serialNumber: ''
     });
 
+    useEffect(() => {
+        localStorage.setItem('totalCount', sessionCount);
+        dispatch(addSessionCount(sessionCount));
+
+        const fetchUser = async () => {
+            try {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/search`, { id, email }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setUsers(response.data);
+            } catch (err) {
+                setErrorMessage(err.message);
+            }
+        };
+        fetchUser();
+    }, [sessionCount, dispatch, email, id, token]);
 
     useEffect(() => {
         const dateInput = document.getElementById('dateOfBirth');
@@ -177,7 +191,6 @@ const Employee = () => {
             target.type = 'text';
         }
     };
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -280,9 +293,10 @@ const Employee = () => {
         if (!formData.employeeId) errors.employeeId = "Employee ID is required";
         if (!formData.name) errors.name = "Name is required";
         if (!formData.email) errors.email = "Email is required";
-        else if(!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Email is invalid";
+        if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Email is invalid";
         if (!formData.contactNumber) errors.contactNumber = "Contact Number is required";
-        else if(formData.contactNumber.length !== 10) errors.contactNumber = "Contact Number should be 10 digits long";
+        if (formData.contactNumber.length !== 10) errors.contactNumber = "Contact Number should be 10 digits long";
+        if (!formData.qualification) errors.qualification = "Qualification is required";
         if (!formData.roleResponsibilities) errors.roleResponsibilities = "Role and Responsibilities is required";
         if (!formData.fatherName) errors.fatherName = "Father Name is required";
         if (!formData.motherName) errors.motherName = "Mother Name is required";
@@ -437,7 +451,7 @@ const Employee = () => {
                         <div className='flex justify-center gap-10 py-5 text-[20px] text-[#666666]'>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted in Session</p>
-                                <p>{totalCount}/2500</p>
+                                <p>{`${users.totalForms}` || '--'}/2500</p>
                             </div>
                             <div className='flex flex-col items-center'>
                                 <p className='opacity-[0.6]'>Forms Submitted Today</p>
@@ -510,7 +524,7 @@ const Employee = () => {
 
                             <div className='flex flex-col'>
                                 <input
-                                    type="text"
+                                    type="email"
                                     name="email"
                                     placeholder="Email Adress"
                                     value={formData.email}
@@ -690,7 +704,7 @@ const Employee = () => {
                                             spellCheck={false}
                                             onChange={(e) => handleQualificationChange('12', e.target.value)}
                                             className='bg-transparent border border-[#666666] rounded-lg p-4 col-span-2'
-                                        />    
+                                        />
                                     )}
                                     {errorMessage['qualificationDetails.12'] && <span className="text-red-500 text-sm block -mt-8 grid-item col-span-2">{errorMessage['qualificationDetails.12']}</span>}
                                     {formData.qualification === 'Graduation' && (
