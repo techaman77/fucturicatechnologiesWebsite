@@ -57,7 +57,6 @@ const TermsandCondition = () => {
 
           // Create FormData to include form data and the screenshot file
           const formDataWithFile = new FormData();
-          formDataWithFile.append("userId", formData.userId);
           formDataWithFile.append("username", formData.username);
           formDataWithFile.append("number", formData.mobile);
           formDataWithFile.append("email", formData.email);

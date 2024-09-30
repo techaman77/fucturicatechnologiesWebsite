@@ -26,6 +26,7 @@ const Layout = ({ children }) => {
         }
       });
       localStorage.removeItem('token');
+      localStorage.removeItem('count');
       dispatch(logout());
 
       navigate('/login');

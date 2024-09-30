@@ -64,41 +64,20 @@ const Login = () => {
         }
       );
       const data = response.data;
-
-      // Check working hours and OTP requirement before proceeding
-      if (data.user.workingHours < 6 && data.user.isOtpRequired === true) {
-        // Set the error message
-        setErrors((prev) => ({
-          ...prev,
-          general:
-            "Yesterday your working was not complete for 6 hours. Please verify your account.",
-        }));
-
-        // Stop the loader
-        setIsSubmitting(false);
-
-        // Delay for 5 seconds before redirecting to the OTP verification page
-        setTimeout(() => {
-          navigate("/admin-verify-otp", { state: { email: email } });
-        }, 5000);
-        return;
-      }
-
-      // Proceed with login if conditions are met
+      // Store token and user details in localStorage
       dispatch(login(data));
       localStorage.setItem("token", data.token);
       localStorage.setItem("name", data.user.name);
       localStorage.setItem("role", data.user.role);
-
       // Handle navigation based on user role
       if (data.user.role === "admin") {
         navigate("/admin-panel");
-      } else if (data.user.selfDeclaration) {
+        // navigate('/admin-verify-otp');
+      } else if (data.user.selfDeclaration === true) {
         navigate("/employee-panel");
       } else {
         navigate("/self-declaration");
       }
-
       setSuccessMessage("Login successful");
       setEmail("");
       setPassword("");
@@ -133,6 +112,7 @@ const Login = () => {
           setErrors((prev) => ({ ...prev, general: errorMessage }));
         }
       } else {
+        // Handle unexpected errors
         setErrors((prev) => ({
           ...prev,
           general: "An unexpected error occurred",
