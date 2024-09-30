@@ -28,8 +28,41 @@ const Employee = () => {
   const email = useSelector((state) => state.auth.email);
   const token = localStorage.getItem("token");
   const [users, setUsers] = useState({});
-
   const totalCount = useSelector((state) => state.form.sessionCount);
+  const timerRef1 = useRef(null);
+  const logoutTimeout = 15 * 60 * 1000; // 15 minutes
+  const workLogs = users.workLogs;
+
+  const getTodayWorkingHours = (workLogs) => {
+    if (!workLogs || workLogs.length === 0) {
+      return 0;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const filteredLogs = workLogs.filter((log) => {
+      const logDate = new Date(log.date);
+      logDate.setHours(0, 0, 0, 0);
+      return logDate.getTime() !== today.getTime();
+    });
+
+    if (filteredLogs.length >= 1) {
+      const YesterdayLogs = filteredLogs[filteredLogs.length - 1];
+      const TodayLogs =
+        workLogs[workLogs.length - 2].workingHours - YesterdayLogs.workingHours;
+
+      return TodayLogs || 0;
+    }
+    return 0;
+  };
+
+  const formatWorkingHours = (totalHours) => {
+    const hours = Math.floor(totalHours);
+    const minutes = Math.round((totalHours - hours) * 60);
+    if (hours === 0 && minutes === 0) return "--";
+    return `${hours} hours ${minutes} minutes`;
+  };
 
   const [timeLeft, setTimeLeft] = useState(() => {
     // Restore timeLeft from localStorage, or default to 24 hours if not available
@@ -70,6 +103,16 @@ const Employee = () => {
     }
   }, [stopTimer, dispatch, navigate, id, token]);
 
+  const resetTimer = () => {
+    if (timerRef1.current) {
+      clearTimeout(timerRef1.current);
+    }
+
+    // Set a new timeout
+    timerRef1.current = setTimeout(() => {
+      handleEmployeeLogout();
+    }, logoutTimeout);
+  };
   // Memoized function to start the timer
   const startTimer = useCallback(() => {
     if (timerRef.current) return; // Prevent multiple timers
@@ -414,6 +457,7 @@ const Employee = () => {
           },
         }
       );
+      resetTimer();
       localStorage.setItem("count", response.data.count);
       dispatch(addCount(response.data.count));
       setSessionCount((prevCount) => prevCount + 1);
@@ -459,19 +503,39 @@ const Employee = () => {
   const disableCopyPaste = (event) => {
     event.preventDefault();
   };
+  useEffect(() => {
+    // Start the timer when the component mounts
+    resetTimer();
 
+    // Cleanup function to clear the timer when the component unmounts
+    return () => {
+      if (timerRef1.current) {
+        clearTimeout(timerRef1.current);
+      }
+    };
+  });
   return (
     <>
       <div className="w-full flex justify-center py-10">
         <div className="w-[90%] flex flex-col items-center">
-          <div className="flex justify-end w-full">
-            <button
-              onClick={handleEmployeeLogout}
-              className={`flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]`}
-            >
-              <IoLogOutOutline className="text-[24px] max-xl:text-[20px] max-lg:text-[18px]" />
-              Log Out
-            </button>
+          <div className="flex justify-between mb-5 w-full">
+            <div className=" font-semibold text-[#666666]">
+              <p>
+                Working Hours:{" "}
+                <span className="text-[#FB861E]">
+                  {formatWorkingHours(getTodayWorkingHours(workLogs))}
+                </span>
+              </p>
+            </div>
+            <div>
+              <button
+                onClick={handleEmployeeLogout}
+                className={`flex flex-col items-center text-[20px] max-xl:text-[18px] max-lg:text-[16px] font-semibold text-[#666666]`}
+              >
+                <IoLogOutOutline className="text-[24px] max-xl:text-[20px] max-lg:text-[18px]" />
+                Log Out
+              </button>
+            </div>
           </div>
           <div>
             <h2 className="text-[#666666] text-[48px] text-center font-semibold">
