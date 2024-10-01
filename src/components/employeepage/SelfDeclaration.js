@@ -56,6 +56,12 @@ const SelfDeclaration = () => {
             return;
         }
 
+        if(localStorage.getItem('email') !== formData.email) {
+            setError("The email you entered doesn't match with your account.");
+            setIsSubmitting(false);
+            return;
+        }
+
         try {
             // Store form data in local storage
             localStorage.setItem("formData", JSON.stringify(formData));
@@ -193,7 +199,7 @@ const SelfDeclaration = () => {
                                 </button>
                             </div>
 
-                            {error && <p style={{ color: "red" }}>{error}</p>}
+                            {error && <p className='text-red-500 text-center mt-2 text-sm'>{error}</p>}
                         </form>
 
                     </div>

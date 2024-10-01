@@ -24,7 +24,6 @@ const Employee = () => {
     const token = localStorage.getItem('token');
     const [users, setUsers] = useState({});
 
-    const totalCount = useSelector((state) => state.form.sessionCount);
 
     const timerRef1 = useRef(null);
     const logoutTimeout = 15 * 60 * 1000; // 15 minutes
