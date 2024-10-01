@@ -28,7 +28,9 @@ const Employee = () => {
   const email = useSelector((state) => state.auth.email);
   const token = localStorage.getItem("token");
   const [users, setUsers] = useState({});
+
   const totalCount = useSelector((state) => state.form.sessionCount);
+
   const timerRef1 = useRef(null);
   const logoutTimeout = 15 * 60 * 1000; // 15 minutes
   const workLogs = users.workLogs;
@@ -113,6 +115,7 @@ const Employee = () => {
       handleEmployeeLogout();
     }, logoutTimeout);
   };
+
   // Memoized function to start the timer
   const startTimer = useCallback(() => {
     if (timerRef.current) return; // Prevent multiple timers
@@ -151,6 +154,7 @@ const Employee = () => {
   }, [startTimer, stopTimer]);
 
   useEffect(() => {
+    resetTimer();
     // Sync sessionCount with localStorage only when necessary
     localStorage.setItem("totalCount", sessionCount);
     dispatch(addSessionCount(sessionCount));
@@ -457,7 +461,6 @@ const Employee = () => {
           },
         }
       );
-      resetTimer();
       localStorage.setItem("count", response.data.count);
       dispatch(addCount(response.data.count));
       setSessionCount((prevCount) => prevCount + 1);
@@ -503,6 +506,7 @@ const Employee = () => {
   const disableCopyPaste = (event) => {
     event.preventDefault();
   };
+
   useEffect(() => {
     // Start the timer when the component mounts
     resetTimer();
@@ -514,6 +518,7 @@ const Employee = () => {
       }
     };
   });
+
   return (
     <>
       <div className="w-full flex justify-center py-10">

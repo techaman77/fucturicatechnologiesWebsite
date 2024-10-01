@@ -90,6 +90,35 @@ const Hero = () => {
     setShowPopup(false);
   };
 
+  const getYesterdayWorkingHours = (workLogs) => {
+    if (!workLogs || workLogs.length === 0) {
+      return 0;
+    }
+
+    const clonedWorkLogs = [...workLogs];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const filteredLogs = clonedWorkLogs.filter((log) => {
+      const logDate = new Date(log.date);
+      logDate.setHours(0, 0, 0, 0);
+      return logDate.getTime() !== today.getTime();
+    });
+
+    if (filteredLogs.length >= 1) {
+      const YesterdayLogs = filteredLogs[filteredLogs.length - 1];
+      return YesterdayLogs.workingHours || 0;
+    }
+    return 0;
+  };
+
+  const formatWorkingHours = (totalHours) => {
+    const hours = Math.floor(totalHours);
+    const minutes = Math.round((totalHours - hours) * 60);
+    if (hours === 0 && minutes === 0) return "--";
+    return `${hours} hours ${minutes} minutes`;
+  };
+
   const fetchFormDetails = async (userId) => {
     try {
       const response = await axios.post(
@@ -176,6 +205,12 @@ const Hero = () => {
                       <th className="px-4 border font-medium py-2">
                         Rejected Form
                       </th>
+                      <th className="px-4 border font-medium py-2">
+                        Working Hours
+                      </th>
+                      <th className="px-2 border font-medium py-2">
+                        Delete User
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -208,7 +243,15 @@ const Hero = () => {
                         >
                           {user.rejectedForms || "--"}
                         </td>
-                        <td>
+                        <td
+                          className="border px-4 py-2"
+                          onClick={() => handleRowClick(user.userId)}
+                        >
+                          {formatWorkingHours(
+                            getYesterdayWorkingHours(user.workLogs)
+                          )}
+                        </td>
+                        <td className="border px-4 py-2">
                           <FontAwesomeIcon
                             icon={faTrashCan}
                             color="red"
