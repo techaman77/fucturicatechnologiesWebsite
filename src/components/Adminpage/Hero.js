@@ -47,7 +47,7 @@ const Hero = () => {
 
         fetchUsers();
 
-    }, []);
+    }, [token]);
 
     const handleRowClick = (userId) => {
         setIsModalOpen(true); // Open modal instantly
@@ -89,19 +89,23 @@ const Hero = () => {
             return 0;
         }
 
-        const clonedWorkLogs = [...workLogs];
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        if (yesterday.getDay() === 0) {
+            yesterday.setDate(yesterday.getDate() - 1);
+        }
+        yesterday.setHours(0, 0, 0, 0);
 
-        const filteredLogs = clonedWorkLogs.filter(log => {
+        const filteredLogs = workLogs?.filter(log => {
             const logDate = new Date(log.date);
             logDate.setHours(0, 0, 0, 0);
-            return logDate.getTime() !== today.getTime();
+            return logDate.getTime() === yesterday.getTime();
         });
 
         if (filteredLogs.length >= 1) {
             const YesterdayLogs = filteredLogs[filteredLogs.length - 1];
-            return YesterdayLogs.workingHours || 0;
+            return YesterdayLogs.workingHours;
         }
         return 0;
     };
