@@ -50,12 +50,16 @@ const SelfDeclaration = () => {
       !formData.username ||
       !formData.mobile ||
       !formData.email ||
-      !formData.address ||
-      !formData.termsAccepted
+      !formData.address
     ) {
-      setError(
-        "Please fill in all fields and accept the terms and conditions."
-      );
+      setError("Please fill in all fields.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (localStorage.getItem("email") !== formData.email) {
+      setError("The email you entered doesn't match with your account.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -195,7 +199,9 @@ const SelfDeclaration = () => {
                 </button>
               </div>
 
-              {error && <p style={{ color: "red" }}>{error}</p>}
+              {error && (
+                <p className="text-red-500 text-center mt-2 text-sm">{error}</p>
+              )}
             </form>
           </div>
         </div>

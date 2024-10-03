@@ -81,6 +81,8 @@ const TermsandCondition = () => {
           // Reset form after successful submission
           localStorage.removeItem("formData"); // Clear form data from local storage
           setError(""); // Clear any existing error
+        } else {
+          setError("Please login to proceed.");
         }
       } catch (error) {
         console.error("There was an error submitting the form:", error);
@@ -90,6 +92,7 @@ const TermsandCondition = () => {
       }
     } else {
       setError("Please accept the terms and conditions.");
+      setIsSubmitting(false);
     }
   };
 
@@ -154,6 +157,7 @@ const TermsandCondition = () => {
               Accept the Terms and Conditions
             </label>
           </div>
+          {error && <p className="text-red-500 mt-5">{error}</p>}
         </div>
       </div>
       <div className="flex justify-end gap-4 m-[40px]">
