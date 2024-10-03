@@ -29,7 +29,7 @@ const Employee = () => {
   const token = localStorage.getItem("token");
   const [users, setUsers] = useState({});
 
-  const timerRef1 = useRef(null);
+  const timeoutRef = useRef(null);
   const logoutTimeout = 15 * 60 * 1000; // 15 minutes
   const workLogs = users.workLogs;
 
@@ -57,11 +57,17 @@ const Employee = () => {
 
   const formatWorkingHours = (totalHours) => {
     const hours = Math.floor(totalHours);
-    const minutes = Math.round((totalHours - hours) * 60);
+    const fracMinutes = totalHours - hours;
+    const totalMinutes = fracMinutes * 60;
+    const minutes = Math.floor(totalMinutes);
+    const seconds = Math.floor((totalMinutes - minutes) * 60);
+
     if (hours === 0 && minutes === 0) return "--";
-    return `${hours} hours ${minutes} minutes`;
+    return `${hours} hours ${minutes} minutes ${seconds} seconds`;
   };
 
+  const time = formatWorkingHours(getTodayWorkingHours(workLogs));
+  console.log(time);
   const [timeLeft, setTimeLeft] = useState(() => {
     // Restore timeLeft from localStorage, or default to 24 hours if not available
     const savedTime = localStorage.getItem("timeLeft");
@@ -102,12 +108,12 @@ const Employee = () => {
   }, [stopTimer, dispatch, navigate, id, token]);
 
   const resetTimer = () => {
-    if (timerRef1.current) {
-      clearTimeout(timerRef1.current);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
 
     // Set a new timeout
-    timerRef1.current = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       handleEmployeeLogout();
     }, logoutTimeout);
   };
@@ -457,6 +463,7 @@ const Employee = () => {
           },
         }
       );
+      resetTimer();
       localStorage.setItem("count", response.data.count);
       dispatch(addCount(response.data.count));
       setSessionCount((prevCount) => prevCount + 1);
@@ -503,17 +510,31 @@ const Employee = () => {
     event.preventDefault();
   };
 
-  useEffect(() => {
-    // Start the timer when the component mounts
-    resetTimer();
+  const startLogoutTimer = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current); // Clear any previous timers
+    }
 
-    // Cleanup function to clear the timer when the component unmounts
+    // Set a new timeout for automatic logout
+
+    timeoutRef.current = setTimeout(() => {
+      handleEmployeeLogout(); // Trigger logout when the timer finishes
+    }, logoutTimeout);
+  }, [handleEmployeeLogout]);
+
+  // When the component mounts, start the inactivity timer
+
+  useEffect(() => {
+    startLogoutTimer();
+
+    // Cleanup timer when the component unmounts
+
     return () => {
-      if (timerRef1.current) {
-        clearTimeout(timerRef1.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
-  });
+  }, [startLogoutTimer]);
 
   return (
     <>
