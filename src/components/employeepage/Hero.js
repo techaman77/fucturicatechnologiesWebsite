@@ -18,6 +18,8 @@ const Employee = () => {
         const storedCount = localStorage.getItem('totalCount');
         return storedCount ? parseInt(storedCount, 10) : 0;
     });
+    const [storedTime, setStoredTime] = useState(0); // Store the initial working hours
+    const [elapsedTime, setElapsedTime] = useState(0);
     const count = useSelector((state) => state.form.count);
     const id = useSelector((state) => state.auth.userId);
     const email = useSelector((state) => state.auth.email);
@@ -56,8 +58,8 @@ const Employee = () => {
         const totalMinutes = fracMinutes * 60;
         const minutes = Math.floor(totalMinutes);
         const seconds = Math.floor((totalMinutes - minutes) * 60);
-        if (hours === 0 && minutes === 0) return "--";
-        return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+        if (hours === 0 && minutes === 0) return "00 : 00 : 00";
+        return `${hours} : ${minutes} : ${seconds}`;
     };
 
     const [timeLeft, setTimeLeft] = useState(() => {
@@ -501,6 +503,20 @@ const Employee = () => {
         };
     }, [startLogoutTimer]);
 
+    useEffect(() => {
+        // Store the initial working hours when component mounts
+        const initialTime = getTodayWorkingHours(workLogs);
+        setStoredTime(initialTime);
+
+        const interval = setInterval(() => {
+            setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [workLogs]);
+
+    const totalTime = storedTime + elapsedTime / 3600;
+
     return (
         <>
             <div className='w-full flex justify-center py-10'>
@@ -510,7 +526,7 @@ const Employee = () => {
                             <p>
                                 Working Hours:{" "}
                                 <span className="text-[#FB861E]">
-                                    {formatWorkingHours(getTodayWorkingHours(workLogs))}
+                                    {formatWorkingHours(totalTime)}
                                 </span>
                             </p>
                         </div>
