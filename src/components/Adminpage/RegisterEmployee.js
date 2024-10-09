@@ -39,7 +39,6 @@ const RegisterEmployee = () => {
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Employee created successfully:', response.data);
             setSuccess('Employee created successfully!');
             setName('');
             setEmail('');
