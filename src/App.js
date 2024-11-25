@@ -7,33 +7,33 @@ import {
 } from "react-router-dom";
 import Homepage from "./components/Homepage/homepage";
 import Layout from "./Layout";
-import Login from './components/loginpage/Login';
-import Hero from './components/Adminpage/Hero';
-import { useSelector } from 'react-redux';
-import Employee from './components/employeepage/Hero';
-import About from './components/AboutUsPage/Hero';
-import Contact from './components/ContactUsPage/Hero';
-import Service from './components/ServicePage/Hero';
-import Training from './components/TrainingPage/Hero';
-import FreshIntern from './components/CareerPage/JobListings/FreshIntern';
-import BpoFresher from './components/CareerPage/JobListings/BpoFresher';
-import ResumeFilling from './components/CareerPage/JobListings/ResumeFilling';
-import UXDesigner from './components/CareerPage/JobListings/UXDesigner';
-import ReactDev from './components/CareerPage/JobListings/ReactDev';
-import ReactNativeDev from './components/CareerPage/JobListings/ReactNativeDev';
-import Career from './components/CareerPage/Hero';
-import WebDevIntern from './components/CareerPage/JobListings/WebDevIntern';
-import ScrollToTop from './components/ScrollToTop';
-import SelfDeclaration from './components/employeepage/SelfDeclaration';
-import RegisterEmployee from './components/Adminpage/RegisterEmployee';
-import BpoHiring from './components/TrainingPage/ModulePage/BpoHiring';
-import ITHiring from './components/TrainingPage/ModulePage/ItHiring';
-import Jobinterview from './components/TrainingPage/ModulePage/JobInterview';
-import Softskill from './components/TrainingPage/ModulePage/Softskill';
-import TechnicalSkill from './components/TrainingPage/ModulePage/TechnicalSkill';
-import PassReset from './components/Adminpage/PassReset';
-import ForgotPassword from './components/loginpage/forgotPass'
-import ForgotPassReset from './components/loginpage/resetPassword';
+import Login from "./components/loginpage/Login";
+import Hero from "./components/Adminpage/Hero";
+import { useSelector } from "react-redux";
+import Employee from "./components/employeepage/Hero";
+import About from "./components/AboutUsPage/Hero";
+import Contact from "./components/ContactUsPage/Hero";
+import Service from "./components/ServicePage/Hero";
+import Training from "./components/TrainingPage/Hero";
+import FreshIntern from "./components/CareerPage/JobListings/FreshIntern";
+import BpoFresher from "./components/CareerPage/JobListings/BpoFresher";
+import ResumeFilling from "./components/CareerPage/JobListings/ResumeFilling";
+import UXDesigner from "./components/CareerPage/JobListings/UXDesigner";
+import ReactDev from "./components/CareerPage/JobListings/ReactDev";
+import ReactNativeDev from "./components/CareerPage/JobListings/ReactNativeDev";
+import Career from "./components/CareerPage/Hero";
+import WebDevIntern from "./components/CareerPage/JobListings/WebDevIntern";
+import ScrollToTop from "./components/ScrollToTop";
+import SelfDeclaration from "./components/employeepage/SelfDeclaration";
+import RegisterEmployee from "./components/Adminpage/RegisterEmployee";
+import BpoHiring from "./components/TrainingPage/ModulePage/BpoHiring";
+import ITHiring from "./components/TrainingPage/ModulePage/ItHiring";
+import Jobinterview from "./components/TrainingPage/ModulePage/JobInterview";
+import Softskill from "./components/TrainingPage/ModulePage/Softskill";
+import TechnicalSkill from "./components/TrainingPage/ModulePage/TechnicalSkill";
+import PassReset from "./components/Adminpage/PassReset";
+import ForgotPassword from "./components/loginpage/forgotPass";
+import ForgotPassReset from "./components/loginpage/resetPassword";
 import Blogs from "./components/Homepage/Blogs";
 import BlogDetails from "./components/Homepage/BlogDetails";
 import NotFound from "./NotFound";
@@ -57,34 +57,49 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/admin-panel' element={<ProtectedRoute element={<Hero />} />} />
-          <Route path='/reset-password' element={<PassReset />} />
-          <Route path='/register-employee' element={<ProtectedRoute element={<RegisterEmployee />} />} />
-          <Route path='/employee-panel' element={<ProtectedRoute1 element={<Employee />} />} />
-          <Route path='/self-declaration' element={<ProtectedRoute1 element={<SelfDeclaration />} />} />
-          <Route path='/about-us' element={<About />} />
-          <Route path='/services' element={<Service />} />
-          <Route path='/training' element={<Training />} />
-          <Route path='/training/bpo-hiring' element={<BpoHiring />} />
-          <Route path='/training/it-hiring' element={<ITHiring />} />
-          <Route path='/training/job-interview' element={<Jobinterview />} />
-          <Route path='/training/Soft-skill' element={<Softskill />} />
-          <Route path='/training/technical' element={<TechnicalSkill />} />
-          <Route path='/career' element={<Career />} />
-          <Route path='/career/fresher-intern' element={<FreshIntern />} />
-          <Route path='/career/bpo-fresher' element={<BpoFresher />} />
-          <Route path='/career/resume-filling' element={<ResumeFilling />} />
-          <Route path='/career/ui-ux-developer' element={<UXDesigner />} />
-          <Route path='/career/reactjs-developer' element={<ReactDev />} />
-          <Route path='/career/react-native-developer' element={<ReactNativeDev />} />
-          <Route path='/career/web-dev-intern' element={<WebDevIntern />} />
-          <Route path='/contact-us' element={<Contact />} />
-          <Route path='/resetForgotPassword' element={<ForgotPassReset />} />
-          <Route path='/forgotPassword' element={<ForgotPassword />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/admin-panel"
+            element={<ProtectedRoute element={<Hero />} />}
+          />
+          <Route path="/reset-password" element={<PassReset />} />
+          <Route
+            path="/register-employee"
+            element={<ProtectedRoute element={<RegisterEmployee />} />}
+          />
+          <Route
+            path="/employee-panel"
+            element={<ProtectedRoute1 element={<Employee />} />}
+          />
+          <Route
+            path="/self-declaration"
+            element={<ProtectedRoute1 element={<SelfDeclaration />} />}
+          />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/services" element={<Service />} />
+          <Route path="/training" element={<Training />} />
+          <Route path="/training/bpo-hiring" element={<BpoHiring />} />
+          <Route path="/training/it-hiring" element={<ITHiring />} />
+          <Route path="/training/job-interview" element={<Jobinterview />} />
+          <Route path="/training/Soft-skill" element={<Softskill />} />
+          <Route path="/training/technical" element={<TechnicalSkill />} />
+          <Route path="/career" element={<Career />} />
+          <Route path="/career/fresher-intern" element={<FreshIntern />} />
+          <Route path="/career/bpo-fresher" element={<BpoFresher />} />
+          <Route path="/career/resume-filling" element={<ResumeFilling />} />
+          <Route path="/career/ui-ux-developer" element={<UXDesigner />} />
+          <Route path="/career/reactjs-developer" element={<ReactDev />} />
+          <Route
+            path="/career/react-native-developer"
+            element={<ReactNativeDev />}
+          />
+          <Route path="/career/web-dev-intern" element={<WebDevIntern />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/resetForgotPassword" element={<ForgotPassReset />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<BlogDetails />} />
-          <Route path='/admin-verify-otp' element={<AdminVerifyOtp />} />
+          <Route path="/admin-verify-otp" element={<AdminVerifyOtp />} />
           <Route path="/terms-and-condition" element={<TermsandCondition />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
